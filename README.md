@@ -4,12 +4,19 @@
 TEAM VERMILLION
 
 
-Members:     Allen Zhang	         azhang100@gmail.com		     https://github.com/daxlar
-	     Frank Chao		         frankchao@utexas.edu	             https://github.com/Frankutexas 
-	     Erick Li		         erickli42@utexas.edu	             https://github.com/erickli42
-	     Kayvan Mansoorshahi    kayvan.mansoor@gmail.com                 https://github.com/kayvan61
-	     Miguel Robledo	         garzarobm@utexas.edu		     https://github.com/garzarobm
-	     Muhammad Hasan	         mih475@utexas.edu		     https://github.com/mih475
+Members:
+
+Allen Zhang	         azhang100@gmail.com		     https://github.com/daxlar
+
+Frank Chao		         frankchao@utexas.edu	             https://github.com/Frankutexas 
+
+Erick Li		         erickli42@utexas.edu	             https://github.com/erickli42
+
+Kayvan Mansoorshahi    kayvan.mansoor@gmail.com                 https://github.com/kayvan61
+
+Miguel Robledo	         garzarobm@utexas.edu		     https://github.com/garzarobm
+
+Muhammad Hasan	         mih475@utexas.edu		     https://github.com/mih475
 
 
 Phase 1 Project Lead: Erick Li
