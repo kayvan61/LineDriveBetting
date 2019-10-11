@@ -18,29 +18,30 @@ class GamePage extends React.Component {
         <Table striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th><GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/about" text="sample text" title="title text" /> </th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
+            <th>1<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /> </th>
+            <th>2<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></th>
+            <th>3<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></th>
+            <th>4<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+            <td>5<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></td>
+            <td>6<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></td>
+            <td>7<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></td>
+            <td>8<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></td>
           </tr>
           <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
+           <td>9<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></td>
+            <td>10<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></td>
+            <td>11<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></td>
+            <td>12<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></td>
           </tr>
           <tr>
-            <td>3</td>
-            <td colSpan="2">Larry the Bird</td>
-            <td>@twitter</td>
+            <td>13<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></td>
+            <td>14<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></td>
+            <td>15<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></td>
+            <td>16<GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/game" text="WhoWillWin?" title="TeamAVsTeamB" /></td>
           </tr>
         </tbody>
       </Table>
