@@ -4,6 +4,7 @@
 TEAM VERMILLION
 
 
+
 Members:
 
 Allen Zhang	         azhang100@gmail.com		     https://github.com/daxlar
@@ -17,6 +18,7 @@ Kayvan Mansoorshahi    kayvan.mansoor@gmail.com                 https://github.c
 Miguel Robledo	         garzarobm@utexas.edu		     https://github.com/garzarobm
 
 Muhammad Hasan	         mih475@utexas.edu		     https://github.com/mih475
+
 
 
 Phase 1 Project Lead: Erick Li
