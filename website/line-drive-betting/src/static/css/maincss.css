@@ -1,4 +1,7 @@
 body {
-    background: #333333;
-    color: white;
+  background: #333333;
+  color: white;
+}
+Card {
+  background-color: black;
 }
