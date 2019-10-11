@@ -2,6 +2,8 @@ import React from "react";
 import GlobalNavbar from "./components/GlobalNavBar";
 import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table"
+import Card from "react-bootstrap/Card";
+import GameCard from "./components/GameCard";
 
 
 
@@ -16,7 +18,7 @@ class GamePage extends React.Component {
         <Table striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th>#</th>
+            <th><GameCard src="https://www.w3schools.com/images/w3schools_green.jpg" relPath="/about" text="sample text" title="title text" /> </th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Username</th>

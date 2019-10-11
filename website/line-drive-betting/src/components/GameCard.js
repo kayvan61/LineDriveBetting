@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import Card from "react-bootstrap/Card"
+import Card from "react-bootstrap/Card";
+
 
 class GameCard extends React.Component {
   render() {
       return (
-          <Card style={{ width: "14%", height: "14%" }} as={Link} to={this.props.relPath}>
+          <Card style={{ width: "90%", height: "90%" }} as={Link} to={this.props.relPath}>
             <Card.Img variant="top" src={this.props.src} />
             <Card.Body>
               <Card.Title>{this.props.title}</Card.Title>
