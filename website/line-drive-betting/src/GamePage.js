@@ -2,7 +2,6 @@ import React from "react";
 import GlobalNavbar from "./components/GlobalNavBar";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import Card from "react-bootstrap/Card";
 import GameCard from "./components/GameCard";
 import falcon from "./static/images/nfl_team_logos/atlanta-falcons-logo-vector.png";
 import Row from "react-bootstrap/Row";

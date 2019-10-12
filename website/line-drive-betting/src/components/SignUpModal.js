@@ -8,16 +8,18 @@ function SignUpModal(props) {
   return (
     <Modal {...props} size="sm" aria-labelledby="SignUpModal" centered>
       <Modal.Header closeButton>
-        <Modal.Title id="SignUpModal">Create Account</Modal.Title>
+        <Modal.Title style={{ color: "black" }} id="SignUpModal">
+          Create Account
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label>Username</Form.Label>
+            <Form.Label style={{ color: "black" }}>Username</Form.Label>
             <Form.Control type="username" placeholder="Enter username" />
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+            <Form.Label style={{ color: "black" }}>Password</Form.Label>
             <Form.Control type="password" placeholder="Password" />
           </Form.Group>
         </Form>

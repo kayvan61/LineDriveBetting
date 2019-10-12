@@ -1,6 +1,5 @@
 import React from "react";
 import GlobalNavbar from "./components/GlobalNavBar";
-import { slide as Menu } from "react-burger-menu";
 import logo1 from "./static/images/betnow.png";
 import logo2 from "./static/images/mybookie.png";
 import logo3 from "./static/images/sportsbets.png";

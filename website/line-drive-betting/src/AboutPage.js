@@ -1,18 +1,104 @@
 import React from "react";
+import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+
 import GlobalNavbar from "./components/GlobalNavBar";
+import AboutCard from "./components/AboutCard";
 
 class AboutPage extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      bioMiguel:
+        "I am a Senior in Electrical and Engineering at the University of Texas at Austin. My initial interest in computers and technology had originated in High School, when my geometry teacher, after seeing my performance in class, referred me to the GRHS Engineering club when I was a sophomore.",
+      bioIshraq:
+        "I am a Senior in Electrical and Computer Engineering at the University of Texas at Austin. I am focusing on software development and minoring in business. I want to help or consult with people solving their problems. My recent favorite movie is Joker.",
+      bioErick:
+        "I am a Junior in Electrical and Computer Engineering at the University of Texas at Austin. Computers have been a big part of my life since forever, so it kinda makes sense that I ended up being a software developer. Outside of school or work I enjoy watching football and playing League.",
+      bioFrank:
+        "I am a Senior in Electrical and Computer Engineering at the University of Texas at Austin. I have always enjoyed solving puzzles, physics, and math so taking Electrical Engineering as well as Actuarial Science classes seemed logical.",
+      bioAllen:
+        "I am a senior at UT ECE. Computers are friends, not enemies. I like circuits and code.",
+      bioKayvan: "placeholder",
+      statMiguel: 0,
+      statIshraq: 0,
+      statErick: 0,
+      statFrank: 0,
+      statAllen: 0,
+      statKayvan: 0,
+      totalCommits: 0,
+      totalIssues: 0
+    };
+  }
+
+  componentDidMount() {
+    fetch(
+      "https://api.github.com/repos/garzarobm/Vermillion_LineDriveBetting/stats/contributors"
+    )
+      .then(res => res.json())
+      .then(result => {
+        for (let contributor of result) {
+          if (contributor.author.login === "mih475") {
+            this.setState({
+              statIshraq: contributor.total
+            });
+          } else if (contributor.author.login === "daxlar") {
+            this.setState({
+              statAllen: contributor.total
+            });
+          } else if (contributor.author.login === "erickli42") {
+            this.setState({
+              statErick: contributor.total
+            });
+          } else if (contributor.author.login === "Frankutexas") {
+            this.setState({
+              statFrank: contributor.total
+            });
+          } else if (contributor.author.login === "kayvan61") {
+            this.setState({
+              statKayvan: contributor.total
+            });
+          } else {
+            this.setState({
+              statMiguel: contributor.total
+            });
+          }
+        }
+      })
+      .then(() => {
+        this.setState({
+          totalCommits:
+            this.state.statAllen +
+            this.state.statErick +
+            this.state.statFrank +
+            this.state.statIshraq +
+            this.state.statKayvan +
+            this.state.statMiguel
+        });
+      });
+
+    fetch(
+      "https://api.github.com/repos/garzarobm/Vermillion_LineDriveBetting/issues"
+    )
+      .then(res => res.json())
+      .then(result => {
+        this.setState({
+          totalIssues: result.length
+        });
+      });
+  }
+
   render() {
     return (
-      <div>
+      <div style={{ textAlign: "center" }}>
         <GlobalNavbar />
 
         {/* About Heading*/}
         <h1
           style={{
             fontFamily: "velvetica",
-            paddingLeft: "20px",
-            paddingTop: "10px"
+            marginTop: "10px"
           }}
         >
           ABOUT
@@ -21,135 +107,94 @@ class AboutPage extends React.Component {
         {/* Small description of this page */}
         <p
           style={{
-            fontSize: "20px",
+            fontSize: "16px",
             fontFamily: "velvetica",
-            paddingLeft: "20px"
+            marginLeft: "60px",
+            marginRight: "60px"
           }}
         >
-          This page will talk about our website and contributors
+          LineDriveBetting is a website that will provide people with aggregate
+          information on football betting lines and game predictions and allow
+          users to share and discuss their own personal thoughts or predictions
+          in the comments section for each game. The website will have coverage
+          of the NFL games happening every week. This website is intended for
+          those who are interested in or involved with sports betting or those
+          who are sports fans that want to know the chances that their team will
+          win. Our website will be a single destination that will give these
+          people the opportunity to see what a variety of different sources are
+          predicting for games they follow and give them the opportunity to
+          discuss their feelings with others in the sports community.
         </p>
+        <div style={{ marginTop: 50, textAlign: "center" }}>
+          <h1
+            style={{
+              fontFamily: "velvetica",
+              marginTop: "10px"
+            }}
+          >
+            Team Vermillion
+          </h1>
+        </div>
 
-        <br></br>
-
-        {/* What is LineDriveBetting Heading*/}
-        <h2
-          style={{
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
-          }}
-        >
-          What is LineDriveBetting
-        </h2>
-
-        {/* Small summary of our project */}
-        <p
-          style={{
-            fontSize: "20px",
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
-          }}
-        >
-          Some description
-        </p>
-
-        <br></br>
-
-        {/* Purpose Heading*/}
-        <h2
-          style={{
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
-          }}
-        >
-          Purpose
-        </h2>
-
-        {/* Small description of purpose */}
-        <p
-          style={{
-            fontSize: "20px",
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
-          }}
-        >
-          Some description
-        </p>
-
-        <br></br>
-
-        {/* Intended Users Heading*/}
-        <h2
-          style={{
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
-          }}
-        >
-          Intended Users
-        </h2>
-
-        {/* Small description of our users */}
-        <p
-          style={{
-            fontSize: "20px",
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
-          }}
-        >
-          Some description
-        </p>
-
-        <br></br>
-
-        {/* Contributors Heading*/}
-        <h2
-          style={{
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
-          }}
-        >
-          Contributors
-        </h2>
-
-        {/* Group Name */}
-        <p
-          style={{
-            fontSize: "20px",
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
-          }}
-        >
-          Group - Vermillion
-        </p>
-
-        {/* List of members */}
-        <p
-          style={{
-            fontSize: "20px",
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
-          }}
-        >
-          Members
-        </p>
-
-        <p
-          style={{
-            fontSize: "15px",
-            fontFamily: "velvetica",
-            paddingLeft: "50px"
-          }}
-        >
-          Each member: name, photo, bio, major, responsibilities, number of
-          commits, number of issues, number of unit tests
-        </p>
-
-        <br></br>
+        <Container style={{ marginTop: 17, marginBottom: 17 }}>
+          <Row>
+            <Col>
+              <AboutCard
+                src={require("./static/images/Miguel.jpg")}
+                name="Miguel"
+                bio={this.state.bioMiguel}
+                stat={this.state.statMiguel}
+              />
+            </Col>
+            <Col>
+              <AboutCard
+                src={require("./static/images/Ishraq.jpg")}
+                name="Ishraq"
+                bio={this.state.bioIshraq}
+                stat={this.state.statIshraq}
+              />
+            </Col>
+            <Col>
+              <AboutCard
+                src={require("./static/images/Erick.jpg")}
+                name="Erick"
+                bio={this.state.bioErick}
+                stat={this.state.statErick}
+              />
+            </Col>
+          </Row>
+          <Row style={{ marginTop: 20 }}>
+            <Col>
+              <AboutCard
+                src={require("./static/images/Frank.jpg")}
+                name="Frank"
+                bio={this.state.bioFrank}
+                stat={this.state.statFrank}
+              />
+            </Col>
+            <Col>
+              <AboutCard
+                src={require("./static/images/Allen.jpeg")}
+                name="Allen"
+                bio={this.state.bioAllen}
+                stat={this.state.statAllen}
+              />
+            </Col>
+            <Col>
+              <AboutCard
+                src={require("./static/images/betnow.png")}
+                name="Kayvan"
+                bio={this.state.bioKayvan}
+                stat={this.state.statKayvan}
+              />
+            </Col>
+          </Row>
+        </Container>
 
         {/* Stats heading */}
         <h2
           style={{
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
+            fontFamily: "velvetica"
           }}
         >
           Stats
@@ -159,17 +204,15 @@ class AboutPage extends React.Component {
         <p
           style={{
             fontSize: "20px",
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
+            fontFamily: "velvetica"
           }}
         >
-          Number of Commits:
+          Number of Commits: {this.state.totalCommits}
         </p>
         <p
           style={{
             fontSize: "20px",
             fontFamily: "velvetica",
-            paddingLeft: "20px",
             display: "inline-block"
           }}
         >
@@ -178,11 +221,10 @@ class AboutPage extends React.Component {
         <p
           style={{
             fontSize: "20px",
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
+            fontFamily: "velvetica"
           }}
         >
-          Number of Issues: 5
+          Number of Issues: {this.state.totalIssues}
         </p>
 
         <br></br>
@@ -190,8 +232,7 @@ class AboutPage extends React.Component {
         {/* Data heading */}
         <h2
           style={{
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
+            fontFamily: "velvetica"
           }}
         >
           Data
@@ -201,11 +242,10 @@ class AboutPage extends React.Component {
         <p
           style={{
             fontSize: "20px",
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
+            fontFamily: "velvetica"
           }}
         >
-          Data sources w/ links and description of how each was scraped:
+          1. Github Repo Statistics taken from Github API
         </p>
 
         <br></br>
@@ -213,8 +253,7 @@ class AboutPage extends React.Component {
         {/* Tools heading */}
         <h2
           style={{
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
+            fontFamily: "velvetica"
           }}
         >
           Tools
@@ -224,11 +263,20 @@ class AboutPage extends React.Component {
         <p
           style={{
             fontSize: "20px",
-            fontFamily: "velvetica",
-            paddingLeft: "20px"
+            fontFamily: "velvetica"
           }}
         >
-          Name of tools and description of their uses:
+          React: Front-end web framework for building the user interface of our
+          website MongoDB: document-based open source database we will use to
+          store user data and betting/win prediction data Express/Node.js:
+          Server-side web application framework for building our backend/API
+          React Router: Routing library for React React Bootstrap: Front-end
+          framework for React that will provide UI components Create React App:
+          Allow for easy creation of React app without having to individually
+          set up tools like Babel and Webpack. Balsamiq: Create mockup designs
+          for our user interface Draw.io: Build UML diagrams Selenium WebDriver:
+          Used for automated testing of our web application Mocha: JavaScript
+          test framework to test Node.js programs
         </p>
 
         <br></br>
@@ -237,7 +285,6 @@ class AboutPage extends React.Component {
         <h2
           style={{
             fontFamily: "velvetica",
-            paddingLeft: "20px",
             paddingBottom: "20px"
           }}
         >
