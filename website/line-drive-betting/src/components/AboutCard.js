@@ -18,13 +18,15 @@ class AboutCard extends React.Component {
           <Card.Text
             style={{
               fontSize: 16,
-              opacity: 0.8
+              opacity: 0.8,
+              height: "100%"
             }}
           >
             {this.props.bio}
-            <div style={{ position: "relative" }}>
-              <p>Github commits: {this.props.stat}</p>
-            </div>
+            <br />
+            Github commits: {this.props.stat}
+            <br />
+            Responsibilities: {this.props.responsibilities}
           </Card.Text>
         </Card.Body>
       </Card>

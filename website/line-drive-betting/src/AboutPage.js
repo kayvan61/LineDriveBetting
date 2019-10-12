@@ -20,7 +20,8 @@ class AboutPage extends React.Component {
         "I am a Senior in Electrical and Computer Engineering at the University of Texas at Austin. I have always enjoyed solving puzzles, physics, and math so taking Electrical Engineering as well as Actuarial Science classes seemed logical.",
       bioAllen:
         "I am a senior at UT ECE. Computers are friends, not enemies. I like circuits and code.",
-      bioKayvan: "I am a senior at UT ECE. I was promised there would be more C. Javascript is not to be trusted",
+      bioKayvan:
+        "I am a senior at UT ECE. I was promised there would be more C. Javascript is not to be trusted",
       statMiguel: 0,
       statIshraq: 0,
       statErick: 0,
@@ -28,7 +29,8 @@ class AboutPage extends React.Component {
       statAllen: 0,
       statKayvan: 0,
       totalCommits: 0,
-      totalIssues: 0
+      totalIssues: 0,
+      responsibilities: "Front-End, Back-End"
     };
   }
 
@@ -144,6 +146,7 @@ class AboutPage extends React.Component {
                 name="Miguel"
                 bio={this.state.bioMiguel}
                 stat={this.state.statMiguel}
+                responsibilities={this.state.responsibilities}
               />
             </Col>
             <Col>
@@ -152,6 +155,7 @@ class AboutPage extends React.Component {
                 name="Ishraq"
                 bio={this.state.bioIshraq}
                 stat={this.state.statIshraq}
+                responsibilities={this.state.responsibilities}
               />
             </Col>
             <Col>
@@ -160,6 +164,7 @@ class AboutPage extends React.Component {
                 name="Erick"
                 bio={this.state.bioErick}
                 stat={this.state.statErick}
+                responsibilities={this.state.responsibilities}
               />
             </Col>
           </Row>
@@ -170,6 +175,7 @@ class AboutPage extends React.Component {
                 name="Frank"
                 bio={this.state.bioFrank}
                 stat={this.state.statFrank}
+                responsibilities={this.state.responsibilities}
               />
             </Col>
             <Col>
@@ -178,6 +184,7 @@ class AboutPage extends React.Component {
                 name="Allen"
                 bio={this.state.bioAllen}
                 stat={this.state.statAllen}
+                responsibilities={this.state.responsibilities}
               />
             </Col>
             <Col>
@@ -186,6 +193,7 @@ class AboutPage extends React.Component {
                 name="Kayvan"
                 bio={this.state.bioKayvan}
                 stat={this.state.statKayvan}
+                responsibilities={this.state.responsibilities}
               />
             </Col>
           </Row>
@@ -197,7 +205,7 @@ class AboutPage extends React.Component {
             fontFamily: "velvetica"
           }}
         >
-          Stats
+          Github Stats
         </h2>
 
         {/* Number of commits, unit tests and issues */}
@@ -207,27 +215,9 @@ class AboutPage extends React.Component {
             fontFamily: "velvetica"
           }}
         >
-          Number of Commits: {this.state.totalCommits}
+          Commits: {this.state.totalCommits}, Unit Tests: Not Applicable for
+          Phase 1, Issues: {this.state.totalIssues}
         </p>
-        <p
-          style={{
-            fontSize: "20px",
-            fontFamily: "velvetica",
-            display: "inline-block"
-          }}
-        >
-          Number of Unit Tests: Not Applicable for Phase 1
-        </p>
-        <p
-          style={{
-            fontSize: "20px",
-            fontFamily: "velvetica"
-          }}
-        >
-          Number of Issues: {this.state.totalIssues}
-        </p>
-
-        <br></br>
 
         {/* Data heading */}
         <h2
@@ -245,7 +235,7 @@ class AboutPage extends React.Component {
             fontFamily: "velvetica"
           }}
         >
-          1. Github Repo Statistics taken from Github API
+          1. Github Repo Statistics taken from Github API (api.github.com)
         </p>
 
         <br></br>
@@ -266,17 +256,20 @@ class AboutPage extends React.Component {
             fontFamily: "velvetica"
           }}
         >
-          React: Front-end web framework for building the user interface of our
-          website MongoDB: document-based open source database we will use to
-          store user data and betting/win prediction data Express/Node.js:
-          Server-side web application framework for building our backend/API
-          React Router: Routing library for React React Bootstrap: Front-end
-          framework for React that will provide UI components Create React App:
-          Allow for easy creation of React app without having to individually
-          set up tools like Babel and Webpack. Balsamiq: Create mockup designs
-          for our user interface Draw.io: Build UML diagrams Selenium WebDriver:
-          Used for automated testing of our web application Mocha: JavaScript
-          test framework to test Node.js programs
+          <b>React:</b> Front-end web framework for building the user interface
+          of our website, <b>MongoDB:</b> document-based open source database we
+          will use to store user data and betting/win prediction data,{" "}
+          <b>Express/Node.js:</b>
+          Server-side web application framework for building our backend/API,
+          <b>React Router:</b> Routing library for React,{" "}
+          <b>React Bootstrap:</b> Front-end framework for React that will
+          provide UI components, <b>Create React App:</b> Allow for easy
+          creation of React app without having to individually set up tools like
+          Babel and Webpack, <b>Balsamiq:</b> Create mockup designs for our user
+          interface,<b>Draw.io:</b> Build UML diagrams,{" "}
+          <b>Selenium WebDriver:</b>
+          Used for automated testing of our web application, <b>Mocha:</b>{" "}
+          JavaScript test framework to test Node.js programs
         </p>
 
         <br></br>
