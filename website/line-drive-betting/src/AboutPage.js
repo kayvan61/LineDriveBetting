@@ -20,7 +20,7 @@ class AboutPage extends React.Component {
         "I am a Senior in Electrical and Computer Engineering at the University of Texas at Austin. I have always enjoyed solving puzzles, physics, and math so taking Electrical Engineering as well as Actuarial Science classes seemed logical.",
       bioAllen:
         "I am a senior at UT ECE. Computers are friends, not enemies. I like circuits and code.",
-      bioKayvan: "placeholder",
+      bioKayvan: "I am a senior at UT ECE. I was promised there would be more C. Javascript is not to be trusted",
       statMiguel: 0,
       statIshraq: 0,
       statErick: 0,
@@ -182,7 +182,7 @@ class AboutPage extends React.Component {
             </Col>
             <Col>
               <AboutCard
-                src={require("./static/images/betnow.png")}
+                src={require("./static/images/Ali.jpg")}
                 name="Kayvan"
                 bio={this.state.bioKayvan}
                 stat={this.state.statKayvan}
