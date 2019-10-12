@@ -14,7 +14,6 @@ class GlobalNavbar extends React.Component {
           <Navbar bg="dark" variant="dark">
             <Nav className="mr-auto">
               <Nav.Link href="/home">Home</Nav.Link>
-              <Nav.Link href="/game">Game</Nav.Link>
               <Nav.Link href="/betnow">Bet Now</Nav.Link>
               <Nav.Link href="/about">About</Nav.Link>
             </Nav>

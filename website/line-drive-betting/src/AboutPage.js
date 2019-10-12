@@ -32,39 +32,47 @@ class AboutPage extends React.Component {
       totalIssues: 0,
       responsibilities: "Front-End, Back-End"
     };
+    this.getGithubStats = this.getGithubStats.bind(this);
   }
 
   componentDidMount() {
+    this.getGithubStats();
+    this.timer = setInterval(() => this.getGithubStats(), 10000);
+  }
+
+  getGithubStats() {
     fetch(
       "https://api.github.com/repos/garzarobm/Vermillion_LineDriveBetting/stats/contributors"
     )
       .then(res => res.json())
       .then(result => {
-        for (let contributor of result) {
-          if (contributor.author.login === "mih475") {
-            this.setState({
-              statIshraq: contributor.total
-            });
-          } else if (contributor.author.login === "daxlar") {
-            this.setState({
-              statAllen: contributor.total
-            });
-          } else if (contributor.author.login === "erickli42") {
-            this.setState({
-              statErick: contributor.total
-            });
-          } else if (contributor.author.login === "Frankutexas") {
-            this.setState({
-              statFrank: contributor.total
-            });
-          } else if (contributor.author.login === "kayvan61") {
-            this.setState({
-              statKayvan: contributor.total
-            });
-          } else {
-            this.setState({
-              statMiguel: contributor.total
-            });
+        if (result) {
+          for (let contributor of result) {
+            if (contributor.author.login === "mih475") {
+              this.setState({
+                statIshraq: contributor.total
+              });
+            } else if (contributor.author.login === "daxlar") {
+              this.setState({
+                statAllen: contributor.total
+              });
+            } else if (contributor.author.login === "erickli42") {
+              this.setState({
+                statErick: contributor.total
+              });
+            } else if (contributor.author.login === "Frankutexas") {
+              this.setState({
+                statFrank: contributor.total
+              });
+            } else if (contributor.author.login === "kayvan61") {
+              this.setState({
+                statKayvan: contributor.total
+              });
+            } else {
+              this.setState({
+                statMiguel: contributor.total
+              });
+            }
           }
         }
       })
@@ -85,9 +93,11 @@ class AboutPage extends React.Component {
     )
       .then(res => res.json())
       .then(result => {
-        this.setState({
-          totalIssues: result.length
-        });
+        if (result) {
+          this.setState({
+            totalIssues: result.length
+          });
+        }
       });
   }
 
