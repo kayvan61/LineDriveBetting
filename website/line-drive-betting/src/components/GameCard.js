@@ -10,8 +10,7 @@ class GameCard extends React.Component {
   render() {
     return (
       <Card
-        bg="danger"
-        style={{ width: "90%", height: "90%" }}
+        style={{ width: "90%", height: "90%", backgroundColor: "#696969" }}
         as={Link}
         to={this.props.relPath}
       >
@@ -26,7 +25,13 @@ class GameCard extends React.Component {
           </Row>
         </Container>
 
-        <Card.Body>
+        <Card.Body
+          style={{
+            textAlign: "center",
+            color: "white",
+            opacity: "0.8"
+          }}
+        >
           <Card.Title>{this.props.title}</Card.Title>
           <Card.Text>{this.props.text}</Card.Text>
         </Card.Body>
