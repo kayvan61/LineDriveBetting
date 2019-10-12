@@ -1,172 +1,38 @@
 import React from "react";
 import GlobalNavbar from "./components/GlobalNavBar";
+import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import GameCard from "./components/GameCard";
 import falcon from "./static/images/nfl_team_logos/atlanta-falcons-logo-vector.png";
-import Row from "react-bootstrap/Row";
 
 class GamePage extends React.Component {
   render() {
     return (
       <div>
-        <GlobalNavbar />
-        <h1>GAME PAGE</h1>
-
-        <Container striped bordered hover variant="dark">
+        <GlobalNavbar />    
+        <Container
+        style={{paddingTop: "10px"}}>
           <Row>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
+            <Col> <h1> Teams: </h1> </Col>
+            <Col> <h1> Team A </h1> <img src={falcon} height="64px" width="64px"/> </Col>
+            <Col> <h1> Team B </h1> <img src={falcon} height="64px" width="64px"/> </Col>
+          </Row>  
+          <Row>
+            <Col> Money Line: </Col>
+            <Col> +850 </Col>
+            <Col> -850 </Col>
           </Row>
           <Row>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
+            <Col> Point spread: </Col>
+            <Col> +7 </Col>
+            <Col> -7 </Col>
           </Row>
           <Row>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-            <Col>
-              <GameCard
-                src={falcon}
-                src1={falcon}
-                relPath="/game"
-                text="WhoWillWin?"
-                title="TeamAVsTeamB"
-              />{" "}
-            </Col>
-          </Row>
-        </Container>
+            <Col> Total (Over/Under): 42 Points </Col>
+            <Col> Over: -110  </Col>
+            <Col> Under: -115  </Col>
+          </Row>    
+        </Container>    
       </div>
     );
   }
