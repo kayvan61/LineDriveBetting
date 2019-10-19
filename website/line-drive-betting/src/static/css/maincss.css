@@ -6,3 +6,11 @@ body {
 Card {
   background-color: black;
 }
+.hoverBorder {
+  width: 240px;
+  height: 100px;
+}
+.hoverBorder:hover {
+  transform: scale(1.3);
+  border: 6px solid blue;
+}

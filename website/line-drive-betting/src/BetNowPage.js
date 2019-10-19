@@ -55,66 +55,78 @@ class BetNowPage extends React.Component {
         <Container>
           <Row style={{ marginBottom: 50 }}>
             <Col>
-              <a href="https://betnow.eu">
-                <img
-                  src={logo1}
-                  alt="BetNow logo"
-                  width="100%"
-                  height="100%"
-                ></img>
-              </a>
+              <div class="hoverBorder">
+                <a href="https://betnow.eu">
+                  <img
+                    src={logo1}
+                    alt="BetNow logo"
+                    width="100%"
+                    height="100%"
+                  ></img>
+                </a>
+              </div>
             </Col>
             <Col>
-              <a href="https://www.mybookie.ag/sportsbook/">
-                <img
-                  src={logo2}
-                  alt="BetNow logo"
-                  width="100%"
-                  height="100%"
-                ></img>
-              </a>
+              <div class="hoverBorder">
+                <a href="https://www.mybookie.ag/sportsbook/">
+                  <img
+                    src={logo2}
+                    alt="BetNow logo"
+                    width="100%"
+                    height="100%"
+                  ></img>
+                </a>
+              </div>
             </Col>
             <Col>
-              <a href="https://www.sportsbetting.ag/">
-                <img
-                  src={logo3}
-                  alt="BetNow logo"
-                  width="100%"
-                  height="100%"
-                ></img>
-              </a>
+              <div class="hoverBorder">
+                <a href="https://www.sportsbetting.ag/">
+                  <img
+                    src={logo3}
+                    alt="BetNow logo"
+                    width="100%"
+                    height="100%"
+                  ></img>
+                </a>
+              </div>
             </Col>
           </Row>
           <Row>
             <Col>
-              <a href="https://xbet.ag/">
-                <img
-                  src={logo4}
-                  alt="BetNow logo"
-                  width="100%"
-                  height="100%"
-                ></img>
-              </a>
+              <div class="hoverBorder">
+                <a href="https://xbet.ag/">
+                  <img
+                    src={logo4}
+                    alt="BetNow logo"
+                    width="100%"
+                    height="100%"
+                  ></img>
+                </a>
+              </div>
             </Col>
             <Col>
-              <a href="https://www.betonline.ag/">
-                <img
-                  src={logo5}
-                  alt="Online Betting logo"
-                  width="100%"
-                  height="100%"
-                ></img>
-              </a>
+              <div class="hoverBorder">
+                <a href="https://www.betonline.ag/">
+                  <img
+                    src={logo5}
+                    alt="Online Betting logo"
+                    width="100%"
+                    height="100%"
+                  ></img>
+                </a>
+              </div>
             </Col>
             <Col>
-              <a href="https://www.betonline.ag/">
-                <img
-                  src={logo6}
-                  alt="Gambling sites org"
-                  width="100%"
-                  height="100%"
-                ></img>
-              </a>
+              <div class="hoverBorder">
+                <a href="https://www.betonline.ag/">
+                  <img
+                    src={logo6}
+                    alt="Gambling sites org"
+                    width="100%"
+                    height="100%"
+                  ></img>
+                </a>
+              </div>
             </Col>
           </Row>
         </Container>
