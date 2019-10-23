@@ -14,4 +14,5 @@ app.listen(8080, DB_IO.dbInit);
 app.post("/Matchup", DB_IO.dbAddEntry);
 
 app.get("/Matchup/:datatype/:teama/:teamb", DB_IO.dbGetData);
+app.get("/Matchup/:datatype/:bettingsite/:teama/:teamb", DB_IO.dbGetDataSite);
 app.get("/Matchup/:datatype/:teama/:teamb/:since", DB_IO.dbGetDataSince);

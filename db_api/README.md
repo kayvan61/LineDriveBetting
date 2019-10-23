@@ -18,6 +18,8 @@ The format for payloads to the Database are formatted as such:
     Teams: ["<TEAMA>", "<TEAMB>"],
     DataType: "<TYPE OF DATA>",
     Value: <VALUE OF DATA>
+    BettingSite: <BETTING SITE>
+    EventStartTime: <START TIME OF THE GAME>
 }
 ```
 

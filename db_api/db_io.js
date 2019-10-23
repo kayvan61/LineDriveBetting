@@ -23,14 +23,15 @@ exports.dbInit = function() {
 
 exports.dbAddEntry = function(request, response) {
     request.body["time"] = new Date().getTime()
-    collection.insertOne(request.body, (error, result) => {
-        var isValidPost = checkValidPost(request.body);
+    var isValidPost = checkValidPost(request.body);
+    if(!isValidPost) {
+	console.log(request.body);
+        return response.status(400).send("malformed payload. format is described in the documentation.\n");
+    }
+    collection.insertOne(request.body, (error, result) => {        
         if(error) {
             return response.status(500).send(error);
-        }
-        if(!isValidPost) {
-            return response.status(400).send("malformed payload. format is described in the documentation.\n");
-        }
+        }        
         console.log(request.body);
         response.send(result.result);
     });
@@ -46,6 +47,19 @@ exports.dbGetData = function(request, response) {
         response.send(result);
     });
 };
+
+exports.dbGetDataSite = function(request, response) {
+    var querry = {"Teams" : {"$all" : [request.params.teama, request.params.teamb]},
+                  "DataType": {"$eq" : request.params.datatype},
+		  "BettingSite" : {"$eq" : request.params.bettingsite}}
+    collection.find(querry).toArray((error, result) => {
+        if(error) {
+            return response.status(500).send(error);
+        }        
+        response.send(result);
+    });
+};
+
 
 exports.dbGetDataSince = function(request, response) {
     var querry = {"Teams" : {"$all" : [request.params.teama, request.params.teamb]},
@@ -66,11 +80,20 @@ function checkValidPost(j_obj) {
     
     ret = ret && j_obj.hasOwnProperty('DataType');
     ret = ret && (typeof j_obj['DataType'] === 'string');
+
+    ret = ret && j_obj.hasOwnProperty('BettingSite');
+    ret = ret && (typeof j_obj['BettingSite'] === 'string');
     
     ret = ret && j_obj.hasOwnProperty('Value');
     
+    ret = ret && j_obj.hasOwnProperty('EventStartTime');
+    
+    ret = ret && j_obj.length === 7;
+
+    console.log(Object.keys(j_obj).length);
+    
     if(ret) {
         ret = ret && j_obj['Teams'].length === 2;
-    }
+    }    
     return ret;
 }
