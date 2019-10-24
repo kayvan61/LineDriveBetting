@@ -7,10 +7,12 @@ Card {
   background-color: black;
 }
 .hoverBorder {
-  width: 270px;
-  height: 100px;
+  /*width: 270px;
+  height: 100px;*/
+  width: 70%;
+  height: 100%;
 }
 .hoverBorder:hover {
   transform: scale(1.3);
-  border: 6px dashed gold;
+  border: 4px dashed gold;
 }
