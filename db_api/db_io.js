@@ -1,104 +1,108 @@
 const Express = require("express");
 const BodyParser = require("body-parser");
-const MongoClient = require("mongodb").MongoClient;
-const ObjectId = require("mongodb").ObjectID;
+const Mongoose = require('mongoose');
 
-const CONNECTION_URL = "mongodb+srv://atlas-admin:bBcJ97l0uos6tu1Q@linedrivebetting-tfkik.gcp.mongodb.net/test?retryWrites=true&w=majority";
 const DATABASE_NAME = "Prod-DB";
+const CONNECTION_URL = "mongodb+srv://atlas-admin:bBcJ97l0uos6tu1Q@linedrivebetting-tfkik.gcp.mongodb.net/"+ DATABASE_NAME +"?retryWrites=true&w=majority";
+
+const BDPointSchema = require('./bettingDataPoint').dbDataPoint;
 
 var database, collection;
 
+exports.dbClose = function() {
+    console.log(typeof database);
+    database.close();
+}
 
-exports.dbInit = function() {
-    MongoClient.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true }, (error, client) => {
-        if(error) {
-            throw error;
-        }
-        database = client.db(DATABASE_NAME);
-        collection = database.collection("BettingLines");
-        console.log("Connected to `" + DATABASE_NAME + "`!");
+exports.dbInit = function(collectionName) {
+    Mongoose.connect(CONNECTION_URL,{
+	useNewUrlParser: true,
+	useUnifiedTopology: true
     });
+    database = Mongoose.connection;
+    database.once('open', () => {
+	console.log('Database is connected');
+    })
+    database.on('error', () => {
+	console.log('Error connecting to Database');
+    })
+    console.log(BDPointSchema.obj);
+
 };
 
 exports.dbAddEntry = function(request, response) {
-    request.body["time"] = new Date().getTime()
-    var isValidPost = checkValidPost(request.body);
-    if(!isValidPost) {
-	console.log(request.body);
-        return response.status(400).send("malformed payload. format is described in the documentation.\n");
-    }
-    collection.insertOne(request.body, (error, result) => {        
-        if(error) {
-	    console.log(error)
-	    console.log(result)
-            return response.status(500).send(error);
-        }        
-        console.log(request.body);
-        response.send(result.result);
-    });
+
+    new BDPointSchema({
+	_id            : Mongoose.Types.ObjectId(),
+	Teams          : request.body["Teams"],
+	EventStartTime : request.body["EventStartTime"],
+	Value          : request.body["Value"],
+	Site           : request.body["Site"],
+	DataType       : request.body["DataType"],
+	createdAt      : 0
+    }).save()
+	.then(() => {
+	    console.log("Added a data point");
+	    response.status(200).send("your input was added\n");
+	})
+	.catch(() => {
+	    console.log("error adding a data point");
+	    response.status(400).send("your input was probably was malformed\n");
+	});
+
 };
 
 exports.dbGetData = function(request, response) {
-    var querry = {"Teams" : {"$all" : [request.params.teama, request.params.teamb]},
-                  "DataType": {"$eq" : request.params.datatype}}
-    collection.find(querry).toArray((error, result) => {
-        if(error) {
-            return response.status(500).send(error);
-        }        
-        response.send(result);
-    });
+    var querry = {"Teams" : {"$all" : [request.query.teama, request.query.teamb]},
+                  "DataType": {"$eq" : request.query.datatype}};
+    BDPointSchema.find(querry)
+	.exec()
+	.then((res) => {
+	    console.log("returned " + res.length + " items");
+	    response.status(200).json({
+		res
+	    }).end();	    
+	})
+	.catch((err) => {
+	    console.log(err);
+	    response.status(400).send(err).end();
+	});
 };
 
 exports.dbGetDataSite = function(request, response) {
-    var querry = {"Teams" : {"$all" : [request.params.teama, request.params.teamb]},
-                  "DataType": {"$eq" : request.params.datatype},
-		  "BettingSite" : {"$eq" : request.params.bettingsite}}
-    collection.find(querry).toArray((error, result) => {
-        if(error) {
-            return response.status(500).send(error);
-        }        
-        response.send(result);
-    });
+    var querry = {"Teams" : {"$all" : [request.query.teama, request.query.teamb]},
+                  "DataType": {"$eq" : request.query.datatype},
+		  "BettingSite" : {"$eq" : request.query.bettingsite}};
+    BDPointSchema.find(querry)
+	.exec()
+	.then((res) => {
+	    console.log("returned " + res.length + " items");
+	    response.status(200).json({
+		res
+	    });	    
+	})
+	.catch((err) => {
+	    console.log(err);
+	    response.status(400).send(err);
+	});
+
 };
 
 
 exports.dbGetDataSince = function(request, response) {
-    var querry = {"Teams" : {"$all" : [request.params.teama, request.params.teamb]},
-                  "DataType": {"$eq" : request.params.datatype},
-                  "time" : {"$gte" : request.params.since}}
-    collection.find(querry).toArray((error, result) => {
-        if(error) {
-            return response.status(500).send(error);
-        }
-        response.send(result);
-    });
+    var querry = {"Teams" : {"$all" : [request.query.teama, request.query.teamb]},
+                  "DataType": {"$eq" : request.query.datatype},
+                  "time" : {"$gte" : request.query.since}};
+    BDPointSchema.find(querry)
+	.exec()
+	.then((res) => {
+	    console.log("returned " + res.length + " items");
+	    response.status(200).json({
+		res
+	    });	    
+	})
+	.catch((err) => {
+	    console.log(err);
+	    response.status(400).send(err);
+	});
 };
-
-function checkValidPost(j_obj) {
-    var ret = true;
-    ret = ret && j_obj.hasOwnProperty('Teams');
-    ret = ret && Array.isArray(j_obj['Teams']);
-    
-    ret = ret && j_obj.hasOwnProperty('DataType');
-    ret = ret && (typeof j_obj['DataType'] === 'string');
-
-    ret = ret && j_obj.hasOwnProperty('BettingSite');
-    ret = ret && (typeof j_obj['BettingSite'] === 'string');
-    
-    ret = ret && j_obj.hasOwnProperty('Value');
-    
-    ret = ret && j_obj.hasOwnProperty('EventStartTime');
-    
-    ret = ret && Object.keys(j_obj).length === 6;
-    console.log(Object.keys(j_obj).length)
-    
-    if(ret) {
-        ret = ret && j_obj['Teams'].length === 2;
-    }
-
-    if(!ret){
-	console.log(j_obj);
-    }
-    
-    return ret;
-}

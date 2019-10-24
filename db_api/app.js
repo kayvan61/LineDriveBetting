@@ -15,12 +15,12 @@ app.listen(8080, DB_IO.dbInit);
 
 app.post("/Matchup", DB_IO.dbAddEntry);
 
-app.get("/Matchup/:datatype/:teama/:teamb", DB_IO.dbGetData);
-app.get("/Matchup/:datatype/:bettingsite/:teama/:teamb", DB_IO.dbGetDataSite);
-app.get("/Matchup/:datatype/:teama/:teamb/:since", DB_IO.dbGetDataSince);
+app.get("/Matchup", DB_IO.dbGetData);
+app.get("/Matchup/bySite", DB_IO.dbGetDataSite);
+app.get("/Matchup/sinceTime", DB_IO.dbGetDataSince);
 
 const job = new CronJob('0 0 * * * *', function() {
     console.log("ran scrapper");
     Scrapper.getFromAPI();
 });
-job.start()
+job.start();
