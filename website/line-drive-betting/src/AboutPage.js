@@ -245,10 +245,11 @@ class AboutPage extends React.Component {
             fontFamily: "velvetica"
           }}
         >
-          1. Github Repo Statistics taken from Github API (api.github.com)
+          1. Github Repo Statistics taken from Github API (api.github.com) <br/>
+	   2. Sports Betting Statistics taken from oddsapi (app.oddsapi.io) 
         </p>
 
-        <br></br>
+        <br/>
 
         {/* Tools heading */}
         <h2
@@ -282,7 +283,7 @@ class AboutPage extends React.Component {
           JavaScript test framework to test Node.js programs
         </p>
 
-        <br></br>
+        <br/>
 
         {/* Github repo */}
         <h2
