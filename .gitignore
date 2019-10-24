@@ -3,13 +3,17 @@
 # dependencies
 website/node_modules
 website/.pnp
+db_api/node_modules
+db_api/.pnp
 .pnp.js
 
 # testing
 website/coverage
+db_api/coverage
 
 # production
 website/build
+db_api/build
 
 # misc
 .DS_Store
