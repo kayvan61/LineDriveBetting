@@ -1,4 +1,3 @@
-
 const Express = require("express");
 const BodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
@@ -30,6 +29,8 @@ exports.dbAddEntry = function(request, response) {
     }
     collection.insertOne(request.body, (error, result) => {        
         if(error) {
+	    console.log(error)
+	    console.log(result)
             return response.status(500).send(error);
         }        
         console.log(request.body);
@@ -88,12 +89,16 @@ function checkValidPost(j_obj) {
     
     ret = ret && j_obj.hasOwnProperty('EventStartTime');
     
-    ret = ret && j_obj.length === 7;
-
-    console.log(Object.keys(j_obj).length);
+    ret = ret && Object.keys(j_obj).length === 6;
+    console.log(Object.keys(j_obj).length)
     
     if(ret) {
         ret = ret && j_obj['Teams'].length === 2;
-    }    
+    }
+
+    if(!ret){
+	console.log(j_obj);
+    }
+    
     return ret;
 }
