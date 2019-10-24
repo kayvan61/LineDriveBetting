@@ -2,7 +2,7 @@ package testing;
 import org.openqa.selenium.By;
 
 import org.openqa.selenium.WebDriver;
-//import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -13,13 +13,19 @@ import org.openqa.selenium.support.ui.Select;
 public class tester {
 	
 	public static void main(String[] args) {
-		testLogin();
+		System.setProperty("webdriver.gecko.driver","C:\\Users\\15128\\Documents\\EE461L\\FirstWebDriverProject\\lib\\geckodriver.exe");
+		WebDriver driver = new FirefoxDriver();
+		
+		driver.get("https://linedrivebetting-255803.appspot.com/");
+
+			driver.findElement(By.linkText("Log-in")).click();
+		//testLogin();
 	}
 	public static void testLogin()
 
 	{
-
-		WebDriver driver = new ChromeDriver();
+		System.setProperty("webdriver.gecko.driver","C:\\Users\\15128\\Documents\\EE461L\\FirstWebDriverProject\\lib\\geckodriver.exe");
+		WebDriver driver = new FirefoxDriver();
 		
 		driver.get("https://linedrivebetting-255803.appspot.com/");
 
