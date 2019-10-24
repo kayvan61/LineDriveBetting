@@ -19,7 +19,7 @@ app.get("/Matchup/:datatype/:teama/:teamb", DB_IO.dbGetData);
 app.get("/Matchup/:datatype/:bettingsite/:teama/:teamb", DB_IO.dbGetDataSite);
 app.get("/Matchup/:datatype/:teama/:teamb/:since", DB_IO.dbGetDataSince);
 
-const job = new CronJob('0 4 * * * *', function() {
+const job = new CronJob('0 0 * * * *', function() {
     console.log("ran scrapper");
     Scrapper.getFromAPI();
 });
