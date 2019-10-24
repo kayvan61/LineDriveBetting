@@ -3,6 +3,8 @@ import GlobalNavbar from "./components/GlobalNavBar";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import logo1 from "./static/images/betnow.png";
 import logo2 from "./static/images/mybookie.png";
@@ -10,6 +12,10 @@ import logo3 from "./static/images/sportsbets.png";
 import logo4 from "./static/images/xbets.png";
 import logo5 from "./static/images/onlinebet.png";
 import logo6 from "./static/images/gamblingsitesorg.png";
+
+import nflImage from "./static/images/nfl_team_logos/NFLcaption.jpg";
+import nflImage2 from "./static/images/nfl_team_logos/NFLcaption2.jpg";
+import nflImage3 from "./static/images/nfl_team_logos/NFLcaption3.jpg";
 
 class BetNowPage extends React.Component {
   render() {
@@ -20,6 +26,19 @@ class BetNowPage extends React.Component {
           <h2>Betting Links</h2>
         </div>
 
+        <Carousel showThumbs={false}>
+          <div>
+            <img src={nflImage2} style={{ width: 720, height: 360 }} />
+          </div>
+          <div>
+            <img src={nflImage} style={{ width: 720, height: 360 }} />
+          </div>
+          <div>
+            <img src={nflImage3} style={{ width: 720, height: 360 }} />
+          </div>
+        </Carousel>
+        <br></br>
+        <br></br>
         {/* <ul>
           <li>
             <a href="https://betnow.eu"> https://betnow.eu </a>
