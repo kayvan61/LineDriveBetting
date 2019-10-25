@@ -1,6 +1,6 @@
 const express = require("express");
 const DB_IO = require("./db_io");
-const Scrapper = require("./scrapping");
+const Scraper = require("./scraping");
 const CronJob = require("cron").CronJob;
 const cors = require("cors");
 
@@ -17,16 +17,16 @@ app.post("/Games", DB_IO.gamesAddEntry);
 app.get("/Games", DB_IO.gamesGetData);
 app.get("/Matchup", DB_IO.dbGetData);
 app.get("/Matchup/bySite", DB_IO.dbGetDataSite);
-app.get("/Matchup/sinceTime", DB_IO.dbGetDataSince);
+app.get("/ForcePoll", Scraper.getFromAPI);
 
-const job = new CronJob("0 0 0 0 * *", function() {
-  console.log("ran scrapper");
-  Scrapper.getFromAPI();
+const job = new CronJob("0 0 0/12 * * *", function() {
+  console.log("ran scraper");
+  Scraper.getFromAPI();
 });
 job.start();
 
 const job2 = new CronJob("0 0 0 0 * *", function() {
-  console.log("ran game scrapper");
-  Scrapper.getGameFromAPI();
+  console.log("ran game scraper");
+  Scraper.getGameFromAPI();
 });
-job.start();
+job2.start();
