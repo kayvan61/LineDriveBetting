@@ -3,32 +3,32 @@ import GlobalNavbar from "./components/GlobalNavBar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import falcon from "./static/images/nfl_team_logos/atlanta-falcons-logo-vector.png";
 import LineGraph from "./components/LineGraph.js";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 class GamePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   render() {
     return (
       <div>
         <GlobalNavbar />
         <Container style={{ paddingTop: "10px" }}>
-          <Row>
-            <Col>
-              {" "}
-              <h1> Teams: </h1>{" "}
+          <Row style={{ marginBottom: 20 }}>
+            <Col />
+            <Col style={{ marginRight: 20 }}>
+              <h1> {this.props.teamOne} </h1>
+              <img src={this.props.logos[this.props.teamOne]} alt="" />
             </Col>
-            <Col>
-              {" "}
-              <h1> Team A </h1>{" "}
-              <img src={falcon} alt="" height="64px" width="64px" />{" "}
+            <Col style={{ marginLeft: 20 }}>
+              <h1> {this.props.teamTwo} </h1>
+              <img src={this.props.logos[this.props.teamTwo]} alt="" />
             </Col>
-            <Col>
-              {" "}
-              <h1> Team B </h1>{" "}
-              <img src={falcon} alt="" height="64px" width="64px" />{" "}
-            </Col>
+            <Col />
           </Row>
           <Row>
             <Col> Money Line: </Col>
