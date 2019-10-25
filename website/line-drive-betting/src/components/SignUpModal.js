@@ -19,8 +19,10 @@ class SignUpModal extends React.Component {
     var pw   = ReactDOM.findDOMNode(this.refs.password).value;
     var salt = new Date().toISOString();
     
-    var saltedPW = crypto.createHash('md5').update(salt).digest('hex');
-        
+    var saltedPW = crypto.createHash('md5').update(pw+salt).digest('hex');
+
+    alert(saltedPW);
+    
     var url = "https://line-drive-betting.appspot.com/Users/Register?userName=" + user;
     url = url + "&saltedPass=" + saltedPW;
     url = url + "&salt=" + salt;
