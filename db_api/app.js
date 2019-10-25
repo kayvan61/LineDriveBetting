@@ -13,9 +13,10 @@ app.listen(8080, DB_IO.dbInit);
 
 app.post("/Matchup", DB_IO.dbAddEntry);
 app.post("/Games", DB_IO.gamesAddEntry);
+app.post("/Users", DB_IO.userSignup);
 
-app.get("/Users/Register", DB_IO.userSignup);
-app.get("/Users/Login", DB_IO.userLogin);
+app.get("/Users/find", DB_IO.getUserNameByToken);
+app.get("/Users", DB_IO.userLogin);
 app.get("/Games", DB_IO.gamesGetData);
 app.get("/Matchup", DB_IO.dbGetData);
 app.get("/Matchup/bySite", DB_IO.dbGetDataSite);

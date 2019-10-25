@@ -8,6 +8,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 class GamePage extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
