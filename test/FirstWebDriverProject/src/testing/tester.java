@@ -3,9 +3,9 @@ import org.openqa.selenium.By;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-
+import java.util.List;
 import org.openqa.selenium.support.ui.Select;
 
 
@@ -13,12 +13,19 @@ import org.openqa.selenium.support.ui.Select;
 public class tester {
 	
 	public static void main(String[] args) {
-		System.setProperty("webdriver.gecko.driver","lib/geckodriver");
-		WebDriver driver = new FirefoxDriver();
+		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
 		
 		driver.get("https://linedrivebetting-255803.appspot.com/");
 
-			driver.findElement(By.linkText("Log-in")).click();
+			//driver.findElement(By.linkText("Log-in")).click();
+			List<WebElement> allLinks = driver.findElements(By.tagName("a"));
+			System.out.println("There are " + allLinks.size() + " links");
+			for(WebElement c: allLinks) {
+				
+				System.out.print(c.getText());
+				System.out.println(" " + c.getAttribute("href"));
+			}
 		//testLogin();
 	}
 	public static void testLogin()
