@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.Select;
 public class tester {
 	
 	public static void main(String[] args) {
-		System.setProperty("webdriver.gecko.driver","C:\\Users\\15128\\Documents\\EE461L\\FirstWebDriverProject\\lib\\geckodriver.exe");
+		System.setProperty("webdriver.gecko.driver","lib/geckodriver");
 		WebDriver driver = new FirefoxDriver();
 		
 		driver.get("https://linedrivebetting-255803.appspot.com/");
@@ -24,12 +24,12 @@ public class tester {
 	public static void testLogin()
 
 	{
-		System.setProperty("webdriver.gecko.driver","C:\\Users\\15128\\Documents\\EE461L\\FirstWebDriverProject\\lib\\geckodriver.exe");
-		WebDriver driver = new FirefoxDriver();
-		
-		driver.get("https://linedrivebetting-255803.appspot.com/");
-
-			driver.findElement(By.linkText("Log-in")).click();
+//		System.setProperty("webdriver.gecko.driver","C:\\Users\\15128\\Documents\\EE461L\\FirstWebDriverProject\\lib\\geckodriver.exe");
+//		WebDriver driver = new FirefoxDriver();
+//		
+//		driver.get("https://linedrivebetting-255803.appspot.com/");
+//
+//			driver.findElement(By.linkText("Log-in")).click();
 
 		/*driver.findElement(By.name("firstName")).sendKeys("User1");
 
