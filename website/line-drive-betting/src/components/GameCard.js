@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
@@ -7,12 +7,17 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 class GameCard extends React.Component {
+  handleSubmit = () => {
+    this.props.setTeamOne(this.props.teamOne);
+    this.props.setTeamTwo(this.props.teamTwo);
+    this.props.history.push("/game");
+  };
+
   render() {
     return (
       <Card
         style={{ width: "90%", height: "90%", backgroundColor: "#696969" }}
-        as={Link}
-        to={this.props.relPath}
+        onClick={this.handleSubmit}
       >
         <Container style={{ paddingTop: "5px" }}>
           <Row>
@@ -32,7 +37,9 @@ class GameCard extends React.Component {
             opacity: "0.8"
           }}
         >
-          <Card.Title>{this.props.title}</Card.Title>
+          <Card.Title>
+            {this.props.teamOne + " vs. " + this.props.teamTwo}
+          </Card.Title>
           <Card.Text>{this.props.text}</Card.Text>
         </Card.Body>
       </Card>
@@ -40,4 +47,4 @@ class GameCard extends React.Component {
   }
 }
 
-export default GameCard;
+export default withRouter(GameCard);
