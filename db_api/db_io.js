@@ -1,8 +1,8 @@
-const Express       = require("express");
-const BodyParser    = require("body-parser");
-const Mongoose      = require("mongoose");
-const Games         = require("./models/games.model");
-const User          = require("./models/user.model");
+const Express = require("express");
+const BodyParser = require("body-parser");
+const Mongoose = require("mongoose");
+const Games = require("./models/games.model");
+const User = require("./models/user.model");
 const BDPointSchema = require("./models/bettingDataPoint.model").dbDataPoint;
 
 const DATABASE_NAME = "Prod-DB";
@@ -13,7 +13,6 @@ const CONNECTION_URL =
   "?retryWrites=true&w=majority";
 
 var database, collection;
-
 
 exports.dbGetDataSite = function(request, response) {
   var querry = {
@@ -61,13 +60,18 @@ exports.gamesGetData = function(request, response) {
     .catch(err => response.status(400).json("Error: " + err));
 };
 
+exports.dropGamesData = function(request, response) {
+  Games.deleteMany({}).catch(err => response.status(500).json("Error: " + err));
+};
+
 exports.userSignup = function(request, response) {
   console.log("useradding");
   new User({
-    userName   : request.query.userName,
-    saltedPass : request.query.saltedPass,
-    salt       : request.query.salt
-  }).save()
+    userName: request.query.userName,
+    saltedPass: request.query.saltedPass,
+    salt: request.query.salt
+  })
+    .save()
     .then(() => {
       console.log("Added a user");
       response.status(200).send("your input was added\n");
@@ -81,22 +85,23 @@ exports.userSignup = function(request, response) {
 exports.userLogin = function(request, response) {
   //request.query.saltedPass
   User.find({
-    userName   : { "$eq" : request.query.userName}
-  }).then((res) => {
-    if(res.length === 0) {
-      console.log("no user found");
-      response.status(204).send("NOPE");
-    } else {
-      var token = res[0]["_id"];
-      console.log("Found a user");
-      response.status(200).json({token});
-    }
+    userName: { $eq: request.query.userName }
   })
-    .catch((err) => {
+    .then(res => {
+      if (res.length === 0) {
+        console.log("no user found");
+        response.status(204).send("NOPE");
+      } else {
+        var token = res[0]["_id"];
+        console.log("Found a user");
+        response.status(200).json({ token });
+      }
+    })
+    .catch(err => {
       console.log("error finding a user");
       response.status(400).send("username was taken.\n");
     });
-}
+};
 
 exports.dbClose = function() {
   console.log(typeof database);
