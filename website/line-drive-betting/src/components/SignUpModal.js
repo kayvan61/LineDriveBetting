@@ -20,8 +20,6 @@ class SignUpModal extends React.Component {
     var salt = new Date().toISOString();
     
     var saltedPW = crypto.createHash('md5').update(pw+salt).digest('hex');
-
-    alert(saltedPW);
     
     var url = "https://line-drive-betting.appspot.com/Users/Register?userName=" + user;
     url = url + "&saltedPass=" + saltedPW;
@@ -34,7 +32,7 @@ class SignUpModal extends React.Component {
 	}
       });
     
-    //this.props.onHide();
+    this.props.onHide();
   }
 
   render() {
