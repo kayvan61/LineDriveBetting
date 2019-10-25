@@ -6,8 +6,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import java.util.List;
-import org.openqa.selenium.support.ui.Select;
+import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.support.ui.Select;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 public class tester {
@@ -21,11 +24,71 @@ public class tester {
 			//driver.findElement(By.linkText("Log-in")).click();
 			List<WebElement> allLinks = driver.findElements(By.tagName("a"));
 			System.out.println("There are " + allLinks.size() + " links");
+			String linkName[] = new String[allLinks.size()];
+			int i = 0;
+					
 			for(WebElement c: allLinks) {
+				System.out.println(c.getText());
+				linkName[i] = c.getText();
+				System.out.println("Title: " + driver.getTitle());
 				
-				System.out.print(c.getText());
 				System.out.println(" " + c.getAttribute("href"));
+				i++;
 			}
+			for(String c: linkName) {
+				
+				System.out.print(c);
+				if(c.contains("about")) {
+					System.out.println("here!");
+					continue;
+				}
+				
+				driver.findElement(By.linkText(c)).click();
+				if(!driver.getTitle().equals("LineDriveBetting")){
+					System.out.println(c + "Link is broken");
+				}else {
+					System.out.println(c + "Link is working");
+				}
+				driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+				driver.navigate().back();
+				driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+//				try{
+//				HttpURLConnection huc = (HttpURLConnection)(new URL(c.getAttribute("href")).openConnection());
+//				huc.setRequestMethod("HEAD");
+//					//huc.connect();
+////					
+//					int respCode = huc.getResponseCode();
+//					if(respCode >= 400) {
+//						System.out.println(c.getAttribute("href") +" is a broken link");
+//						
+//					}else {
+//						System.out.println(c.getAttribute("href") + " is a valid link");
+//					}
+//				}catch(Exception e) {
+//					System.out.println("unhandled IO exception");
+//				}
+				
+				//driver.navigate().back();
+//				try{
+//					HttpURLConnection huc = (HttpURLConnection)(new URL(c.getAttribute("href")).openConnection());
+//					huc.setRequestMethod("HEAD");
+//					//huc.connect();
+//					
+//					int respCode = huc.getResponseCode();
+//					if(respCode >= 400) {
+//						System.out.println(c.getAttribute("href") +" is a broken link");
+//						
+//					}else {
+//						System.out.println(c.getAttribute("href") + " is a valid link");
+//					}
+//				}catch(Exception e) {
+//					System.out.println("unhandled IO exception");
+//				}
+//				driver.navigate().back();
+				
+			
+			}
+			driver.quit();
 		//testLogin();
 	}
 	public static void testLogin()
