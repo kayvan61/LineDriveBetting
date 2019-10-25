@@ -78,6 +78,25 @@ exports.userSignup = function(request, response) {
     });
 };
 
+exports.userLogin = function(request, response) {
+  //request.query.saltedPass
+  User.find({
+    userName   : { "$eq" : request.query.userName}
+  }).then((res) => {
+    if(res.length === 0) {
+      console.log("no user found");
+      response.status(204).send("NOPE");
+    } else {
+      var token = res[0]["_id"];
+      console.log("Found a user");
+      response.status(200).json({token});
+    }
+  })
+    .catch((err) => {
+      console.log("error finding a user");
+      response.status(400).send("username was taken.\n");
+    });
+}
 
 exports.dbClose = function() {
   console.log(typeof database);
