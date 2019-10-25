@@ -46,6 +46,7 @@ class AboutPage extends React.Component {
     )
       .then(res => res.json())
       .then(result => {
+        console.log(result);
         if (result) {
           for (let contributor of result) {
             if (contributor.author.login === "mih475") {
@@ -104,6 +105,9 @@ class AboutPage extends React.Component {
             issuesLoaded: true
           });
         }
+      })
+      .catch(error => {
+        console.log(error);
       });
   }
 
@@ -251,11 +255,12 @@ class AboutPage extends React.Component {
             fontFamily: "velvetica"
           }}
         >
-          1. Github Repo Statistics taken from Github API (api.github.com) <br/>
-	   2. Sports Betting Statistics taken from oddsapi (app.oddsapi.io) 
+          1. Github Repo Statistics taken from Github API (api.github.com){" "}
+          <br />
+          2. Sports Betting Statistics taken from oddsapi (app.oddsapi.io)
         </p>
 
-        <br/>
+        <br />
 
         {/* Tools heading */}
         <h2
@@ -289,7 +294,7 @@ class AboutPage extends React.Component {
           JavaScript test framework to test Node.js programs
         </p>
 
-        <br/>
+        <br />
 
         {/* Github repo */}
         <h2
@@ -304,7 +309,9 @@ class AboutPage extends React.Component {
           </a>
         </h2>
       </div>
-    ) : (<span> fetching git stats..... </span>);
+    ) : (
+      <span> fetching git stats..... </span>
+    );
   }
 }
 

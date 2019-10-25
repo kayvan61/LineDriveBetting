@@ -20,11 +20,11 @@ class GamePage extends React.Component {
         <Container style={{ paddingTop: "10px" }}>
           <Row style={{ marginBottom: 20 }}>
             <Col />
-            <Col style={{ marginRight: 20 }}>
+            <Col style={{ marginRight: 40, textAlign: "center" }}>
               <h1> {this.props.teamOne} </h1>
               <img src={this.props.logos[this.props.teamOne]} alt="" />
             </Col>
-            <Col style={{ marginLeft: 20 }}>
+            <Col style={{ marginLeft: 40, textAlign: "center" }}>
               <h1> {this.props.teamTwo} </h1>
               <img src={this.props.logos[this.props.teamTwo]} alt="" />
             </Col>

@@ -46,7 +46,7 @@ class BetNowPage extends React.Component {
               style={{ marginLeft: 80, marginBottom: 50, textAlign: "center" }}
             >
               <Col>
-                <div class="hoverBorder">
+                <div className="hoverBorder">
                   <a href="https://betnow.eu">
                     <img
                       src={logo1}
@@ -58,7 +58,7 @@ class BetNowPage extends React.Component {
                 </div>
               </Col>
               <Col>
-                <div class="hoverBorder">
+                <div className="hoverBorder">
                   <a href="https://www.mybookie.ag/sportsbook/">
                     <img
                       src={logo2}
@@ -70,7 +70,7 @@ class BetNowPage extends React.Component {
                 </div>
               </Col>
               <Col>
-                <div class="hoverBorder">
+                <div className="hoverBorder">
                   <a href="https://www.sportsbetting.ag/">
                     <img
                       src={logo3}
@@ -86,7 +86,7 @@ class BetNowPage extends React.Component {
               style={{ marginLeft: 80, marginBottom: 50, textAlign: "center" }}
             >
               <Col>
-                <div class="hoverBorderbottom">
+                <div className="hoverBorderbottom">
                   <a href="https://xbet.ag/">
                     <img
                       src={logo4}
@@ -98,7 +98,7 @@ class BetNowPage extends React.Component {
                 </div>
               </Col>
               <Col>
-                <div class="hoverBorderbottom">
+                <div className="hoverBorderbottom">
                   <a href="https://www.betonline.ag/">
                     <img
                       src={logo5}
@@ -110,7 +110,7 @@ class BetNowPage extends React.Component {
                 </div>
               </Col>
               <Col>
-                <div class="hoverBorderbottom">
+                <div className="hoverBorderbottom">
                   <a href="https://www.betonline.ag/">
                     <img
                       src={logo6}
