@@ -10,7 +10,52 @@ import Button from "react-bootstrap/Button";
 class GamePage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      odds: {}
+    };
+  }
+
+  componentDidMount() {
+    var url = new URL("http://line-drive-betting.appspot.com/Matchup");
+    var params = {
+      teama: this.props.teamOne,
+      teamb: this.props.teamTwo,
+      datatype: "homeaway"
+    };
+    url.search = new URLSearchParams(params).toString();
+
+    fetch(url)
+      .then(res => res.json())
+      .then(result => {
+        var value = result.res[0].Value;
+        for (var site in value) {
+          for (var datapoint of value[site]) {
+            for (var odds in datapoint) {
+              if (datapoint[odds] >= 2) {
+                datapoint[odds] = Math.floor(
+                  this.decimaltoAmericanAbove2(datapoint[odds])
+                );
+              } else {
+                datapoint[odds] = Math.floor(
+                  this.decimaltoAmericanBelow2(datapoint[odds])
+                );
+              }
+            }
+          }
+        }
+        this.setState({ odds: value });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  decimaltoAmericanAbove2(decimal) {
+    return (decimal - 1) * 100;
+  }
+
+  decimaltoAmericanBelow2(decimal) {
+    return -100 / (decimal - 1);
   }
 
   render() {
@@ -31,20 +76,25 @@ class GamePage extends React.Component {
             <Col />
           </Row>
           <Row>
-            <Col> Money Line: </Col>
-            <Col> +850 </Col>
-            <Col> -850 </Col>
+            <Col>
+              <b>Betting Source</b>
+            </Col>
+            <Col>
+              <b>Moneyline</b>
+            </Col>
+            <Col>
+              <b>Moneyline</b>
+            </Col>
           </Row>
-          <Row>
-            <Col> Point spread: </Col>
-            <Col> +7 </Col>
-            <Col> -7 </Col>
-          </Row>
-          <Row>
-            <Col> Total (Over/Under): 42 Points </Col>
-            <Col> Over: -110 </Col>
-            <Col> Under: -115 </Col>
-          </Row>
+          {Object.keys(this.state.odds).map(key => {
+            return (
+              <Row key={key}>
+                <Col> {key} </Col>
+                <Col> {this.state.odds[key][0][1]} </Col>
+                <Col> {this.state.odds[key][0][2]} </Col>
+              </Row>
+            );
+          })}
         </Container>
         <div style={{ textAlign: "center", marginTop: 30, marginBottom: 50 }}>
           <h3>Win Prediction For Home Team Over Time</h3>
