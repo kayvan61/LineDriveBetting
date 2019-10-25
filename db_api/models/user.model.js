@@ -13,6 +13,10 @@ const usrSchema = new Schema({
   collection: "Users"
 })
 
+usrSchema.pre("save", () => {
+  this.userName = this.userName.trim();
+});
+
 const User = Mongoose.model("User", usrSchema);
 
 module.exports = User;

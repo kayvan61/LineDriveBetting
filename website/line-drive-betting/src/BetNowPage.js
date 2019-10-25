@@ -14,6 +14,7 @@ import logo5 from "./static/images/onlinebet.png";
 import logo6 from "./static/images/gamblingsitesorg.png";
 
 import nflImage from "./static/images/nfl_team_logos/NFLcaption.jpg";
+import nflImage2 from "./static/images/nfl_team_logos/BetNowNFLImageRecent.jpg";
 import nflImage3 from "./static/images/nfl_team_logos/NFLcaption3.jpg";
 
 class BetNowPage extends React.Component {
@@ -26,6 +27,9 @@ class BetNowPage extends React.Component {
         </div>
 
         <Carousel showThumbs={false} class="car">
+          <div>
+            <img src={nflImage2} alt="" style={{ width: 700, height: 360 }} />
+          </div>
           <div>
             <img src={nflImage} alt="" style={{ width: 720, height: 360 }} />
           </div>

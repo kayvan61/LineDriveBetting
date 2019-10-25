@@ -237,8 +237,8 @@ class AboutPage extends React.Component {
             fontFamily: "velvetica"
           }}
         >
-          Commits: {this.state.totalCommits}, Unit Tests: Not Applicable for
-          Phase 1, Issues: {this.state.totalIssues}
+          Commits: {this.state.totalCommits}, Unit Tests: 2, Issues:{" "}
+          {this.state.totalIssues}
         </p>
 
         {/* Data heading */}
