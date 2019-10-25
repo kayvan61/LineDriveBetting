@@ -1,10 +1,11 @@
-const Express = require("express");
-const BodyParser = require("body-parser");
-const Mongoose = require("mongoose");
+const Express       = require("express");
+const BodyParser    = require("body-parser");
+const Mongoose      = require("mongoose");
+const Games         = require("./models/games.model");
+const User          = require("./models/user.model");
+const BDPointSchema = require("./models/bettingDataPoint.model").dbDataPoint;
 
 const DATABASE_NAME = "Prod-DB";
-const BDPointSchema = require("./bettingDataPoint").dbDataPoint;
-const Games = require("./models/games.model");
 
 const CONNECTION_URL =
   "mongodb+srv://atlas-admin:bBcJ97l0uos6tu1Q@linedrivebetting-tfkik.gcp.mongodb.net/" +
@@ -13,24 +14,29 @@ const CONNECTION_URL =
 
 var database, collection;
 
-exports.dbClose = function() {
-  console.log(typeof database);
-  database.close();
-};
 
-exports.dbInit = function(collectionName) {
-  Mongoose.connect(CONNECTION_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-  });
-  database = Mongoose.connection;
-  database.once("open", () => {
-    console.log("Database is connected");
-  });
-  database.on("error", () => {
-    console.log("Error connecting to Database");
-  });
+exports.dbGetDataSite = function(request, response) {
+  var querry = {
+    Teams: {
+      $all: [request.query.teama, request.query.teamb]
+        .sort()
+        .join("")
+        .toLowerCase()
+    },
+    BettingFormat: { $eq: request.query.datatype }
+  };
+  BDPointSchema.find(querry)
+    .exec()
+    .then(res => {
+      console.log("returned " + res.length + " items");
+      response.status(200).json({
+        res
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      response.status(400).send(err);
+    });
 };
 
 exports.gamesAddEntry = function(request, response) {
@@ -50,9 +56,47 @@ exports.gamesAddEntry = function(request, response) {
 };
 
 exports.gamesGetData = function(request, response) {
-  Games.find()
+  Games.find({})
     .then(games => response.json(games))
     .catch(err => response.status(400).json("Error: " + err));
+};
+
+exports.userSignup = function(request, response) {
+  console.log("useradding");
+  new User({
+    userName   : request.query.userName,
+    saltedPass : request.query.saltedPass,
+    salt       : request.query.salt
+  }).save()
+    .then(() => {
+      console.log("Added a user");
+      response.status(200).send("your input was added\n");
+    })
+    .catch(() => {
+      console.log("error adding a user");
+      response.status(400).send("username was taken.\n");
+    });
+};
+
+
+exports.dbClose = function() {
+  console.log(typeof database);
+  database.close();
+};
+
+exports.dbInit = function(collectionName) {
+  Mongoose.connect(CONNECTION_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+  });
+  database = Mongoose.connection;
+  database.once("open", () => {
+    console.log("Database is connected");
+  });
+  database.on("error", () => {
+    console.log("Error connecting to Database");
+  });
 };
 
 exports.dbAddEntry = function(request, response) {
@@ -117,29 +161,5 @@ exports.dbGetData = function(request, response) {
         .status(400)
         .send(err)
         .end();
-    });
-};
-
-exports.dbGetDataSite = function(request, response) {
-  var querry = {
-    Teams: {
-      $all: [request.query.teama, request.query.teamb]
-        .sort()
-        .join("")
-        .toLowerCase()
-    },
-    BettingFormat: { $eq: request.query.datatype }
-  };
-  BDPointSchema.find(querry)
-    .exec()
-    .then(res => {
-      console.log("returned " + res.length + " items");
-      response.status(200).json({
-        res
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      response.status(400).send(err);
     });
 };

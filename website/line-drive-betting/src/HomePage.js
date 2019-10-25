@@ -15,7 +15,7 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:8080/Games")
+    fetch("https://line-drive-betting.appspot.com/Games")
       .then(res => res.json())
       .then(result => {
         var d = new Date();
