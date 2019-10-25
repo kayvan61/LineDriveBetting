@@ -11,8 +11,13 @@ class GamePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      odds: {}
+      odds: {},
+      comments: [],
+      currentComment: ""
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.updateComments = this.updateComments.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +53,27 @@ class GamePage extends React.Component {
       .catch(error => {
         console.log(error);
       });
+
+    this.updateComments();
+    this.timer = setInterval(() => this.updateComments(), 10000);
+  }
+
+  updateComments() {
+    var url = new URL("http://line-drive-betting.appspot.com/Comments");
+    var params = {
+      teama: this.props.teamOne,
+      teamb: this.props.teamTwo
+    };
+    url.search = new URLSearchParams(params).toString();
+
+    fetch(url)
+      .then(res => res.json())
+      .then(result => {
+        this.setState({ comments: [...result.res[0].Comments] });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   decimaltoAmericanAbove2(decimal) {
@@ -56,6 +82,32 @@ class GamePage extends React.Component {
 
   decimaltoAmericanBelow2(decimal) {
     return -100 / (decimal - 1);
+  }
+
+  handleClick() {
+    var request = require("request");
+
+    var options = {
+      uri: "http://line-drive-betting.appspot.com/Comments/add",
+      method: "POST",
+      json: {
+        Teams: [this.props.teamOne, this.props.teamTwo],
+        Comment: this.state.currentComment
+      }
+    };
+    request(options, function(error, res, b) {
+      if (!error && res.statusCode === 200) {
+        console.log("added comment to db successfully");
+        this.updateComments();
+      }
+    });
+
+    this.setState({ currentComment: "" });
+  }
+
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   }
 
   render() {
@@ -101,21 +153,47 @@ class GamePage extends React.Component {
           <LineGraph />
           <br />
           <h1 style={{ marginTop: 50 }}>Comments</h1>
-          <Container>
+          <Container style={{ marginBottom: 50 }}>
             <Row>
               <Col></Col>
               <Col>
                 <Form>
                   <Form.Group controlId="exampleForm.ControlTextarea1">
                     <Form.Label>Add a comment</Form.Label>
-                    <Form.Control as="textarea" rows="3" />
+                    <Form.Control
+                      value={this.state.currentComment}
+                      name="currentComment"
+                      onChange={this.handleChange}
+                      as="textarea"
+                      rows="3"
+                    />
                   </Form.Group>
-                  <Button>Comment</Button>
+                  <Button onClick={this.handleClick}>Comment</Button>
                 </Form>
               </Col>
               <Col></Col>
             </Row>
           </Container>
+
+          {this.state.comments.map(comment => {
+            return (
+              <Row>
+                <Col></Col>
+                <Col>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                      color: "black"
+                    }}
+                  >
+                    <p> {comment} </p>
+                  </div>
+                </Col>
+                <Col></Col>
+              </Row>
+            );
+          })}
         </div>
       </div>
     );

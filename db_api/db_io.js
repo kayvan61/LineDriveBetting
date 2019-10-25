@@ -1,8 +1,9 @@
-const Express = require("express");
+const express = require("express");
 const BodyParser = require("body-parser");
 const Mongoose = require("mongoose");
 const Games = require("./models/games.model");
 const User = require("./models/user.model");
+const Comments = require("./models/comments.model").Comments;
 const BDPointSchema = require("./models/bettingDataPoint.model").dbDataPoint;
 
 const DATABASE_NAME = "Prod-DB";
@@ -14,28 +15,24 @@ const CONNECTION_URL =
 
 var database, collection;
 
-exports.dbGetDataSite = function(request, response) {
-  var querry = {
-    Teams: {
-      $all: [request.query.teama, request.query.teamb]
-        .sort()
-        .join("")
-        .toLowerCase()
-    },
-    BettingFormat: { $eq: request.query.datatype }
-  };
-  BDPointSchema.find(querry)
-    .exec()
-    .then(res => {
-      console.log("returned " + res.length + " items");
-      response.status(200).json({
-        res
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      response.status(400).send(err);
-    });
+exports.dbInit = function(collectionName) {
+  Mongoose.connect(CONNECTION_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+  });
+  database = Mongoose.connection;
+  database.once("open", () => {
+    console.log("Database is connected");
+  });
+  database.on("error", () => {
+    console.log("Error connecting to Database");
+  });
+};
+
+exports.dbClose = function() {
+  console.log(typeof database);
+  database.close();
 };
 
 exports.gamesAddEntry = function(request, response) {
@@ -103,24 +100,66 @@ exports.userLogin = function(request, response) {
     });
 };
 
-exports.dbClose = function() {
-  console.log(typeof database);
-  database.close();
+exports.commentsPut = function(request, response) {
+  console.log(request.body);
+  var teamsTag = request.body["Teams"]
+    .sort()
+    .join("")
+    .toLowerCase();
+
+  var querry = {
+    Teams: { $eq: teamsTag }
+  };
+
+  var update = {
+    $push: {}
+  };
+
+  update["$push"]["Comments"] = {
+    $each: [request.body["Comment"]]
+  };
+
+  Comments.findOneAndUpdate(querry, update, { upsert: true })
+    .exec()
+    .then(res => {
+      console.log("updated a comment");
+      response.status(200).send("your comment was added\n");
+    })
+    .catch(err => {
+      console.log("error updating a comment");
+      console.log(request.body);
+      console.log(err);
+      response.status(500).send("your input was probably was malformed\n");
+    });
 };
 
-exports.dbInit = function(collectionName) {
-  Mongoose.connect(CONNECTION_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-  });
-  database = Mongoose.connection;
-  database.once("open", () => {
-    console.log("Database is connected");
-  });
-  database.on("error", () => {
-    console.log("Error connecting to Database");
-  });
+exports.commentsGet = function(request, response) {
+  var querry = {
+    Teams: {
+      $eq: [request.query.teama, request.query.teamb]
+        .sort()
+        .join("")
+        .toLowerCase()
+    }
+  };
+  Comments.find(querry)
+    .exec()
+    .then(res => {
+      console.log("returned " + res.length + " items");
+      response
+        .status(200)
+        .json({
+          res
+        })
+        .end();
+    })
+    .catch(err => {
+      console.log(err);
+      response
+        .status(500)
+        .send(err)
+        .end();
+    });
 };
 
 exports.dbAddEntry = function(request, response) {
@@ -185,5 +224,29 @@ exports.dbGetData = function(request, response) {
         .status(400)
         .send(err)
         .end();
+    });
+};
+
+exports.dbGetDataSite = function(request, response) {
+  var querry = {
+    Teams: {
+      $all: [request.query.teama, request.query.teamb]
+        .sort()
+        .join("")
+        .toLowerCase()
+    },
+    BettingFormat: { $eq: request.query.datatype }
+  };
+  BDPointSchema.find(querry)
+    .exec()
+    .then(res => {
+      console.log("returned " + res.length + " items");
+      response.status(200).json({
+        res
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      response.status(400).send(err);
     });
 };
