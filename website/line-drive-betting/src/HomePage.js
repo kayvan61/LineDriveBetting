@@ -1,4 +1,7 @@
 import React from "react";
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
+
 
 import GlobalNavbar from "./components/GlobalNavBar";
 import Col from "react-bootstrap/Col";
@@ -7,14 +10,23 @@ import GameCard from "./components/GameCard";
 import Row from "react-bootstrap/Row";
 
 class HomePage extends React.Component {
+
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
+  
   constructor(props) {
     super(props);
+    const { cookies } = props;
+    
     this.state = {
       games: []
     };
   }
 
   componentDidMount() {
+    const {cookies} = this.props;
+    console.log(cookies.get('sessionToken'));
     fetch("https://line-drive-betting.appspot.com/Games")
       .then(res => res.json())
       .then(result => {
@@ -85,4 +97,4 @@ class HomePage extends React.Component {
   }
 }
 
-export default HomePage;
+export default withCookies(HomePage);

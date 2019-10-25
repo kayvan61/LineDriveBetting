@@ -4,6 +4,7 @@ const Mongoose = require("mongoose");
 const Games = require("./models/games.model");
 const User = require("./models/user.model");
 const BDPointSchema = require("./models/bettingDataPoint.model").dbDataPoint;
+const crypto        = require("crypto");
 
 const DATABASE_NAME = "Prod-DB";
 
@@ -34,7 +35,7 @@ exports.dbGetDataSite = function(request, response) {
     })
     .catch(err => {
       console.log(err);
-      response.status(400).send(err);
+      response.status(500).send(err);
     });
 };
 
@@ -49,15 +50,15 @@ exports.gamesAddEntry = function(request, response) {
       response.status(200).send("your input was added\n");
     })
     .catch(() => {
-      console.log("error adding a data point");
-      response.status(400).send("your input was probably was malformed\n");
+      console.log("error adding a data point");      
+      response.status(500).send("your input was probably was malformed\n");
     });
 };
 
 exports.gamesGetData = function(request, response) {
   Games.find({})
     .then(games => response.json(games))
-    .catch(err => response.status(400).json("Error: " + err));
+    .catch(err => response.status(500).json("Error: " + err));
 };
 
 exports.dropGamesData = function(request, response) {
@@ -76,30 +77,40 @@ exports.userSignup = function(request, response) {
       console.log("Added a user");
       response.status(200).send("your input was added\n");
     })
-    .catch(() => {
+    .catch((err) => {
       console.log("error adding a user");
-      response.status(400).send("username was taken.\n");
+      console.log(err);
+      response.status(500).send("username was taken.\n");
     });
 };
 
 exports.userLogin = function(request, response) {
-  //request.query.saltedPass
   User.find({
-    userName: { $eq: request.query.userName }
-  })
-    .then(res => {
-      if (res.length === 0) {
-        console.log("no user found");
-        response.status(204).send("NOPE");
-      } else {
-        var token = res[0]["_id"];
-        console.log("Found a user");
-        response.status(200).json({ token });
+    userName   : { "$eq" : request.query.userName}
+  }).then((res) => {
+    if(res.length === 0) {
+      console.log("no user found");
+      response.status(204).send("Username not found.");
+    } else {
+      var token    = res[0]["_id"];
+      var salt     = res[0]["salt"];
+      var pw       = request.query.password;
+      var hashedpw = crypto.createHash('md5').update(pw+salt).digest('hex');
+
+      if(hashedpw === res[0]["saltedPass"]){
+        console.log("found user properly");
+        response.status(200).json({"token" : token});
       }
-    })
+      else {
+        console.log("found user with incorrect password");
+        response.status(204).send("incorrect password.");
+      }
+    }
+  })
     .catch(err => {
       console.log("error finding a user");
-      response.status(400).send("username was taken.\n");
+      console.log(err);
+      response.status(500).json(err);
     });
 };
 
@@ -154,7 +165,7 @@ exports.dbAddEntry = function(request, response) {
       console.log("error updating a data point");
       console.log(request.body);
       console.log(err);
-      response.status(400).send("your input was probably was malformed\n");
+      response.status(500).send("your input was probably was malformed\n");
     });
 };
 
@@ -176,14 +187,12 @@ exports.dbGetData = function(request, response) {
         .status(200)
         .json({
           res
-        })
-        .end();
+        });
     })
     .catch(err => {
       console.log(err);
       response
-        .status(400)
-        .send(err)
-        .end();
+        .status(500)
+        .send(err);
     });
 };

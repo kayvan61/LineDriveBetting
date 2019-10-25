@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { CookiesProvider } from 'react-cookie';
 
 import AboutPage from "./AboutPage";
 import BetNowPage from "./BetNowPage";
@@ -96,7 +97,9 @@ class App extends React.Component {
     };
 
     return (
+      
       <Router>
+        <CookiesProvider>
         <div>
           <Switch>
             <Route path="/login">
@@ -132,6 +135,7 @@ class App extends React.Component {
             />
           </Switch>
         </div>
+        </CookiesProvider>
       </Router>
     );
   }
