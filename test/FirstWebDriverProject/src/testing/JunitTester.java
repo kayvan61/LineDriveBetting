@@ -188,7 +188,7 @@ class JunitTester {
 			driver.quit();
 	}*/
 	@Test
-	void testHomePage() {
+	void testHomePageGameCards() {
 		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
 		driver.get("http://localhost:3000/home");
@@ -207,25 +207,51 @@ class JunitTester {
 			driver.get("http://localhost:3000/home");
 			subCardElements = driver.findElements(By.className("card"));
 		}
-//		for(WebElement c: subCardElements) {
-//			
-//			//subCardElement = c.findElements(By.tagName("div"));
-//			System.out.println(c.getText() + " These are all the divs on homepage");
-//			//subCardElement = driver.findElements(By.className("card")).click();
-//			c.click();
-//			count++;
-//			System.out.println(count);
-//			//System.out.println(c.getText());
-//			//driver.findElement(By.linkText(c.getText())).click();;
-//			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-//			driver.get("http://localhost:3000/home");
-//			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-//			//driver.navigate().back();
-//		}
+
 	}
 	@Test
-	void testAllButtons() {
+	void testBetNowButtons() {
+		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("http://localhost:3000/betnow");
+		List <WebElement> buttons = driver.findElements(By.tagName("button"));
+		WebDriverWait wait = new WebDriverWait(driver,5);
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(//*[@id="root"]/div/div/div[3]/div/div/ul/li[1])));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		//WebElement test = driver.findElement(By.xpath("//[@id='root']/div/div/div[3]/div/div/ul/li[1]"));
 		
+		//System.out.println(driver.findElement(By.xpath("//[@id='root']/div/div/div[3]/div/div/ul/li[1]"))
+				//.getText());
+			
+		//if(!driver.findElement(By.xpath("//[@id='root']/div/div/div[3]/div/div/ul/li[1]"))
+		//		.getAttribute("src").equals("/static/media/BetNowNFLImageRecent.6478eef1.jpg")) {
+		//	Assert.fail("image displayed is incorrect");
+		//}
+		buttons.get(1).click();
+		try{
+			TimeUnit.SECONDS.sleep(5);
+		}catch(Exception e) {
+			
+		}
+		buttons.get(1).click();
+		try{
+			TimeUnit.SECONDS.sleep(5);
+		}catch(Exception e) {
+			
+		}
+		buttons.get(0).click();
+		try{
+			TimeUnit.SECONDS.sleep(5);
+		}catch(Exception e) {
+			
+		}
+		buttons.get(0).click();
+		try{
+			TimeUnit.SECONDS.sleep(5);
+		}catch(Exception e) {
+			
+		}
+		System.out.println(buttons.size());
 	}
 	
 		
