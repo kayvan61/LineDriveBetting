@@ -86,6 +86,9 @@ class AboutPage extends React.Component {
             this.state.statKayvan +
             this.state.statMiguel
         });
+        this.setState({
+          commitsLoaded: true
+        });
       });
 
     fetch(
@@ -97,12 +100,15 @@ class AboutPage extends React.Component {
           this.setState({
             totalIssues: result.length
           });
+          this.setState({
+            issuesLoaded: true
+          });
         }
       });
   }
 
   render() {
-    return (
+    return this.state.issuesLoaded && this.state.commitsLoaded ? (
       <div style={{ textAlign: "center" }}>
         <GlobalNavbar />
 
@@ -298,7 +304,7 @@ class AboutPage extends React.Component {
           </a>
         </h2>
       </div>
-    );
+    ) : (<span> fetching git stats..... </span>);
   }
 }
 

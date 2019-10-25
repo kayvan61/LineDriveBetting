@@ -12,7 +12,23 @@ Card {
   width: 70%;
   height: 100%;
 }
+img {
+  width: 100%;
+}
+.car {
+  width: 100%;
+}
+.hoverBorderbottom {
+  /*width: 270px;
+  height: 100px;*/
+  width: 70%;
+  height: 80%;
+}
 .hoverBorder:hover {
+  transform: scale(1.3);
+  border: 4px dashed gold;
+}
+.hoverBorderbottom:hover {
   transform: scale(1.3);
   border: 4px dashed gold;
 }

@@ -3,22 +3,60 @@ import org.openqa.selenium.By;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.support.ui.Select;
-
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 public class tester {
 	
 	public static void main(String[] args) {
-		System.setProperty("webdriver.gecko.driver","lib/geckodriver");
-		WebDriver driver = new FirefoxDriver();
+		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
 		
 		driver.get("https://linedrivebetting-255803.appspot.com/");
 
-			driver.findElement(By.linkText("Log-in")).click();
+			//driver.findElement(By.linkText("Log-in")).click();
+			List<WebElement> allLinks = driver.findElements(By.tagName("a"));
+			System.out.println("There are " + allLinks.size() + " links");
+			String linkName[] = new String[allLinks.size()];
+			int i = 0;
+					
+			for(WebElement c: allLinks) {
+				System.out.println(c.getText());
+				linkName[i] = c.getText();
+				System.out.println("Title: " + driver.getTitle());
+				
+				System.out.println(" " + c.getAttribute("href"));
+				i++;
+			}
+			for(String c: linkName) {
+				
+				System.out.print(c);
+				if(c.contains("about")) {
+					System.out.println("here!");
+					continue;
+				}
+				
+				driver.findElement(By.linkText(c)).click();
+				if(!driver.getTitle().equals("LineDriveBetting")){
+					System.out.println(c + "Link is broken");
+				}else {
+					System.out.println(c + "Link is working");
+				}
+				driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+				driver.navigate().back();
+				driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+
+				
+			
+			}
+			driver.quit();
 		//testLogin();
 	}
 	public static void testLogin()
