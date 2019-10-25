@@ -4,14 +4,11 @@ const ObjID    = Schema.Types.ObjectId;
 const Array    = Schema.Types.Array;
 const String   = Schema.Types.String;
 
-const BettingDataPoint = new Schema({
-    _id            : {type: ObjID,     required: true},
-    Teams          : {type: [String],  required: true},
-    EventStartTime : {type: String,    required: true},
-    DataType       : {type: String,    required: true},
-    Value          : {type: [Number],  required: true},
-    createdAt      : {type: Number,    required: true},
-    Site           : {type: String,    required: true}
+const BettingDataPoint = new Schema({    
+    Teams          : {type: String,             required: true},
+    EventStartTime : {type: String,             required: true},
+    BettingFormat  : {type: String,             required: true},
+    Value          : {type: Schema.Types.Mixed, required: true}
 },{
     collection : 'BettingLines'
 });
@@ -25,7 +22,6 @@ BettingDataPoint.methods.addTeam = (team) => {
 };
 
 BettingDataPoint.pre('save', function(next) {
-    createdAt = new Date().getTime();
     next();
 })
 
