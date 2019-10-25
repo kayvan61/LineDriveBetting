@@ -22,11 +22,11 @@ class BetNowPage extends React.Component {
     return (
       <div>
         <GlobalNavbar />
-        <div style={{ textAlign: "center", marginBottom: 70, marginTop: 20 }}>
+        <div style={{ textAlign: "center", marginBottom: 20, marginTop: 20 }}>
           <h2>Betting Links</h2>
         </div>
 
-        <Carousel showThumbs={false}>
+        <Carousel showThumbs={false} class="car">
           <div>
             <img src={nflImage2} style={{ width: 720, height: 360 }} />
           </div>
@@ -71,84 +71,91 @@ class BetNowPage extends React.Component {
             </a>
           </li>
         </ul> */}
-        <Container>
-          <Row style={{ marginBottom: 50 }}>
-            <Col>
-              <div class="hoverBorder">
-                <a href="https://betnow.eu">
-                  <img
-                    src={logo1}
-                    alt="BetNow logo"
-                    width="100%"
-                    height="100%"
-                  ></img>
-                </a>
-              </div>
-            </Col>
-            <Col>
-              <div class="hoverBorder">
-                <a href="https://www.mybookie.ag/sportsbook/">
-                  <img
-                    src={logo2}
-                    alt="BetNow logo"
-                    width="100%"
-                    height="100%"
-                  ></img>
-                </a>
-              </div>
-            </Col>
-            <Col>
-              <div class="hoverBorder">
-                <a href="https://www.sportsbetting.ag/">
-                  <img
-                    src={logo3}
-                    alt="BetNow logo"
-                    width="100%"
-                    height="100%"
-                  ></img>
-                </a>
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <div class="hoverBorder">
-                <a href="https://xbet.ag/">
-                  <img
-                    src={logo4}
-                    alt="BetNow logo"
-                    width="100%"
-                    height="100%"
-                  ></img>
-                </a>
-              </div>
-            </Col>
-            <Col>
-              <div class="hoverBorder">
-                <a href="https://www.betonline.ag/">
-                  <img
-                    src={logo5}
-                    alt="Online Betting logo"
-                    width="100%"
-                    height="100%"
-                  ></img>
-                </a>
-              </div>
-            </Col>
-            <Col>
-              <div class="hoverBorder">
-                <a href="https://www.betonline.ag/">
-                  <img
-                    src={logo6}
-                    alt="Gambling sites org"
-                    width="100%"
-                    height="100%"
-                  ></img>
-                </a>
-              </div>
-            </Col>
-          </Row>
-        </Container>
+
+        <div style={{ textAlign: "center" }}>
+          <Container>
+            <Row
+              style={{ marginLeft: 80, marginBottom: 50, textAlign: "center" }}
+            >
+              <Col>
+                <div class="hoverBorder">
+                  <a href="https://betnow.eu">
+                    <img
+                      src={logo1}
+                      alt="BetNow logo"
+                      width="100%"
+                      height="100%"
+                    ></img>
+                  </a>
+                </div>
+              </Col>
+              <Col>
+                <div class="hoverBorder">
+                  <a href="https://www.mybookie.ag/sportsbook/">
+                    <img
+                      src={logo2}
+                      alt="BetNow logo"
+                      width="100%"
+                      height="100%"
+                    ></img>
+                  </a>
+                </div>
+              </Col>
+              <Col>
+                <div class="hoverBorder">
+                  <a href="https://www.sportsbetting.ag/">
+                    <img
+                      src={logo3}
+                      alt="BetNow logo"
+                      width="100%"
+                      height="100%"
+                    ></img>
+                  </a>
+                </div>
+              </Col>
+            </Row>
+            <Row
+              style={{ marginLeft: 80, marginBottom: 50, textAlign: "center" }}
+            >
+              <Col>
+                <div class="hoverBorderbottom">
+                  <a href="https://xbet.ag/">
+                    <img
+                      src={logo4}
+                      alt="BetNow logo"
+                      width="100%"
+                      height="100%"
+                    ></img>
+                  </a>
+                </div>
+              </Col>
+              <Col>
+                <div class="hoverBorderbottom">
+                  <a href="https://www.betonline.ag/">
+                    <img
+                      src={logo5}
+                      alt="Online Betting logo"
+                      width="100%"
+                      height="100%"
+                    ></img>
+                  </a>
+                </div>
+              </Col>
+              <Col>
+                <div class="hoverBorderbottom">
+                  <a href="https://www.betonline.ag/">
+                    <img
+                      src={logo6}
+                      alt="Gambling sites org"
+                      width="100%"
+                      height="100%"
+                    ></img>
+                  </a>
+                </div>
+              </Col>
+            </Row>
+          </Container>
+        </div>
       </div>
     );
   }
