@@ -4,6 +4,7 @@ const Mongoose = require("mongoose");
 
 const DATABASE_NAME = "Prod-DB";
 const BDPointSchema = require("./bettingDataPoint").dbDataPoint;
+const Games = require("./models/games.model");
 
 const CONNECTION_URL =
   "mongodb+srv://atlas-admin:bBcJ97l0uos6tu1Q@linedrivebetting-tfkik.gcp.mongodb.net/" +

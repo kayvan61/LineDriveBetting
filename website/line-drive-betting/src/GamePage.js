@@ -57,11 +57,13 @@ class GamePage extends React.Component {
             </Col>
             <Col>
               {" "}
-              <h1> Team A </h1> <img src={falcon} height="64px" width="64px" />{" "}
+              <h1> Team A </h1>{" "}
+              <img src={falcon} alt="" height="64px" width="64px" />{" "}
             </Col>
             <Col>
               {" "}
-              <h1> Team B </h1> <img src={falcon} height="64px" width="64px" />{" "}
+              <h1> Team B </h1>{" "}
+              <img src={falcon} alt="" height="64px" width="64px" />{" "}
             </Col>
           </Row>
           <Row>

@@ -1,5 +1,4 @@
 import React from "react";
-import update from "immutability-helper";
 import GlobalNavbar from "./components/GlobalNavBar";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -119,9 +118,9 @@ class HomePage extends React.Component {
         <GlobalNavbar />
 
         <Container
-          striped
-          bordered
-          hover
+          striped="true"
+          bordered="true"
+          hover="true"
           variant="dark"
           style={{ paddingTop: "25px" }}
         >
@@ -130,9 +129,8 @@ class HomePage extends React.Component {
               <Row key={index}>
                 {row.map(game => {
                   return (
-                    <Col>
+                    <Col key={game._id}>
                       <GameCard
-                        key={game._id}
                         src={logos[game.Teams[0]]}
                         src1={logos[game.Teams[1]]}
                         relPath="/game"
