@@ -149,10 +149,16 @@ class App extends React.Component {
                 )}
               />
               <Route path="/betnow">
-                <BetNowPage username={this.state.username} />
+                <BetNowPage
+                  username={this.state.username}
+                  checkToken={this.checkToken}
+                />
               </Route>
               <Route path="/about">
-                <AboutPage username={this.state.username} />
+                <AboutPage
+                  username={this.state.username}
+                  checkToken={this.checkToken}
+                />
               </Route>
               <Route
                 path="/"

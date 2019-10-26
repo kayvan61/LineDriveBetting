@@ -56,7 +56,10 @@ class HomePage extends React.Component {
   render() {
     return (
       <div>
-        <GlobalNavbar username={this.props.username} />
+        <GlobalNavbar
+          username={this.props.username}
+          checkToken={this.props.checkToken}
+        />
         <Container
           striped="true"
           bordered="true"

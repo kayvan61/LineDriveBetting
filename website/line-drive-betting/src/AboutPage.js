@@ -86,9 +86,6 @@ class AboutPage extends React.Component {
             this.state.statKayvan +
             this.state.statMiguel
         });
-        this.setState({
-          commitsLoaded: true
-        });
       })
       .catch(error => {
         console.log(error);
@@ -103,9 +100,6 @@ class AboutPage extends React.Component {
           this.setState({
             totalIssues: result.length
           });
-          this.setState({
-            issuesLoaded: true
-          });
         }
       })
       .catch(error => {
@@ -114,9 +108,12 @@ class AboutPage extends React.Component {
   }
 
   render() {
-    return this.state.issuesLoaded && this.state.commitsLoaded ? (
+    return (
       <div style={{ textAlign: "center" }}>
-        <GlobalNavbar username={this.props.username} />
+        <GlobalNavbar
+          username={this.props.username}
+          checkToken={this.props.checkToken}
+        />
 
         {/* About Heading*/}
         <h1
@@ -311,8 +308,6 @@ class AboutPage extends React.Component {
           </a>
         </h2>
       </div>
-    ) : (
-      <span> fetching git stats..... </span>
     );
   }
 }

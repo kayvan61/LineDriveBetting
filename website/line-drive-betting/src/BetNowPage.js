@@ -21,7 +21,10 @@ class BetNowPage extends React.Component {
   render() {
     return (
       <div>
-        <GlobalNavbar username={this.props.username} />
+        <GlobalNavbar
+          username={this.props.username}
+          checkToken={this.props.checkToken}
+        />
         <div style={{ textAlign: "center", marginBottom: 20, marginTop: 20 }}>
           <h2>Betting Links</h2>
         </div>
