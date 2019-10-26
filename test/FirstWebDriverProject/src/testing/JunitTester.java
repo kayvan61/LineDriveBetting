@@ -420,6 +420,15 @@ class JunitTester {
 		
 		System.out.println("Done testing betNowPage");
 	}
+	@Test
+	void testComments() {
+		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("http://localhost:3000/game");
+		List <WebElement> buttons = driver.findElements(By.tagName("button"));
+		buttons.get(0).click();
+		
+	}
 	//Miguel's implementation of a user case
 	@Test
 	void testUserCase1() {
