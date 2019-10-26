@@ -2,7 +2,6 @@ package testing;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.*;
 import org.junit.Assert;
@@ -15,7 +14,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import java.util.Iterator;
 class JunitTester {
 	
 	
@@ -34,7 +32,7 @@ class JunitTester {
 	 * With the search have the jUnit test fail instead of printing fail 
 	 * in the console
 	 */
-	@Test
+	@Ignore
 	void testLogin() {
 		
 		
@@ -47,7 +45,7 @@ class JunitTester {
 	 * a for loop or a while loop, (look at 422C psuedocode...)
 	 * TODO:
 	 */
-	@Test
+	@Ignore
 	void testAllLinksLinking() {
 		//driver.findElement(By.linkText("Log-in")).click();
 //		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
@@ -187,7 +185,7 @@ class JunitTester {
 			}
 			driver.quit();
 	}*/
-	@Test
+	@Ignore
 	void testHomePageGameCards() {
 		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
@@ -207,7 +205,7 @@ class JunitTester {
 			driver.get("http://localhost:3000/home");
 			subCardElements = driver.findElements(By.className("card"));
 		}
-
+		System.out.println("Done testing HomePage");
 	}
 	@Test
 	void testBetNowButtons() {
@@ -218,15 +216,7 @@ class JunitTester {
 		WebDriverWait wait = new WebDriverWait(driver,5);
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(//*[@id="root"]/div/div/div[3]/div/div/ul/li[1])));
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		//WebElement test = driver.findElement(By.xpath("//[@id='root']/div/div/div[3]/div/div/ul/li[1]"));
 		
-		//System.out.println(driver.findElement(By.xpath("//[@id='root']/div/div/div[3]/div/div/ul/li[1]"))
-				//.getText());
-			
-		//if(!driver.findElement(By.xpath("//[@id='root']/div/div/div[3]/div/div/ul/li[1]"))
-		//		.getAttribute("src").equals("/static/media/BetNowNFLImageRecent.6478eef1.jpg")) {
-		//	Assert.fail("image displayed is incorrect");
-		//}
 		buttons.get(1).click();
 		try{
 			TimeUnit.SECONDS.sleep(5);
@@ -251,10 +241,63 @@ class JunitTester {
 		}catch(Exception e) {
 			
 		}
-		System.out.println(buttons.size());
+		System.out.println("Done running button test");
 	}
-	
+	@Test
+	void testBetNowPageLinks() {
+		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		HashMap<WebElement,String> websitesVisited = new HashMap<WebElement,String>();
 		
+		//driver.get("https://linedrivebetting-255803.appspot.com/");
+		driver.get("http://localhost:3000/betnow");
+			//driver.findElement(By.linkText("Log-in")).click();
+			List<WebElement> allLinks = driver.findElements(By.tagName("a"));
+		
+			System.out.println("There are " + allLinks.size() + " links");
+			String linkName[] = new String[allLinks.size()];
+			
+			List<WebElement> externalLinks = new ArrayList<WebElement>();
+			int i = 0;
+			
+			for(WebElement c: allLinks) {
+				System.out.println(c.getText());
+				//linkName[i] = c.getText();
+				System.out.println("Title: " + driver.getTitle());
+				
+				//driver.navigate().to(c.getAttribute("href"));
+				if(c.getText() == null)
+				c.click();
+				
+			}
+//			int count = 0;
+//			System.out.println("before alllinks");
+			//driver.get("http://localhost:3000/betnow");
+//			for(int j = 0; j < allLinks.size(); j++) {
+//				System.out.println("starting to click " + linkName[j]);
+//				driver.findElement(By.linkText(linkName[j])).click();
+//				/*
+//				if(!driver.getTitle().equals("LineDriveBetting")) {
+//					externalLinks.add(allLinks.get(j));
+//					
+//				}
+//				*/
+//				//System.out.println(allLinks.get(j).getText());
+////				if(!allLinks.get(j).getAttribute("href").contains(driver.getCurrentUrl())) {
+////					if(driver.getTitle().equals("LineDriveBetting")) {
+////						Assert.fail("external link failed");
+////					}
+////					Assert.fail("link failed");
+////				}
+//				
+//				
+//				driver.get("http://localhost:3000/betnow");
+//				//allLinks = driver.findElements(By.tagName("a"));
+//				
+//			}
+			
+	
+	}
 	//Miguel's implementation of a user case
 	@Test
 	void testUserCase1() {
@@ -262,7 +305,7 @@ class JunitTester {
 	}
 	
 	//Miguel's Implementation of another user case
-	@Test 
+	@Ignore 
 	void testUserCase2(){
 		
 	}
