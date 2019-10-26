@@ -21,7 +21,7 @@ class BetNowPage extends React.Component {
   render() {
     return (
       <div>
-        <GlobalNavbar />
+        <GlobalNavbar username={this.props.username} />
         <div style={{ textAlign: "center", marginBottom: 20, marginTop: 20 }}>
           <h2>Betting Links</h2>
         </div>

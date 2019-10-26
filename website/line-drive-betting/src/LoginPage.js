@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import ReactDOM from "react-dom";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
@@ -45,6 +45,8 @@ class LoginPage extends React.Component {
           cookies.set("sessionToken", res["token"]);
         }
       })
+      .then(this.props.checkToken)
+      .then(this.props.history.push("/"))
       .catch(err => {
         console.log(err);
       });
@@ -90,8 +92,6 @@ class LoginPage extends React.Component {
                     </Col>
                     <Col style={{ textAlign: "left" }}>
                       <Button
-                        as={Link}
-                        to="/"
                         variant="primary"
                         type="submit"
                         onClick={this.loginUser}
@@ -115,4 +115,4 @@ class LoginPage extends React.Component {
   }
 }
 
-export default withCookies(LoginPage);
+export default withRouter(withCookies(LoginPage));

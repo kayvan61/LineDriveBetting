@@ -116,7 +116,7 @@ class AboutPage extends React.Component {
   render() {
     return this.state.issuesLoaded && this.state.commitsLoaded ? (
       <div style={{ textAlign: "center" }}>
-        <GlobalNavbar />
+        <GlobalNavbar username={this.props.username} />
 
         {/* About Heading*/}
         <h1

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { CookiesProvider } from 'react-cookie';
+import { CookiesProvider } from "react-cookie";
 
 import AboutPage from "./AboutPage";
 import BetNowPage from "./BetNowPage";
@@ -41,11 +41,10 @@ import buccaneers from "./static/images/nfl_team_logos/tampa-bay-buccaneers-logo
 import titans from "./static/images/nfl_team_logos/tennessee-titans-vector-logo.png";
 import redskins from "./static/images/nfl_team_logos/washington-redskins-logo-vector.png";
 
-import { instanceOf } from 'prop-types';
-import { withCookies, Cookies } from 'react-cookie';
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
 
 class App extends React.Component {
-
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
   };
@@ -59,20 +58,28 @@ class App extends React.Component {
     };
     this.setTeamOne = this.setTeamOne.bind(this);
     this.setTeamTwo = this.setTeamTwo.bind(this);
+    this.checkToken = this.checkToken.bind(this);
   }
 
-  componentDidMount() {    
-    const {cookies} = this.props;
-    const sessionToken = cookies.get('sessionToken');
-    
-    if(sessionToken !== undefined){
-      fetch("https://line-drive-betting.appspot.com/Users/find?token=" + sessionToken).then(res => res.json())
+  componentDidMount() {
+    this.checkToken();
+  }
+
+  checkToken() {
+    const { cookies } = this.props;
+    const sessionToken = cookies.get("sessionToken");
+
+    if (sessionToken !== undefined) {
+      fetch(
+        "https://line-drive-betting.appspot.com/Users/find?token=" +
+          sessionToken
+      )
+        .then(res => res.json())
         .then(res => {
-          this.setState({username : res["userName"]})
+          this.setState({ username: res["userName"] });
         });
-    }
-    else {
-      this.setState({username : undefined});
+    } else {
+      this.setState({ username: undefined });
     }
   }
 
@@ -121,50 +128,47 @@ class App extends React.Component {
     };
 
     return (
-      
       <Router>
         <CookiesProvider>
-        <div>
-          <Switch>
-            <Route path="/login">
-              <LoginPage />
-            </Route>
-            <Route
-              path="/game"
-              render={props => (
-                <GamePage
-                  {...props}
-                  logos={logos}
-                  teamOne={this.state.teamOne}
-                  teamTwo={this.state.teamTwo}
-                  username={this.state.username}
-                />
-              )}
-            />
-            <Route path="/betnow">
-              <BetNowPage
-                username={this.state.username}
+          <div>
+            <Switch>
+              <Route path="/login">
+                <LoginPage checkToken={this.checkToken} />
+              </Route>
+              <Route
+                path="/game"
+                render={props => (
+                  <GamePage
+                    {...props}
+                    logos={logos}
+                    teamOne={this.state.teamOne}
+                    teamTwo={this.state.teamTwo}
+                    username={this.state.username}
+                    checkToken={this.checkToken}
+                  />
+                )}
               />
-            </Route>
-            <Route path="/about">
-              <AboutPage
-                username={this.state.username}
+              <Route path="/betnow">
+                <BetNowPage username={this.state.username} />
+              </Route>
+              <Route path="/about">
+                <AboutPage username={this.state.username} />
+              </Route>
+              <Route
+                path="/"
+                render={props => (
+                  <HomePage
+                    {...props}
+                    logos={logos}
+                    setTeamOne={this.setTeamOne}
+                    setTeamTwo={this.setTeamTwo}
+                    username={this.state.username}
+                    checkToken={this.checkToken}
+                  />
+                )}
               />
-            </Route>
-            <Route
-              path="/"
-              render={props => (
-                <HomePage
-                  {...props}
-                  logos={logos}
-                  setTeamOne={this.setTeamOne}
-                  setTeamTwo={this.setTeamTwo}
-                  username={this.state.username}
-                />
-              )}
-            />
-          </Switch>
-        </div>
+            </Switch>
+          </div>
         </CookiesProvider>
       </Router>
     );

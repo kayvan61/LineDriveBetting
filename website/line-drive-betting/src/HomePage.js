@@ -1,7 +1,6 @@
 import React from "react";
-import { instanceOf } from 'prop-types';
-import { withCookies, Cookies } from 'react-cookie';
-
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
 
 import GlobalNavbar from "./components/GlobalNavBar";
 import Col from "react-bootstrap/Col";
@@ -10,20 +9,19 @@ import GameCard from "./components/GameCard";
 import Row from "react-bootstrap/Row";
 
 class HomePage extends React.Component {
-
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
   };
-  
+
   constructor(props) {
     super(props);
-    
+
     this.state = {
-      games: [],
+      games: []
     };
   }
 
-  async componentDidMount() {    
+  componentDidMount() {
     fetch("https://line-drive-betting.appspot.com/Games")
       .then(res => res.json())
       .then(result => {
@@ -52,12 +50,13 @@ class HomePage extends React.Component {
 
         this.setState({ games: chunks });
       });
+    this.props.checkToken();
   }
 
   render() {
-    return  (
+    return (
       <div>
-        <GlobalNavbar username={this.props.username}/>
+        <GlobalNavbar username={this.props.username} />
         <Container
           striped="true"
           bordered="true"
