@@ -114,6 +114,31 @@ exports.userLogin = function(request, response) {
     });
 };
 
+
+exports.getUserNameByToken = function(request, response) {
+  User.find({
+    _id   : { "$eq" : request.query.token}
+  }).then((res) => {
+    if(res.length === 0) {
+      console.log("no user found");
+      response.status(204).send("invalid token");
+    } else {
+      var ur = res[0]['userName'];        
+      response.status(200).json({"userName": ur});
+    }
+  })
+    .catch(err => {
+      console.log("error getting a user by token");
+      console.log(err);
+      response.status(500).json(err);
+    });
+};
+
+exports.dbClose = function() {
+  console.log(typeof database);
+  database.close();
+};
+
 exports.commentsPut = function(request, response) {
   console.log(request.body);
   var teamsTag = request.body["Teams"]

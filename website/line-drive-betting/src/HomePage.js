@@ -17,16 +17,13 @@ class HomePage extends React.Component {
   
   constructor(props) {
     super(props);
-    const { cookies } = props;
     
     this.state = {
-      games: []
+      games: [],
     };
   }
 
-  componentDidMount() {
-    const {cookies} = this.props;
-    console.log(cookies.get('sessionToken'));
+  async componentDidMount() {    
     fetch("https://line-drive-betting.appspot.com/Games")
       .then(res => res.json())
       .then(result => {
@@ -58,10 +55,9 @@ class HomePage extends React.Component {
   }
 
   render() {
-    return (
+    return  (
       <div>
-        <GlobalNavbar />
-
+        <GlobalNavbar username={this.props.username}/>
         <Container
           striped="true"
           bordered="true"
