@@ -49,6 +49,7 @@ class BetNowPage extends React.Component {
                 <div className="hoverBorder">
                   <a href="https://betnow.eu">
                     <img
+                      id="bettingSiteImage"
                       src={logo1}
                       alt="BetNow logo"
                       width="100%"
@@ -61,6 +62,7 @@ class BetNowPage extends React.Component {
                 <div className="hoverBorder">
                   <a href="https://www.mybookie.ag/sportsbook/">
                     <img
+                      id="bettingSiteImage"
                       src={logo2}
                       alt="Mybookie logo"
                       width="100%"
@@ -73,6 +75,7 @@ class BetNowPage extends React.Component {
                 <div className="hoverBorder">
                   <a href="https://www.sportsbetting.ag/">
                     <img
+                      id="bettingSiteImage"
                       src={logo3}
                       alt="Sportsbetting logo"
                       width="100%"
@@ -89,6 +92,7 @@ class BetNowPage extends React.Component {
                 <div className="hoverBorderbottom">
                   <a href="https://xbet.ag/">
                     <img
+                      id="bettingSiteImage"
                       src={logo4}
                       alt="Xbet logo"
                       width="100%"
@@ -101,6 +105,7 @@ class BetNowPage extends React.Component {
                 <div className="hoverBorderbottom">
                   <a href="https://www.betonline.ag/">
                     <img
+                      id="bettingSiteImage"
                       src={logo5}
                       alt="Bet Online logo"
                       width="100%"
@@ -113,6 +118,7 @@ class BetNowPage extends React.Component {
                 <div className="hoverBorderbottom">
                   <a href="https://www.betonline.ag/">
                     <img
+                      id="bettingSiteImage"
                       src={logo6}
                       alt="BetOnline logo"
                       width="100%"
