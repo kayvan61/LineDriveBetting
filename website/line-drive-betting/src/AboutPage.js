@@ -237,7 +237,7 @@ class AboutPage extends React.Component {
             fontFamily: "velvetica"
           }}
         >
-          Commits: {this.state.totalCommits}, Unit Tests: 2, Issues:{" "}
+          Commits: {this.state.totalCommits}, Unit Tests: 7, Issues:{" "}
           {this.state.totalIssues}
         </p>
 

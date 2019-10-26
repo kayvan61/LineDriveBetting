@@ -41,15 +41,39 @@ import buccaneers from "./static/images/nfl_team_logos/tampa-bay-buccaneers-logo
 import titans from "./static/images/nfl_team_logos/tennessee-titans-vector-logo.png";
 import redskins from "./static/images/nfl_team_logos/washington-redskins-logo-vector.png";
 
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
+
 class App extends React.Component {
+
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
+
   constructor() {
     super();
     this.state = {
       teamOne: "",
-      teamTwo: ""
+      teamTwo: "",
+      username: null
     };
     this.setTeamOne = this.setTeamOne.bind(this);
     this.setTeamTwo = this.setTeamTwo.bind(this);
+  }
+
+  componentDidMount() {    
+    const {cookies} = this.props;
+    const sessionToken = cookies.get('sessionToken');
+    
+    if(sessionToken !== undefined){
+      fetch("https://line-drive-betting.appspot.com/Users/find?token=" + sessionToken).then(res => res.json())
+        .then(res => {
+          this.setState({username : res["userName"]})
+        });
+    }
+    else {
+      this.setState({username : undefined});
+    }
   }
 
   setTeamOne = team => {
@@ -113,14 +137,19 @@ class App extends React.Component {
                   logos={logos}
                   teamOne={this.state.teamOne}
                   teamTwo={this.state.teamTwo}
+                  username={this.state.username}
                 />
               )}
             />
             <Route path="/betnow">
-              <BetNowPage />
+              <BetNowPage
+                username={this.state.username}
+              />
             </Route>
             <Route path="/about">
-              <AboutPage />
+              <AboutPage
+                username={this.state.username}
+              />
             </Route>
             <Route
               path="/"
@@ -130,6 +159,7 @@ class App extends React.Component {
                   logos={logos}
                   setTeamOne={this.setTeamOne}
                   setTeamTwo={this.setTeamTwo}
+                  username={this.state.username}
                 />
               )}
             />
@@ -141,4 +171,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withCookies(App);
