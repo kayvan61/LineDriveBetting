@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import ReactDOM from "react-dom";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
