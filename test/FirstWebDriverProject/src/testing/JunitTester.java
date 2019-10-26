@@ -12,6 +12,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.internal.MouseAction.Button;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -34,7 +36,7 @@ class JunitTester {
 	 * With the search have the jUnit test fail instead of printing fail 
 	 * in the console
 	 */
-	@Test
+	@ignore
 	void testLogin() {
 		
 		
@@ -47,7 +49,7 @@ class JunitTester {
 	 * a for loop or a while loop, (look at 422C psuedocode...)
 	 * TODO:
 	 */
-	@Test
+	@ignore
 	void testAllLinksLinking() {
 		//driver.findElement(By.linkText("Log-in")).click();
 //		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
@@ -88,8 +90,8 @@ class JunitTester {
 //		}
 //			
 //		assertEquals(0,0);
-		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
+		System.setProperty("webdriver.gecko.driver","lib/geckodriver");
+		WebDriver driver = new FirefoxDriver();
 		
 		//driver.get("https://linedrivebetting-255803.appspot.com/");
 		driver.get("http://localhost:3000/");
@@ -140,7 +142,7 @@ class JunitTester {
 	 * if the page hasn't been checked yet.'
 	 * Todo:	
 	 */
-	/*@Test
+	/*@ignore
 	void testAllLinksCorrect() {
 		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
@@ -187,10 +189,10 @@ class JunitTester {
 			}
 			driver.quit();
 	}*/
-	@Test
+	@Ignore
 	void testHomePage() {
-		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
+		System.setProperty("webdriver.gecko.driver","lib/geckodriver");
+		WebDriver driver = new FirefoxDriver();
 		driver.get("http://localhost:3000/home");
 		WebDriverWait wait = new WebDriverWait(driver,5);
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("card")));
@@ -223,20 +225,94 @@ class JunitTester {
 //			//driver.navigate().back();
 //		}
 	}
-	@Test
+	@ignore
 	void testAllButtons() {
 		
 	}
 	
-		
+	
 	//Miguel's implementation of a user case
 	@Test
-	void testUserCase1() {
+	void testUserCaseSignUp() {
+		System.out.println("testUserCaseSignUpTest");
+		
+		/* initialization */
+		System.setProperty("webdriver.gecko.driver","lib/geckodriver");
+		WebDriver driver = new FirefoxDriver();
+		driver.get("http://localhost:3000/home");
+		
+		
+		
+//		List<WebElement> allLinks = driver.findElements(By.tagName("a"));
+//		System.out.println("There are " + allLinks.size() + " links");
+//		String linkName[] = new String[allLinks.size()];
+//		
+//		int i = 0;
+//				
+//		for(WebElement c: allLinks) {
+//			linkName[i] = c.getText();
+//			String url = c.getAttribute("href");
+//			System.out.println(linkName[i]);
+//
+//			System.out.println("Title: " + driver.getTitle());
+//			
+//			System.out.println("URl: " + url);
+//			
+//			i++;
+//		}
+		
+		
+		//After sign up
+		driver.findElement(By.linkText("Log-in")).click();
+		
+		//Find the buttons
+		List<WebElement> buttons = driver.findElements(By.tagName("button"));
+		
+		for(WebElement b : buttons) {
+			if(b.getText().equals("Sign Up"));
+			b.click();
+		}
+		
+		
+		//Inputs into text field miguel for all slots
+		List<WebElement> createAccountInfo = driver.findElements(By.className("form-control"));
+		
+		for(WebElement text : createAccountInfo) {
+			text.sendKeys("miguel");
+		}
+		
+		
+		//Creates the account
+		List<WebElement> formButtons = driver.findElements(By.className("modal-footer"));
+		
+		for(WebElement b : formButtons) {
+			if(b.getText().equals("Create Account"));
+			b.click();
+		}
+		
+		//Input account credentials
+		List<WebElement> createAccountInfo1 = driver.findElements(By.className("form-control"));
+
+		for(WebElement b : createAccountInfo1) {
+			b.clear();
+			b.sendKeys("miguel");
+		}
+		
+		//Finally sign in 
+		driver.findElement(By.linkText("Log In")).click();
+
+		
+		
+		
+
+		
+	
+		
 		
 	}
 	
 	//Miguel's Implementation of another user case
-	@Test 
+	@ignore 
 	void testUserCase2(){
 		
 	}
