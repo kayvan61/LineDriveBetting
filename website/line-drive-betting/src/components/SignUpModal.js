@@ -21,11 +21,11 @@ class SignUpModal extends React.Component {
     
     var saltedPW = crypto.createHash('md5').update(pw+salt).digest('hex');
     
-    var url = "https://line-drive-betting.appspot.com/Users/Register?userName=" + user;
+    var url = "https://line-drive-betting.appspot.com/Users?userName=" + user;
     url = url + "&saltedPass=" + saltedPW;
     url = url + "&salt=" + salt;
     
-    fetch(url)
+    fetch(url, {method:"POST"})
       .then((res)=> {
 	if(res["status"] === 400) {
 	  this.setState({didSignupFail: true});

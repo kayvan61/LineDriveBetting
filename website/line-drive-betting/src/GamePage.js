@@ -6,15 +6,23 @@ import Container from "react-bootstrap/Container";
 import LineGraph from "./components/LineGraph.js";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
+
 
 class GamePage extends React.Component {
+
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
   
   constructor(props) {
     super(props);
     this.state = {
       odds: {},
       comments: [],
-      currentComment: ""
+      currentComment: "",
+      userName: null
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -22,6 +30,9 @@ class GamePage extends React.Component {
   }
 
   componentDidMount() {
+    const {cookies} = this.props;
+    this.setState({userName: cookies.get('usernameCook')});
+    
     var url = new URL("http://line-drive-betting.appspot.com/Matchup");
     var params = {
       teama: this.props.teamOne,
@@ -56,7 +67,7 @@ class GamePage extends React.Component {
       });
 
     this.updateComments();
-    this.timer = setInterval(() => this.updateComments(), 10000);
+    this.timer = setInterval(() => this.updateComments(), 5000);
   }
 
   updateComments() {
@@ -93,15 +104,20 @@ class GamePage extends React.Component {
       method: "POST",
       json: {
         Teams: [this.props.teamOne, this.props.teamTwo],
-        Comment: this.state.currentComment
+        Comment: this.props.username + ": " + this.state.currentComment
       }
     };
-    request(options, function(error, res, b) {
-      if (!error && res.statusCode === 200) {
-        console.log("added comment to db successfully");
-        this.updateComments();
-      }
-    });
+    if(this.props.username !== undefined) {
+      request(options, function(error, res, b) {
+        if (!error && res.statusCode === 200) {
+          console.log("added comment to db successfully");
+          //this.updateComments();
+        }
+      });
+    }
+    else {
+      alert("please login to comment");
+    }
 
     this.setState({ currentComment: "" });
   }
@@ -114,7 +130,7 @@ class GamePage extends React.Component {
   render() {
     return (
       <div>
-        <GlobalNavbar />
+        <GlobalNavbar username={this.props.username}/>
         <Container style={{ paddingTop: "10px" }}>
           <Row style={{ marginBottom: 20 }}>
             <Col />
@@ -201,4 +217,4 @@ class GamePage extends React.Component {
   }
 }
 
-export default GamePage;
+export default withCookies(GamePage);

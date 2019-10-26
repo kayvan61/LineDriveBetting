@@ -20,25 +20,10 @@ class HomePage extends React.Component {
     
     this.state = {
       games: [],
-      userName: null,
-      fetchedName: false
     };
   }
 
-  async componentDidMount() {
-    const {cookies} = this.props;
-    const sessionToken = cookies.get('sessionToken');
-    
-    if(sessionToken !== undefined){
-      fetch("https://line-drive-betting.appspot.com/Users/find?token=" + sessionToken).then(res => res.json())
-        .then(res => {
-          this.setState({userName : res["userName"]})
-          this.setState({fetchedName: true});
-        });
-    } else {      
-      this.setState({fetchedName: true});
-    }
-    
+  async componentDidMount() {    
     fetch("https://line-drive-betting.appspot.com/Games")
       .then(res => res.json())
       .then(result => {
@@ -70,9 +55,9 @@ class HomePage extends React.Component {
   }
 
   render() {
-    return this.state.fetchedName ? (
+    return  (
       <div>
-        <GlobalNavbar username={this.state.userName}/>
+        <GlobalNavbar username={this.props.username}/>
         <Container
           striped="true"
           bordered="true"
@@ -104,7 +89,7 @@ class HomePage extends React.Component {
           })}
         </Container>
       </div>
-    ) : (<span> Loading.... </span>);
+    );
   }
 }
 

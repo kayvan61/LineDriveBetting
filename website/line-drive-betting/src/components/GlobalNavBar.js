@@ -32,7 +32,7 @@ class GlobalNavbar extends React.Component {
               <Nav.Link href="/about">About</Nav.Link>
             </Nav>
             <Form inline>{
-              this.props.username === null ?
+              (this.props.username === undefined || this.props.username === null)  ?
                 (<Button as={Link} to="/login" variant="outline-info" >
                    Log-in
                  </Button>)
