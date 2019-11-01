@@ -16,7 +16,13 @@ class GameCard extends React.Component {
   render() {
     return (
       <Card
-        style={{ width: "90%", height: "90%", backgroundColor: "#696969" }}
+        style={{
+          marginLeft: 10,
+          marginRight: 10,
+          marginTop: 10,
+          marginBottom: 10,
+          backgroundColor: "#696969"
+        }}
         onClick={this.handleSubmit}
       >
         <Container style={{ paddingTop: "5px" }}>

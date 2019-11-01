@@ -24,15 +24,15 @@ app.get("/Matchup/bySite", DB_IO.dbGetDataSite);
 app.get("/Comments", DB_IO.commentsGet);
 app.get("/ForcePoll", Scraper.getFromAPI);
 
-const job = new CronJob("0 0 */12 * * *", function() {
+const job = new CronJob("0 0 */6 * * *", function() {
   console.log("ran data scraper");
   Scraper.getFromAPI();
 });
 job.start();
 
-const job2 = new CronJob("0 0 */12 * * *", function() {
+const job2 = new CronJob("0 0 */6 * * *", function() {
   console.log("ran game scraper");
   DB_IO.dropGamesData();
-  DB_IO.getGameFromAPI();
+  Scraper.getGameFromAPI();
 });
 job2.start();
