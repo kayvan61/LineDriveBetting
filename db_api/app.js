@@ -10,7 +10,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.listen(8080, DB_IO.dbInit);
+const port = process.env.PORT || 8080;
+app.listen(port, DB_IO.dbInit);
 
 app.post("/Matchup", DB_IO.dbAddEntry);
 app.post("/Games", DB_IO.gamesAddEntry);

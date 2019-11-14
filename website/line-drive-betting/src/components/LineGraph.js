@@ -1,28 +1,12 @@
 import React from "react";
 import * as d3 from "d3";
 
-var tempData = [{
-    'x': 1,
-    'y': 5
-  }, {
-    'x': 20,
-    'y': 20
-  }, {
-    'x': 40,
-    'y': 10
-  }, {
-    'x': 60,
-    'y': 40
-  }, {
-    'x': 80,
-    'y': 5
-  }, {
-    'x': 100,
-    'y': 60
-  }];
-
 class LineGraph extends React.Component{
   componentDidMount() {
+    var dataToDraw = [];
+    for(var i = 0; i < this.props.data.length; i++) {
+      dataToDraw.push({x: i, y: this.props.data[i]});
+    }
     var vis = d3.select("#visualisation");
     var WIDTH = 1000;
     var HEIGHT = 500;
@@ -32,18 +16,18 @@ class LineGraph extends React.Component{
       bottom: 20,
       left: 50
     };
-    var xRange = d3.scaleLinear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(tempData, function (d) {
+    var xRange = d3.scaleLinear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(dataToDraw, function (d) {
         return d.x;
       }),
-      d3.max(tempData, function (d) {
+      d3.max(dataToDraw, function (d) {
         return d.x;
       })
     ]);
 
-    var yRange = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(tempData, function (d) {
+    var yRange = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(dataToDraw, function (d) {
         return d.y;
       }),
-      d3.max(tempData, function (d) {
+      d3.max(dataToDraw, function (d) {
         return d.y;
       })
     ]);
@@ -75,7 +59,7 @@ class LineGraph extends React.Component{
     })
 
    vis.append("svg:path")
-    .attr("d", lineFunc(tempData))
+    .attr("d", lineFunc(dataToDraw))
     .attr("stroke", "blue")
     .attr("stroke-width", 2)
     .attr("fill", "none");
