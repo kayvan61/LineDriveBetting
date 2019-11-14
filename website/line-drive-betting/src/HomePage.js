@@ -8,6 +8,8 @@ import Container from "react-bootstrap/Container";
 import GameCard from "./components/GameCard";
 import Row from "react-bootstrap/Row";
 
+import WebsiteLogo from "./static/images/nfl_team_logos/WebsiteLogo.jpg";
+
 class HomePage extends React.Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
@@ -67,6 +69,14 @@ class HomePage extends React.Component {
           variant="dark"
           style={{ paddingTop: "25px" }}
         >
+          <div style={{ textAlign: "center" }}>
+            <img
+              src={WebsiteLogo}
+              alt="k"
+              style={{ width: 600, height: 460 }}
+            />
+          </div>
+
           {this.state.games.map((row, index) => {
             return (
               <Row key={index}>
