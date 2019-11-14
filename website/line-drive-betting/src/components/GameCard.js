@@ -13,6 +13,30 @@ class GameCard extends React.Component {
     this.props.history.push("/game");
   };
 
+  timeConverter(timestamp) {
+    var a = new Date(timestamp * 1000);
+    var months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes() < 10 ? "0" + a.getMinutes() : a.getMinutes();
+    var time = month + " " + date + " " + hour + ":" + min;
+    return time;
+  }
+
   render() {
     return (
       <Card
@@ -46,7 +70,7 @@ class GameCard extends React.Component {
           <Card.Title>
             {this.props.teamOne + " vs. " + this.props.teamTwo}
           </Card.Title>
-          <Card.Text>{this.props.text}</Card.Text>
+          <Card.Text>{this.timeConverter(this.props.gameTime)}</Card.Text>
         </Card.Body>
       </Card>
     );

@@ -7,6 +7,11 @@ const Comments = require("./models/comments.model").Comments;
 const BDPointSchema = require("./models/bettingDataPoint.model").dbDataPoint;
 const crypto = require("crypto");
 
+const Lines = require("./models/moneyline.model");
+const Spreads = require("./models/spreads.model");
+const Totals = require("./models/totals.model");
+const nflGames = require("./models/nflgames.model");
+
 const DATABASE_NAME = "Prod-DB";
 
 const CONNECTION_URL =
@@ -15,6 +20,201 @@ const CONNECTION_URL =
   "?retryWrites=true&w=majority";
 
 var database, collection;
+
+exports.linesAddEntry = function(request, response) {
+  var teamsTag = request.body["teams"]
+    .sort()
+    .join("")
+    .toLowerCase();
+
+  var new0 = request.body.odds0;
+  var new1 = request.body.odds1;
+  Lines.findOneAndUpdate(
+    { teamsTag: teamsTag, site: request.body.site },
+    { $push: { odds0: new0, odds1: new1 } },
+    { upsert: true }
+  )
+    .exec()
+    .then(() => {
+      console.log("Added a moneyline data point");
+      response.status(200).send("your input was added\n");
+    })
+    .catch(() => {
+      console.log("error adding a moneyline data point");
+      response.status(500).send("your input was probably was malformed\n");
+    });
+};
+
+exports.linesGetData = function(request, response) {
+  var querry = {
+    teamsTag: {
+      $eq: [request.query.teama, request.query.teamb]
+        .sort()
+        .join("")
+        .toLowerCase()
+    }
+  };
+  Lines.find(querry)
+    .exec()
+    .then(res => {
+      console.log("returned " + res.length + " items");
+      response.status(200).json({
+        res
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      response.status(500).send(err);
+    });
+};
+
+exports.linesDropData = function(request, response) {
+  Lines.deleteMany({}).catch(err => response.status(500).json("Error: " + err));
+};
+
+exports.spreadsAddEntry = function(request, response) {
+  var teamsTag = request.body["teams"]
+    .sort()
+    .join("")
+    .toLowerCase();
+
+  var new0 = request.body.odds0;
+  var new1 = request.body.odds1;
+  var newpt0 = request.body.points0;
+  var newpt1 = request.body.points1;
+  Spreads.findOneAndUpdate(
+    {
+      teamsTag: teamsTag,
+      site: request.body.site
+    },
+    { $push: { odds0: new0, odds1: new1, points0: newpt0, points1: newpt1 } },
+    { upsert: true }
+  )
+    .exec()
+    .then(() => {
+      console.log("Added a spreads data point");
+      response.status(200).send("your input was added\n");
+    })
+    .catch(() => {
+      console.log("error adding a spreads data point");
+      response.status(500).send("your input was probably was malformed\n");
+    });
+};
+
+exports.spreadsGetData = function(request, response) {
+  var querry = {
+    teamsTag: {
+      $eq: [request.query.teama, request.query.teamb]
+        .sort()
+        .join("")
+        .toLowerCase()
+    }
+  };
+  Spreads.find(querry)
+    .exec()
+    .then(res => {
+      console.log("returned " + res.length + " items");
+      response.status(200).json({
+        res
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      response.status(500).send(err);
+    });
+};
+
+exports.spreadsDropData = function(request, response) {
+  Spreads.deleteMany({}).catch(err =>
+    response.status(500).json("Error: " + err)
+  );
+};
+
+exports.totalsAddEntry = function(request, response) {
+  var teamsTag = request.body["teams"]
+    .sort()
+    .join("")
+    .toLowerCase();
+
+  var newOver = request.body.oddsOver;
+  var newUnder = request.body.oddsUnder;
+  var newpt = request.body.points;
+  Totals.findOneAndUpdate(
+    {
+      teamsTag: teamsTag,
+      site: request.body.site
+    },
+    { $push: { oddsOver: newOver, oddsUnder: newUnder, points: newpt } },
+    { upsert: true }
+  )
+    .exec()
+    .then(() => {
+      console.log("Added a totals data point");
+      response.status(200).send("your input was added\n");
+    })
+    .catch(() => {
+      console.log("error adding a totals data point");
+      response.status(500).send("your input was probably was malformed\n");
+    });
+};
+
+exports.totalsGetData = function(request, response) {
+  var querry = {
+    teamsTag: {
+      $eq: [request.query.teama, request.query.teamb]
+        .sort()
+        .join("")
+        .toLowerCase()
+    }
+  };
+  Totals.find(querry)
+    .exec()
+    .then(res => {
+      console.log("returned " + res.length + " items");
+      response.status(200).json({
+        res
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      response.status(500).send(err);
+    });
+};
+
+exports.totalsDropData = function(request, response) {
+  Totals.deleteMany({}).catch(err =>
+    response.status(500).json("Error: " + err)
+  );
+};
+
+exports.nflgamesAddEntry = function(request, response) {
+  new nflGames({
+    teams: request.body.teams,
+    gameTime: request.body.gameTime
+  })
+    .save()
+    .then(() => {
+      console.log("Added a nfl game data point");
+      response.status(200).send("your input was added\n");
+    })
+    .catch(() => {
+      console.log("error adding a nfl game data point");
+      response.status(500).send("your input was probably was malformed\n");
+    });
+};
+
+exports.nflgamesGetData = function(request, response) {
+  nflGames
+    .find({})
+    .then(games => response.json(games))
+    .catch(err => response.status(500).json("Error: " + err));
+};
+
+exports.dropNFLGamesData = function(request, response) {
+  nflGames
+    .deleteMany({})
+    .catch(err => response.status(500).json("Error: " + err));
+};
 
 exports.dbInit = function(collectionName) {
   Mongoose.connect(CONNECTION_URL, {
@@ -114,19 +314,19 @@ exports.userLogin = function(request, response) {
     });
 };
 
-
 exports.getUserNameByToken = function(request, response) {
   User.find({
-    _id   : { "$eq" : request.query.token}
-  }).then((res) => {
-    if(res.length === 0) {
-      console.log("no user found");
-      response.status(204).send("invalid token");
-    } else {
-      var ur = res[0]['userName'];        
-      response.status(200).json({"userName": ur});
-    }
+    _id: { $eq: request.query.token }
   })
+    .then(res => {
+      if (res.length === 0) {
+        console.log("no user found");
+        response.status(204).send("invalid token");
+      } else {
+        var ur = res[0]["userName"];
+        response.status(200).json({ userName: ur });
+      }
+    })
     .catch(err => {
       console.log("error getting a user by token");
       console.log(err);

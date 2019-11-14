@@ -9,6 +9,13 @@ import Button from "react-bootstrap/Button";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+
 class GamePage extends React.Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
@@ -17,7 +24,11 @@ class GamePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      odds: {},
+      odds: {
+        lines: [],
+        spreads: [],
+        totals: []
+      },
       comments: [],
       currentComment: "",
       userName: null
@@ -31,41 +42,57 @@ class GamePage extends React.Component {
     const { cookies } = this.props;
     this.setState({ userName: cookies.get("usernameCook") });
 
-    var url = new URL("http://line-drive-betting.appspot.com/Matchup");
-    var params = {
+    var linesurl = new URL("http://localhost:8080/lines");
+    var linesparams = {
       teama: this.props.teamOne,
-      teamb: this.props.teamTwo,
-      datatype: "homeaway"
+      teamb: this.props.teamTwo
     };
-    url.search = new URLSearchParams(params).toString();
+    linesurl.search = new URLSearchParams(linesparams).toString();
 
-    fetch(url)
+    fetch(linesurl)
       .then(res => res.json())
       .then(result => {
-        var value = result.res[0].Value;
-        for (var site in value) {
-          for (var datapoint of value[site]) {
-            for (var odds in datapoint) {
-              if (datapoint[odds] >= 2) {
-                datapoint[odds] = Math.floor(
-                  this.decimaltoAmericanAbove2(datapoint[odds])
-                );
-              } else {
-                datapoint[odds] = Math.floor(
-                  this.decimaltoAmericanBelow2(datapoint[odds])
-                );
-              }
-            }
-          }
-        }
-        this.setState({ odds: value });
+        this.setState({ odds: { ...this.state.odds, lines: result.res } });
       })
       .catch(error => {
         console.log(error);
       });
 
-    this.updateComments();
-    this.timer = setInterval(() => this.updateComments(), 5000);
+    var spreadsurl = new URL("http://localhost:8080/spreads");
+    var spreadsparams = {
+      teama: this.props.teamOne,
+      teamb: this.props.teamTwo
+    };
+    spreadsurl.search = new URLSearchParams(spreadsparams).toString();
+
+    fetch(spreadsurl)
+      .then(res => res.json())
+      .then(result => {
+        this.setState({ odds: { ...this.state.odds, spreads: result.res } });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    var totalsurl = new URL("http://localhost:8080/totals");
+    var totalsparams = {
+      teama: this.props.teamOne,
+      teamb: this.props.teamTwo
+    };
+    totalsurl.search = new URLSearchParams(totalsparams).toString();
+
+    fetch(totalsurl)
+      .then(res => res.json())
+      .then(result => {
+        this.setState({ odds: { ...this.state.odds, totals: result.res } });
+        console.log(this.state);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    // this.updateComments();
+    // this.timer = setInterval(() => this.updateComments(), 500);
   }
 
   updateComments() {
@@ -86,12 +113,20 @@ class GamePage extends React.Component {
       });
   }
 
+  decimaltoAmerican(decimal) {
+    if (decimal >= 2) {
+      return this.decimaltoAmericanAbove2(decimal);
+    } else {
+      return this.decimaltoAmericanBelow2(decimal);
+    }
+  }
+
   decimaltoAmericanAbove2(decimal) {
-    return (decimal - 1) * 100;
+    return Math.round((decimal - 1) * 100);
   }
 
   decimaltoAmericanBelow2(decimal) {
-    return -100 / (decimal - 1);
+    return Math.round(-100 / (decimal - 1));
   }
 
   handleClick() {
@@ -144,27 +179,133 @@ class GamePage extends React.Component {
             </Col>
             <Col />
           </Row>
+        </Container>
+
+        <Container>
           <Row>
             <Col>
-              <b>Betting Source</b>
+              <Paper>
+                <Table size="small" aria-label="line table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Betting Source</TableCell>
+                      <TableCell align="right">Moneyline</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {this.state.odds.lines.map(row => (
+                      <TableRow key={row.name}>
+                        <TableCell component="th" scope="row">
+                          {row.site}
+                        </TableCell>
+                        <TableCell align="right">
+                          <p>
+                            {this.props.teamOne +
+                              ": " +
+                              this.decimaltoAmerican(
+                                row.odds0[row.odds0.length - 1]
+                              )}
+                          </p>
+                          <p>
+                            {this.props.teamTwo +
+                              ": " +
+                              this.decimaltoAmerican(
+                                row.odds1[row.odds1.length - 1]
+                              )}
+                          </p>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Paper>
             </Col>
             <Col>
-              <b>Moneyline</b>
+              <Paper>
+                <Table size="small" aria-label="spreads table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Betting Source</TableCell>
+                      <TableCell align="right">Point Spread</TableCell>
+                      <TableCell align="right">Odds</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {this.state.odds.spreads.map(row => (
+                      <TableRow key={row.name}>
+                        <TableCell component="th" scope="row">
+                          {row.site}
+                        </TableCell>
+                        <TableCell align="right">
+                          <p>{row.points0[row.points0.length - 1]}</p>
+                          <p>{row.points1[row.points1.length - 1]}</p>
+                        </TableCell>
+                        <TableCell align="right">
+                          <p>
+                            {this.props.teamOne +
+                              ": " +
+                              this.decimaltoAmerican(
+                                row.odds0[row.odds0.length - 1]
+                              )}
+                          </p>
+                          <p>
+                            {this.props.teamTwo +
+                              ": " +
+                              this.decimaltoAmerican(
+                                row.odds1[row.odds1.length - 1]
+                              )}
+                          </p>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Paper>
             </Col>
             <Col>
-              <b>Moneyline</b>
+              <Paper>
+                <Table size="small" aria-label="spreads table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Betting Source</TableCell>
+                      <TableCell align="right">Total</TableCell>
+                      <TableCell align="right">Odds</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {this.state.odds.totals.map(row => (
+                      <TableRow key={row.name}>
+                        <TableCell component="th" scope="row">
+                          {row.site}
+                        </TableCell>
+                        <TableCell align="right">
+                          {row.points[row.points.length - 1] + " O/U"}
+                        </TableCell>
+                        <TableCell align="right">
+                          <p>
+                            {this.props.teamOne +
+                              ": " +
+                              this.decimaltoAmerican(
+                                row.oddsOver[row.oddsOver.length - 1]
+                              )}
+                          </p>
+                          <p>
+                            {this.props.teamTwo +
+                              ": " +
+                              this.decimaltoAmerican(
+                                row.oddsUnder[row.oddsUnder.length - 1]
+                              )}
+                          </p>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Paper>
             </Col>
           </Row>
-          {Object.keys(this.state.odds).map(key => {
-            return (
-              <Row key={key}>
-                <Col> {key} </Col>
-                <Col> {this.state.odds[key][0][1]} </Col>
-                <Col> {this.state.odds[key][0][2]} </Col>
-              </Row>
-            );
-          })}
         </Container>
+
         <div style={{ textAlign: "center", marginTop: 30, marginBottom: 50 }}>
           <h3>Win Prediction For Home Team Over Time</h3>
           <LineGraph />
@@ -192,25 +333,25 @@ class GamePage extends React.Component {
             </Row>
           </Container>
 
-          {this.state.comments.map(comment => {
-            return (
-              <Row>
-                <Col></Col>
-                <Col>
-                  <div
-                    style={{
-                      textAlign: "center",
-                      backgroundColor: "white",
-                      color: "black"
-                    }}
-                  >
-                    <p> {comment} </p>
-                  </div>
-                </Col>
-                <Col></Col>
-              </Row>
-            );
-          })}
+          {/* {this.state.comments.map(comment => {
+          return (
+            <Row>
+              <Col></Col>
+              <Col>
+                <div
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "white",
+                    color: "black"
+                  }}
+                >
+                  <p> {comment} </p>
+                </div>
+              </Col>
+              <Col></Col>
+            </Row>
+          );
+        })} */}
         </div>
       </div>
     );

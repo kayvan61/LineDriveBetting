@@ -22,26 +22,48 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    fetch("https://line-drive-betting.appspot.com/Games")
+    // fetch("https://line-drive-betting.appspot.com/Games")
+    //   .then(res => res.json())
+    //   .then(result => {
+    //     var d = new Date();
+    //     d.setDate(d.getDate() + 7);
+
+    //     var chunks = [];
+    //     var tempChunk = [];
+    //     var i = 0;
+    //     for (let game of result) {
+    //       var gameD = Date.parse(game["EventStartTime"]);
+
+    //       if (gameD < d) {
+    //         tempChunk.push(game);
+    //         i++;
+    //         if (i === 4) {
+    //           chunks.push([...tempChunk]);
+    //           i = 0;
+    //           tempChunk = [];
+    //         }
+    //       }
+    //     }
+    //     if (tempChunk !== []) {
+    //       chunks.push([...tempChunk]);
+    //     }
+
+    //     this.setState({ games: chunks });
+    //   });
+
+    fetch("http://localhost:8080/nflgames")
       .then(res => res.json())
       .then(result => {
-        var d = new Date();
-        d.setDate(d.getDate() + 7);
-
         var chunks = [];
         var tempChunk = [];
         var i = 0;
         for (let game of result) {
-          var gameD = Date.parse(game["EventStartTime"]);
-
-          if (gameD < d) {
-            tempChunk.push(game);
-            i++;
-            if (i === 4) {
-              chunks.push([...tempChunk]);
-              i = 0;
-              tempChunk = [];
-            }
+          tempChunk.push(game);
+          i++;
+          if (i === 4) {
+            chunks.push([...tempChunk]);
+            i = 0;
+            tempChunk = [];
           }
         }
         if (tempChunk !== []) {
@@ -50,6 +72,7 @@ class HomePage extends React.Component {
 
         this.setState({ games: chunks });
       });
+
     this.props.checkToken();
   }
 
@@ -74,12 +97,12 @@ class HomePage extends React.Component {
                   return (
                     <Col key={game._id}>
                       <GameCard
-                        src={this.props.logos[game.Teams[0]]}
-                        src1={this.props.logos[game.Teams[1]]}
+                        src={this.props.logos[game.teams[0]]}
+                        src1={this.props.logos[game.teams[1]]}
                         relPath="/game"
-                        text="Betting Info"
-                        teamOne={game.Teams[0]}
-                        teamTwo={game.Teams[1]}
+                        gameTime={game.gameTime}
+                        teamOne={game.teams[0]}
+                        teamTwo={game.teams[1]}
                         setTeamOne={this.props.setTeamOne}
                         setTeamTwo={this.props.setTeamTwo}
                       />
