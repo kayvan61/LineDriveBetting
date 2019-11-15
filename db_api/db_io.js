@@ -18,7 +18,10 @@ const CONNECTION_URL =
   "mongodb+srv://atlas-admin:bBcJ97l0uos6tu1Q@linedrivebetting-tfkik.gcp.mongodb.net/" +
   DATABASE_NAME +
   "?retryWrites=true&w=majority";
-
+const TESTINGCONNECTION_URL =
+  "mongodb+srv://atlas-admin:bBcJ97l0uos6tu1Q@linedrivebetting-tfkik.gcp.mongodb.net/" +
+  "Testing" +
+  "?retryWrites=true&w=majority";
 var database, collection;
 
 exports.linesAddEntry = function(request, response) {
@@ -216,8 +219,28 @@ exports.dropNFLGamesData = function(request, response) {
     .catch(err => response.status(500).json("Error: " + err));
 };
 
-exports.dbInit = function(collectionName) {
-  Mongoose.connect(CONNECTION_URL, {
+exports.dbDropAll = async function() {
+  await Promise.all([
+    nflGames.deleteMany({}).catch(err => console.log(err)),
+
+    Games.deleteMany({}).catch(err => console.log(err)),
+
+    User.deleteMany({}).catch(err => console.log(err)),
+
+    Comments.deleteMany({}).catch(err => console.log(err)),
+
+    BDPointSchema.deleteMany({}).catch(err => console.log(err)),
+
+    Lines.deleteMany({}).catch(err => console.log(err)),
+
+    Spreads.deleteMany({}).catch(err => console.log(err)),
+
+    Totals.deleteMany({}).catch(err => console.log(err))
+  ]);
+};
+
+exports.dbInit = function(isTesting = false) {
+  Mongoose.connect(isTesting ? TESTINGCONNECTION_URL : CONNECTION_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
@@ -232,7 +255,6 @@ exports.dbInit = function(collectionName) {
 };
 
 exports.dbClose = function() {
-  console.log(typeof database);
   database.close();
 };
 

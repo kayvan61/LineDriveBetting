@@ -57,3 +57,5 @@ const job = new CronJob("0 0 */8 * * *", function() {
   NewScraper.getTotalsFromAPI();
 });
 job.start();
+
+exports.app = app;
