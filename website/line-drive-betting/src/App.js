@@ -54,10 +54,12 @@ class App extends React.Component {
     this.state = {
       teamOne: "",
       teamTwo: "",
+      gameTime: 0,
       username: null
     };
     this.setTeamOne = this.setTeamOne.bind(this);
     this.setTeamTwo = this.setTeamTwo.bind(this);
+    this.setGameTime = this.setGameTime.bind(this);
     this.checkToken = this.checkToken.bind(this);
   }
 
@@ -89,6 +91,10 @@ class App extends React.Component {
 
   setTeamTwo = team => {
     this.setState({ teamTwo: team });
+  };
+
+  setGameTime = time => {
+    this.setState({ gameTime: time });
   };
 
   render() {
@@ -143,6 +149,7 @@ class App extends React.Component {
                     logos={logos}
                     teamOne={this.state.teamOne}
                     teamTwo={this.state.teamTwo}
+                    gameTime={this.state.gameTime}
                     username={this.state.username}
                     checkToken={this.checkToken}
                   />
@@ -168,6 +175,7 @@ class App extends React.Component {
                     logos={logos}
                     setTeamOne={this.setTeamOne}
                     setTeamTwo={this.setTeamTwo}
+                    setGameTime={this.setGameTime}
                     username={this.state.username}
                     checkToken={this.checkToken}
                   />

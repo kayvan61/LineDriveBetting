@@ -1,10 +1,8 @@
 const express = require("express");
 const BodyParser = require("body-parser");
 const Mongoose = require("mongoose");
-const Games = require("./models/games.model");
 const User = require("./models/user.model");
 const Comments = require("./models/comments.model").Comments;
-const BDPointSchema = require("./models/bettingDataPoint.model").dbDataPoint;
 const crypto = require("crypto");
 
 const Lines = require("./models/moneyline.model");
@@ -24,6 +22,49 @@ const TESTINGCONNECTION_URL =
   "?retryWrites=true&w=majority";
 var database, collection;
 
+/********************* INITIALIZATION/MISC ***************************/
+
+exports.dbInit = function(isTesting = false) {
+  Mongoose.connect(isTesting ? TESTINGCONNECTION_URL : CONNECTION_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+  });
+  database = Mongoose.connection;
+  database.once("open", () => {
+    console.log("Database is connected");
+  });
+  database.on("error", () => {
+    console.log("Error connecting to Database");
+  });
+};
+
+exports.dbClose = function() {
+  database.close();
+};
+
+exports.dbDropAll = async function() {
+  await Promise.all([
+    nflGames.deleteMany({}).catch(err => console.log(err)),
+
+    Games.deleteMany({}).catch(err => console.log(err)),
+
+    User.deleteMany({}).catch(err => console.log(err)),
+
+    Comments.deleteMany({}).catch(err => console.log(err)),
+
+    BDPointSchema.deleteMany({}).catch(err => console.log(err)),
+
+    Lines.deleteMany({}).catch(err => console.log(err)),
+
+    Spreads.deleteMany({}).catch(err => console.log(err)),
+
+    Totals.deleteMany({}).catch(err => console.log(err))
+  ]);
+};
+
+/***************************** NFL LINES *******************************/
+
 exports.linesAddEntry = function(request, response) {
   var teamsTag = request.body["teams"]
     .sort()
@@ -33,7 +74,11 @@ exports.linesAddEntry = function(request, response) {
   var new0 = request.body.odds0;
   var new1 = request.body.odds1;
   Lines.findOneAndUpdate(
-    { teamsTag: teamsTag, site: request.body.site },
+    {
+      teamsTag: teamsTag,
+      site: request.body.site,
+      gameTime: request.body.gameTime
+    },
     { $push: { odds0: new0, odds1: new1 } },
     { upsert: true }
   )
@@ -55,7 +100,8 @@ exports.linesGetData = function(request, response) {
         .sort()
         .join("")
         .toLowerCase()
-    }
+    },
+    gameTime: { $eq: request.query.gameTime }
   };
   Lines.find(querry)
     .exec()
@@ -75,6 +121,8 @@ exports.linesDropData = function(request, response) {
   Lines.deleteMany({}).catch(err => response.status(500).json("Error: " + err));
 };
 
+/***************************** NFL SPREADS *******************************/
+
 exports.spreadsAddEntry = function(request, response) {
   var teamsTag = request.body["teams"]
     .sort()
@@ -88,7 +136,8 @@ exports.spreadsAddEntry = function(request, response) {
   Spreads.findOneAndUpdate(
     {
       teamsTag: teamsTag,
-      site: request.body.site
+      site: request.body.site,
+      gameTime: request.body.gameTime
     },
     { $push: { odds0: new0, odds1: new1, points0: newpt0, points1: newpt1 } },
     { upsert: true }
@@ -111,7 +160,8 @@ exports.spreadsGetData = function(request, response) {
         .sort()
         .join("")
         .toLowerCase()
-    }
+    },
+    gameTime: { $eq: request.query.gameTime }
   };
   Spreads.find(querry)
     .exec()
@@ -133,6 +183,8 @@ exports.spreadsDropData = function(request, response) {
   );
 };
 
+/***************************** NFL TOTALS *******************************/
+
 exports.totalsAddEntry = function(request, response) {
   var teamsTag = request.body["teams"]
     .sort()
@@ -145,7 +197,8 @@ exports.totalsAddEntry = function(request, response) {
   Totals.findOneAndUpdate(
     {
       teamsTag: teamsTag,
-      site: request.body.site
+      site: request.body.site,
+      gameTime: request.body.gameTime
     },
     { $push: { oddsOver: newOver, oddsUnder: newUnder, points: newpt } },
     { upsert: true }
@@ -168,7 +221,8 @@ exports.totalsGetData = function(request, response) {
         .sort()
         .join("")
         .toLowerCase()
-    }
+    },
+    gameTime: { $eq: request.query.gameTime }
   };
   Totals.find(querry)
     .exec()
@@ -189,6 +243,8 @@ exports.totalsDropData = function(request, response) {
     response.status(500).json("Error: " + err)
   );
 };
+
+/***************************** NFL GAMES *******************************/
 
 exports.nflgamesAddEntry = function(request, response) {
   new nflGames({
@@ -219,70 +275,7 @@ exports.dropNFLGamesData = function(request, response) {
     .catch(err => response.status(500).json("Error: " + err));
 };
 
-exports.dbDropAll = async function() {
-  await Promise.all([
-    nflGames.deleteMany({}).catch(err => console.log(err)),
-
-    Games.deleteMany({}).catch(err => console.log(err)),
-
-    User.deleteMany({}).catch(err => console.log(err)),
-
-    Comments.deleteMany({}).catch(err => console.log(err)),
-
-    BDPointSchema.deleteMany({}).catch(err => console.log(err)),
-
-    Lines.deleteMany({}).catch(err => console.log(err)),
-
-    Spreads.deleteMany({}).catch(err => console.log(err)),
-
-    Totals.deleteMany({}).catch(err => console.log(err))
-  ]);
-};
-
-exports.dbInit = function(isTesting = false) {
-  Mongoose.connect(isTesting ? TESTINGCONNECTION_URL : CONNECTION_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-  });
-  database = Mongoose.connection;
-  database.once("open", () => {
-    console.log("Database is connected");
-  });
-  database.on("error", () => {
-    console.log("Error connecting to Database");
-  });
-};
-
-exports.dbClose = function() {
-  database.close();
-};
-
-exports.gamesAddEntry = function(request, response) {
-  new Games({
-    Teams: request.body["Teams"],
-    EventStartTime: request.body["EventStartTime"]
-  })
-    .save()
-    .then(() => {
-      console.log("Added a data point");
-      response.status(200).send("your input was added\n");
-    })
-    .catch(() => {
-      console.log("error adding a data point");
-      response.status(500).send("your input was probably was malformed\n");
-    });
-};
-
-exports.gamesGetData = function(request, response) {
-  Games.find({})
-    .then(games => response.json(games))
-    .catch(err => response.status(500).json("Error: " + err));
-};
-
-exports.dropGamesData = function(request, response) {
-  Games.deleteMany({}).catch(err => response.status(500).json("Error: " + err));
-};
+/***************************** USERS *******************************/
 
 exports.userSignup = function(request, response) {
   console.log("useradding");
@@ -356,10 +349,7 @@ exports.getUserNameByToken = function(request, response) {
     });
 };
 
-exports.dbClose = function() {
-  console.log(typeof database);
-  database.close();
-};
+/********************* COMMENTS ***************************/
 
 exports.commentsPut = function(request, response) {
   console.log(request.body);
@@ -368,19 +358,11 @@ exports.commentsPut = function(request, response) {
     .join("")
     .toLowerCase();
 
-  var querry = {
-    Teams: { $eq: teamsTag }
-  };
-
-  var update = {
-    $push: {}
-  };
-
-  update["$push"]["Comments"] = {
-    $each: [request.body["Comment"]]
-  };
-
-  Comments.findOneAndUpdate(querry, update, { upsert: true })
+  Comments.findOneAndUpdate(
+    { Teams: teamsTag, gameTime: request.body.gameTime },
+    { $push: { Comments: request.body.Comment } },
+    { upsert: true }
+  )
     .exec()
     .then(res => {
       console.log("updated a comment");
@@ -401,8 +383,10 @@ exports.commentsGet = function(request, response) {
         .sort()
         .join("")
         .toLowerCase()
-    }
+    },
+    gameTime: { $eq: request.query.gameTime }
   };
+
   Comments.find(querry)
     .exec()
     .then(res => {
@@ -420,88 +404,5 @@ exports.commentsGet = function(request, response) {
         .status(500)
         .send(err)
         .end();
-    });
-};
-
-exports.dbAddEntry = function(request, response) {
-  var teamsTag = request.body["Teams"]
-    .sort()
-    .join("")
-    .toLowerCase();
-
-  var querry = {
-    Teams: { $eq: teamsTag },
-    EventStartTime: { $eq: request.body["EventStartTime"] },
-    BettingFormat: { $eq: request.body["DataType"] }
-  };
-
-  var exists = true;
-  var update = {
-    $push: {}
-  };
-
-  update["$push"]["Value." + request.body["Site"]] = {
-    $each: [request.body["Value"]]
-  };
-
-  BDPointSchema.findOneAndUpdate(querry, update, { upsert: true })
-    .exec()
-    .then(res => {
-      console.log("updated a datapoint");
-      response.status(200).send("your input was added\n");
-    })
-    .catch(err => {
-      console.log("error updating a data point");
-      console.log(request.body);
-      console.log(err);
-      response.status(500).send("your input was probably was malformed\n");
-    });
-};
-
-exports.dbGetData = function(request, response) {
-  var querry = {
-    Teams: {
-      $eq: [request.query.teama, request.query.teamb]
-        .sort()
-        .join("")
-        .toLowerCase()
-    },
-    BettingFormat: { $eq: request.query.datatype }
-  };
-  BDPointSchema.find(querry)
-    .exec()
-    .then(res => {
-      console.log("returned " + res.length + " items");
-      response.status(200).json({
-        res
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      response.status(500).send(err);
-    });
-};
-
-exports.dbGetDataSite = function(request, response) {
-  var querry = {
-    Teams: {
-      $all: [request.query.teama, request.query.teamb]
-        .sort()
-        .join("")
-        .toLowerCase()
-    },
-    BettingFormat: { $eq: request.query.datatype }
-  };
-  BDPointSchema.find(querry)
-    .exec()
-    .then(res => {
-      console.log("returned " + res.length + " items");
-      response.status(200).json({
-        res
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      response.status(400).send(err);
     });
 };

@@ -68,7 +68,8 @@ class GamePage extends React.Component {
     var linesurl = new URL("http://localhost:8080/lines");
     var linesparams = {
       teama: this.props.teamOne,
-      teamb: this.props.teamTwo
+      teamb: this.props.teamTwo,
+      gameTime: this.props.gameTime
     };
     linesurl.search = new URLSearchParams(linesparams).toString();
 
@@ -89,7 +90,8 @@ class GamePage extends React.Component {
     var spreadsurl = new URL("http://localhost:8080/spreads");
     var spreadsparams = {
       teama: this.props.teamOne,
-      teamb: this.props.teamTwo
+      teamb: this.props.teamTwo,
+      gameTime: this.props.gameTime
     };
     spreadsurl.search = new URLSearchParams(spreadsparams).toString();
 
@@ -110,7 +112,8 @@ class GamePage extends React.Component {
     var totalsurl = new URL("http://localhost:8080/totals");
     var totalsparams = {
       teama: this.props.teamOne,
-      teamb: this.props.teamTwo
+      teamb: this.props.teamTwo,
+      gameTime: this.props.gameTime
     };
     totalsurl.search = new URLSearchParams(totalsparams).toString();
 
@@ -118,7 +121,6 @@ class GamePage extends React.Component {
       .then(res => res.json())
       .then(result => {
         this.setState({ odds: { ...this.state.odds, totals: result.res } });
-        console.log(this.state);
       })
       .then(() => {
         if (this.state.odds.totals.length !== 0) {
@@ -133,10 +135,11 @@ class GamePage extends React.Component {
   }
 
   updateComments() {
-    var url = new URL("http://line-drive-betting.appspot.com/Comments");
+    var url = new URL("http://localhost:8080/Comments");
     var params = {
       teama: this.props.teamOne,
-      teamb: this.props.teamTwo
+      teamb: this.props.teamTwo,
+      gameTime: this.props.gameTime
     };
     url.search = new URLSearchParams(params).toString();
 
@@ -170,18 +173,18 @@ class GamePage extends React.Component {
     var request = require("request");
 
     var options = {
-      uri: "http://line-drive-betting.appspot.com/Comments/add",
+      uri: "http://localhost:8080/Comments/add",
       method: "POST",
       json: {
         Teams: [this.props.teamOne, this.props.teamTwo],
-        Comment: this.props.username + ": " + this.state.currentComment
+        Comment: this.props.username + ": " + this.state.currentComment,
+        gameTime: this.props.gameTime
       }
     };
     if (this.props.username !== undefined) {
       request(options, function(error, res, b) {
         if (!error && res.statusCode === 200) {
           updateFunc();
-          console.log("update comments");
         }
       });
     } else {
@@ -383,6 +386,7 @@ class GamePage extends React.Component {
                   t2={this.state.odds.lines[0].odds1.map(x =>
                     this.decimaltoAmerican(x)
                   )}
+                  createdAt={this.state.odds.lines[0].createdAt}
                 />
               ) : (
                 <span>No data available</span>
@@ -409,6 +413,7 @@ class GamePage extends React.Component {
                   t2={this.state.odds.spreads[0].odds1.map(x =>
                     this.decimaltoAmerican(x)
                   )}
+                  createdAt={this.state.odds.spreads[0].createdAt}
                 />
               ) : (
                 <span>No data available</span>
@@ -435,6 +440,7 @@ class GamePage extends React.Component {
                   t2={this.state.odds.totals[0].oddsUnder.map(x =>
                     this.decimaltoAmerican(x)
                   )}
+                  createdAt={this.state.odds.totals[0].createdAt}
                 />
               ) : (
                 <span>No data available</span>

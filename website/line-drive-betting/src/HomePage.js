@@ -82,11 +82,12 @@ class HomePage extends React.Component {
                         src={this.props.logos[game.teams[0]]}
                         src1={this.props.logos[game.teams[1]]}
                         relPath="/game"
-                        gameTime={game.gameTime}
                         teamOne={game.teams[0]}
                         teamTwo={game.teams[1]}
+                        gameTime={game.gameTime}
                         setTeamOne={this.props.setTeamOne}
                         setTeamTwo={this.props.setTeamTwo}
+                        setGameTime={this.props.setGameTime}
                       />
                     </Col>
                   );

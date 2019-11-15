@@ -9,7 +9,11 @@ const spreadsSchema = new Schema(
     odds0: { type: [Number], required: true },
     odds1: { type: [Number], required: true },
     points0: { type: [String], required: true },
-    points1: { type: [String], required: true }
+    points1: { type: [String], required: true },
+    gameTime: { type: Number, required: true }
+  },
+  {
+    timestamps: true
   },
   {
     collections: "Spreads"

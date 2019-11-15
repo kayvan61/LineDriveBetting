@@ -8,7 +8,11 @@ const totalsSchema = new Schema(
     site: { type: String, required: true },
     oddsOver: { type: [Number], required: true },
     oddsUnder: { type: [Number], required: true },
-    points: { type: [Number], required: true }
+    points: { type: [Number], required: true },
+    gameTime: { type: Number, required: true }
+  },
+  {
+    timestamps: true
   },
   {
     collections: "Totals"

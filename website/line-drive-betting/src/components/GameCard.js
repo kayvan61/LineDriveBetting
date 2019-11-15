@@ -10,6 +10,7 @@ class GameCard extends React.Component {
   handleSubmit = () => {
     this.props.setTeamOne(this.props.teamOne);
     this.props.setTeamTwo(this.props.teamTwo);
+    this.props.setGameTime(this.props.gameTime);
     this.props.history.push("/game");
   };
 
