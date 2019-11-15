@@ -16,11 +16,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 class GamePage extends React.Component {
   static propTypes = {
@@ -40,7 +40,7 @@ class GamePage extends React.Component {
       userName: null,
       fetchedLineArr: false,
       fetchedSpreadArr: false,
-      fetchedTotalsArr:false
+      fetchedTotalsArr: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -63,7 +63,11 @@ class GamePage extends React.Component {
       .then(result => {
         this.setState({ odds: { ...this.state.odds, lines: result.res } });
       })
-      .then(() => {this.setState({fetchedLineArr : true }); } )
+      .then(() => {
+        if (this.state.odds.lines.length !== 0) {
+          this.setState({ fetchedLineArr: true });
+        }
+      })
       .catch(error => {
         console.log(error);
       });
@@ -81,7 +85,9 @@ class GamePage extends React.Component {
         this.setState({ odds: { ...this.state.odds, spreads: result.res } });
       })
       .then(() => {
-        this.setState({fetchedSpreadArr : true});
+        if (this.state.odds.spreads.length !== 0) {
+          this.setState({ fetchedSpreadArr: true });
+        }
       })
       .catch(error => {
         console.log(error);
@@ -101,7 +107,9 @@ class GamePage extends React.Component {
         console.log(this.state);
       })
       .then(() => {
-        this.setState({fetchedTotalsArr: true});
+        if (this.state.odds.totals.length !== 0) {
+          this.setState({ fetchedTotalsArr: true });
+        }
       })
       .catch(error => {
         console.log(error);
@@ -147,7 +155,7 @@ class GamePage extends React.Component {
 
   handleClick() {
     var request = require("request");
-//this.state.bettingLineGraphData
+    //this.state.bettingLineGraphData
     var options = {
       uri: "http://line-drive-betting.appspot.com/Comments/add",
       method: "POST",
@@ -182,7 +190,7 @@ class GamePage extends React.Component {
           username={this.props.username}
           checkToken={this.props.checkToken}
         />
-        <Container style={{ paddingTop: "10px" }}>
+        <Container style={{ paddingTop: "10px", marginBottom: 25 }}>
           <Row style={{ marginBottom: 20 }}>
             <Col />
             <Col style={{ marginRight: 40, textAlign: "center" }}>
@@ -322,44 +330,94 @@ class GamePage extends React.Component {
           </Row>
         </Container>
 
-        <div style={{ textAlign: "center", marginTop: 30, marginBottom: 50 }}>
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: 30,
+            marginBottom: 50,
+            marginRight: 25,
+            marginLeft: 25
+          }}
+        >
           <ExpansionPanel>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>Money Line Over Time</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-                  {this.state.fetchedLineArr ?  <LineGraph name="Lines" teamOne={this.props.teamOne} t1={this.state.odds.lines[0].odds0.map(x => this.decimaltoAmerican(x))} teamTwo={this.props.teamTwo} t2={this.state.odds.lines[0].odds1.map(x => this.decimaltoAmerican(x))}/> : <span />} 
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-      <ExpansionPanel>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>Point Spread Odds Over Time</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-                  {this.state.fetchedSpreadArr ?  <LineGraph name="Spread" teamOne={this.props.teamOne} t1={this.state.odds.spreads[0].odds0.map(x => this.decimaltoAmerican(x))} teamTwo={this.props.teamTwo} t2={this.state.odds.spreads[0].odds1.map(x => this.decimaltoAmerican(x))}/> : <span />}
-        </ExpansionPanelDetails>
-      </ExpansionPanel>        
-      <ExpansionPanel>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>Over Under Odds Over Time</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-                      {this.state.fetchedTotalsArr ?  <LineGraph name="OverUnder" teamOne="Over" t1={this.state.odds.totals[0].oddsOver.map(x => this.decimaltoAmerican(x))} teamTwo="Under" t2={this.state.odds.totals[0].oddsUnder.map(x => this.decimaltoAmerican(x))}/> : <span />} 
-        </ExpansionPanelDetails>
-      </ExpansionPanel>                                   
-      
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography>Money Line Over Time</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              {this.state.fetchedLineArr ? (
+                <LineGraph
+                  name="Lines"
+                  teamOne={this.props.teamOne}
+                  t1={this.state.odds.lines[0].odds0.map(x =>
+                    this.decimaltoAmerican(x)
+                  )}
+                  teamTwo={this.props.teamTwo}
+                  t2={this.state.odds.lines[0].odds1.map(x =>
+                    this.decimaltoAmerican(x)
+                  )}
+                />
+              ) : (
+                <span>No data available</span>
+              )}
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+          <ExpansionPanel>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>Point Spread Odds Over Time</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              {this.state.fetchedSpreadArr ? (
+                <LineGraph
+                  name="Spread"
+                  teamOne={this.props.teamOne}
+                  t1={this.state.odds.spreads[0].odds0.map(x =>
+                    this.decimaltoAmerican(x)
+                  )}
+                  teamTwo={this.props.teamTwo}
+                  t2={this.state.odds.spreads[0].odds1.map(x =>
+                    this.decimaltoAmerican(x)
+                  )}
+                />
+              ) : (
+                <span>No data available</span>
+              )}
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+          <ExpansionPanel>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel3a-content"
+              id="panel3a-header"
+            >
+              <Typography>Over Under Odds Over Time</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              {this.state.fetchedTotalsArr ? (
+                <LineGraph
+                  name="OverUnder"
+                  teamOne="Over"
+                  t1={this.state.odds.totals[0].oddsOver.map(x =>
+                    this.decimaltoAmerican(x)
+                  )}
+                  teamTwo="Under"
+                  t2={this.state.odds.totals[0].oddsUnder.map(x =>
+                    this.decimaltoAmerican(x)
+                  )}
+                />
+              ) : (
+                <span>No data available</span>
+              )}
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+
           <br />
           <h1 style={{ marginTop: 50 }}>Comments</h1>
           <Container style={{ marginBottom: 50 }}>
