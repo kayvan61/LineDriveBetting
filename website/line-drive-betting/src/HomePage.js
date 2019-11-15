@@ -24,38 +24,10 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    // fetch("https://line-drive-betting.appspot.com/Games")
-    //   .then(res => res.json())
-    //   .then(result => {
-    //     var d = new Date();
-    //     d.setDate(d.getDate() + 7);
-
-    //     var chunks = [];
-    //     var tempChunk = [];
-    //     var i = 0;
-    //     for (let game of result) {
-    //       var gameD = Date.parse(game["EventStartTime"]);
-
-    //       if (gameD < d) {
-    //         tempChunk.push(game);
-    //         i++;
-    //         if (i === 4) {
-    //           chunks.push([...tempChunk]);
-    //           i = 0;
-    //           tempChunk = [];
-    //         }
-    //       }
-    //     }
-    //     if (tempChunk !== []) {
-    //       chunks.push([...tempChunk]);
-    //     }
-
-    //     this.setState({ games: chunks });
-    //   });
-
     fetch("http://localhost:8080/nflgames")
       .then(res => res.json())
       .then(result => {
+        result = result.sort((a, b) => (a.gameTime >= b.gameTime ? 1 : -1));
         var chunks = [];
         var tempChunk = [];
         var i = 0;

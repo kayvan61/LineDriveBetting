@@ -20,6 +20,21 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import TextField from "@material-ui/core/TextField";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = {
+  input: {
+    color: "black",
+    borderRadius: 4,
+    position: "relative",
+    backgroundColor: "white",
+    border: "1px solid #ced4da",
+    fontSize: 16,
+    width: "auto",
+    padding: "10px 12px"
+  }
+};
 
 class GamePage extends React.Component {
   static propTypes = {
@@ -128,7 +143,7 @@ class GamePage extends React.Component {
     fetch(url)
       .then(res => res.json())
       .then(result => {
-        this.setState({ comments: [...result.res[0].Comments] });
+        this.setState({ comments: result.res[0].Comments.reverse() });
       })
       .catch(error => {
         console.log(error);
@@ -151,7 +166,7 @@ class GamePage extends React.Component {
     return Math.round(-100 / (decimal - 1));
   }
 
-  handleClick() {
+  handleClick(updateFunc) {
     var request = require("request");
 
     var options = {
@@ -165,7 +180,8 @@ class GamePage extends React.Component {
     if (this.props.username !== undefined) {
       request(options, function(error, res, b) {
         if (!error && res.statusCode === 200) {
-          this.updateComments();
+          updateFunc();
+          console.log("update comments");
         }
       });
     } else {
@@ -181,6 +197,7 @@ class GamePage extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         <GlobalNavbar
@@ -216,7 +233,7 @@ class GamePage extends React.Component {
                   <TableBody>
                     {this.state.fetchedLineArr ? (
                       this.state.odds.lines.map(row => (
-                        <TableRow key={row.name}>
+                        <TableRow key={row.site + row.teamTag}>
                           <TableCell component="th" scope="row">
                             {row.site}
                           </TableCell>
@@ -258,7 +275,7 @@ class GamePage extends React.Component {
                   <TableBody>
                     {this.state.fetchedSpreadArr ? (
                       this.state.odds.spreads.map(row => (
-                        <TableRow key={row.name}>
+                        <TableRow key={row.site + row.teamsTag}>
                           <TableCell component="th" scope="row">
                             {row.site}
                           </TableCell>
@@ -304,7 +321,7 @@ class GamePage extends React.Component {
                   <TableBody>
                     {this.state.fetchedTotalsArr ? (
                       this.state.odds.totals.map(row => (
-                        <TableRow key={row.name}>
+                        <TableRow key={row.site + row.teamsTag}>
                           <TableCell component="th" scope="row">
                             {row.site}
                           </TableCell>
@@ -343,12 +360,10 @@ class GamePage extends React.Component {
           style={{
             textAlign: "center",
             marginTop: 30,
-            marginBottom: 50,
-            marginRight: 25,
-            marginLeft: 25
+            marginBottom: 50
           }}
         >
-          <ExpansionPanel>
+          <ExpansionPanel style={{ marginLeft: 140, marginRight: 140 }}>
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
@@ -374,7 +389,7 @@ class GamePage extends React.Component {
               )}
             </ExpansionPanelDetails>
           </ExpansionPanel>
-          <ExpansionPanel>
+          <ExpansionPanel style={{ marginLeft: 140, marginRight: 140 }}>
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel2a-content"
@@ -400,7 +415,7 @@ class GamePage extends React.Component {
               )}
             </ExpansionPanelDetails>
           </ExpansionPanel>
-          <ExpansionPanel>
+          <ExpansionPanel style={{ marginLeft: 140, marginRight: 140 }}>
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel3a-content"
@@ -444,36 +459,39 @@ class GamePage extends React.Component {
                       rows="3"
                     />
                   </Form.Group>
-                  <Button onClick={this.handleClick}>Comment</Button>
+                  <Button onClick={() => this.handleClick(this.updateComments)}>
+                    Comment
+                  </Button>
                 </Form>
               </Col>
               <Col></Col>
             </Row>
           </Container>
 
-          {this.state.comments.map(comment => {
-          return (
-            <Row>
-              <Col></Col>
-              <Col>
-                <div
-                  style={{
-                    textAlign: "center",
-                    backgroundColor: "white",
-                    color: "black"
-                  }}
-                >
-                  <p> {comment} </p>
-                </div>
-              </Col>
-              <Col></Col>
-            </Row>
-          );
-        })}
+          {this.state.comments.map((comment, idx) => {
+            return (
+              <Row key={idx} style={{ marginTop: 10, marginBottom: 10 }}>
+                <Col></Col>
+                <Col xs={5}>
+                  <TextField
+                    multiline
+                    fullWidth
+                    value={comment}
+                    variant="outlined"
+                    InputProps={{
+                      readOnly: true,
+                      className: classes.input
+                    }}
+                  />
+                </Col>
+                <Col></Col>
+              </Row>
+            );
+          })}
         </div>
       </div>
     );
   }
 }
 
-export default withCookies(GamePage);
+export default withCookies(withStyles(styles)(GamePage));

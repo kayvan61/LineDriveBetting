@@ -52,9 +52,9 @@ app.get("/nflgames", DB_IO.nflgamesGetData);
 const job = new CronJob("0 0 */8 * * *", function() {
   console.log("ran line data scraper");
   DB_IO.dropNFLGamesData();
-  NewScraper.getLineFromAPI();
   NewScraper.getSpreadsFromAPI();
   NewScraper.getTotalsFromAPI();
+  NewScraper.getLineFromAPI();
 });
 job.start();
 
