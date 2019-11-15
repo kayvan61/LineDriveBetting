@@ -54,54 +54,18 @@ class JunitTester {
 			try{
 				TimeUnit.SECONDS.sleep(5);
 				innerButtons = driver.findElement(By.className("modal-footer")).findElements(By.tagName("button"));
-				System.out.println(innerButtons.size());
+				//System.out.println(innerButtons.size());
 				innerButtons.get(i).click();
 			}catch(Exception e) {
 			
 			}
 			driver.get("http://linedrivebet.appspot.com/login");
 		}
-		links = driver.findElements(By.tagName("a"));
-		links.get(0).click();
-		System.out.println("Done running button test");
+		
 		
 		//fail("Not yet implemented");
 	}
-	@Test
-	void testCreateAccount() {
-		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
-		
-		//driver.get("https://linedrivebetting-255803.appspot.com/");
-		driver.get("http://linedrivebet.appspot.com/login");
-		List <WebElement> buttons;
-		List <WebElement> innerButtons;
-		List <WebElement> links;
-		List <WebElement> inputs;
-		WebDriverWait wait = new WebDriverWait(driver,5);
-		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(//*[@id="root"]/div/div/div[3]/div/div/ul/li[1])));
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		
-		for(int i = 0; i <2; i++) {
-			buttons = driver.findElements(By.tagName("button"));
-			
-			buttons.get(0).click();
-			
-			try{
-				TimeUnit.SECONDS.sleep(5);
-				innerButtons = driver.findElement(By.className("modal-footer")).findElements(By.tagName("button"));
-				inputs = driver.findElements(By.tagName("input"));
-				
-				
-			}catch(Exception e) {
-			
-			}
-			driver.get("http://linedrivebet.appspot.com/login");
-		}
-		links = driver.findElements(By.tagName("a"));
-		links.get(0).click();
-		System.out.println("Done running button test");
-	}
+	
 	@Test
 	void testLogin() {
 		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
@@ -170,7 +134,7 @@ class JunitTester {
 					System.out.println(c + " link is working");
 				}
 				driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-				driver.navigate().back();
+				driver.get("http://linedrivebet.appspot.com/");
 				driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 
 				
@@ -293,7 +257,7 @@ class JunitTester {
 		//ArrayList <ArrayList<WebElement>> subCards = new ArrayList <ArrayList <WebElement>>();
 		List <WebElement> subCardElements = new ArrayList <WebElement>();
 		///System.out.println(gameCards.size());
-		driver.get("http://localhost:3000/betnow");
+		driver.get("http://linedrivebet.appspot.com/betnow");
 		//List <WebElement> gameCards = driver.findElements(By.className("card"));
 		//List <WebElement> gameCards = driver.findElements(By.tagName("div"));
 		//ArrayList <ArrayList<WebElement>> subCards = new ArrayList <ArrayList <WebElement>>();
