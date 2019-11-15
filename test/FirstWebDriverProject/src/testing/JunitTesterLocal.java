@@ -148,7 +148,7 @@ public class JunitTesterLocal {
 			driver.get("http://localhost:3000/home");
 			subCardElements = driver.findElements(By.className("card"));
 		}
-		System.out.println("Done testing HomePage");
+		//System.out.println("Done testing HomePage");
 	}
 	//tests the carousel on the betnow page
 	
@@ -345,4 +345,67 @@ public class JunitTesterLocal {
 		buttons = driver.findElements(By.className("btn"));
 		Assert.assertTrue(buttons.get(0).getText().equals("Log-in"));
 	}
+	
+	@Test
+	void testGameCardButtons() {
+		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("http://localhost:3000/home");
+		WebDriverWait wait = new WebDriverWait(driver,5);
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("card")));
+				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		List <WebElement> gameCards = driver.findElements(By.tagName("div"));
+		List <WebElement> subCardElements = new ArrayList <WebElement>();
+		List <WebElement> buttons;
+		
+		
+		subCardElements = driver.findElements(By.className("card"));
+		
+		for(int i = 0; i < subCardElements.size(); i++) {
+			subCardElements.get(i).click();
+			buttons = driver.findElements(By.className("MuiIconButton-label"));
+			System.out.println(buttons.size());
+			buttons.get(0).click();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				
+			}
+			buttons.get(1).click();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				
+			}
+			buttons.get(2).click();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				
+			}
+			buttons = driver.findElements(By.className("MuiIconButton-label"));
+			buttons.get(0).click();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				
+			}
+			buttons.get(1).click();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				
+			}
+			buttons.get(2).click();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				
+			}
+			
+			driver.get("http://localhost:3000/home");
+			subCardElements = driver.findElements(By.className("card"));
+		}
+	}
+	
 }
