@@ -277,6 +277,7 @@ class JunitTester {
 		
 		System.out.println("Done testing betNowPage");
 	}
+	//Test will log in on testbug account, and leave a comment on every page and check to see if a comment was made
 	@Test
 	void testComments() {
 		List <WebElement> commentInput;
@@ -301,9 +302,9 @@ class JunitTester {
 		//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		
 		List <WebElement> subCardElements = new ArrayList <WebElement>();
-		System.out.println(gameCards.size() + "This is number of gamecards");
+		//System.out.println(gameCards.size() + "This is number of gamecards");
 		subCardElements = driver.findElements(By.className("card"));
-		System.out.println(subCardElements.size());
+		//System.out.println(subCardElements.size());
 		for(int i = 0; i < subCardElements.size(); i++) {
 			
 			subCardElements.get(i).click();
@@ -331,6 +332,38 @@ class JunitTester {
 		}
 		
 		
+	}
+	//Tests if you can make multiple accounts with the same name but a different password. Test fails if you can
+	@Test
+	void testDupAccounts() {
+		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("http://linedrivebet.appspot.com/login");
+		List <WebElement> buttons;
+		List <WebElement> inputs;
+		
+		buttons = driver.findElements(By.tagName("button"));
+		buttons.get(0).click();
+		WebDriverWait wait = new WebDriverWait(driver,5);
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(//*[@id="root"]/div/div/div[3]/div/div/ul/li[1])));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		inputs = driver.findElements(By.tagName("input"));
+		System.out.println(inputs.size());
+		inputs.get(2).sendKeys("testbug");
+		inputs.get(3).sendKeys("12345");
+		buttons = driver.findElements(By.tagName("button"));
+		buttons.get(3).click(); //create account
+		
+		
+		
+		inputs = driver.findElements(By.tagName("input"));
+		inputs.get(0).sendKeys("testbug");
+		inputs.get(1).sendKeys("12345");
+		buttons = driver.findElements(By.tagName("button"));
+		buttons.get(1).click();
+		buttons.clear();
+		buttons = driver.findElements(By.className("btn"));
+		Assert.assertTrue(buttons.get(0).getText().equals("Log-in"));
 	}
 	//Miguel's implementation of a user case
 	@Test
