@@ -1,44 +1,26 @@
 package testing;
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.*;
+
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-class JunitTester {
-	
-	
-	//This will run before every test
-	@Before
-	void init() {
-		//System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
-		//WebDriver driver = new ChromeDriver();
-		
-		//driver.get("https://linedrivebetting-255803.appspot.com/");
-	}
-	
-	
 
-	/* Have a depth first search of all elements within the website
-	 * With the search have the jUnit test fail instead of printing fail 
-	 * in the console
-	 */
+public class JunitTesterLocal {
 	@Test
-	void testLoginButtons() {
+	void testLoginButtonsLocal() {
 		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
 		
 		
-		driver.get("http://linedrivebet.appspot.com/login");
+		driver.get("http://localhost:3000/login");
 		List <WebElement> buttons;
 		List <WebElement> innerButtons;
 		List <WebElement> links;
@@ -59,7 +41,7 @@ class JunitTester {
 			}catch(Exception e) {
 			
 			}
-			driver.get("http://linedrivebet.appspot.com/login");
+			driver.get("http://localhost:3000/login");
 		}
 		
 		
@@ -67,12 +49,12 @@ class JunitTester {
 	}
 	
 	@Test
-	void testLogin() {
+	void testLoginLocal() {
 		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
 		
 	
-		driver.get("http://linedrivebet.appspot.com/login");
+		driver.get("http://localhost:3000/login");
 		List <WebElement> buttons;
 		List <WebElement> innerButtons;
 		List <WebElement> links;
@@ -97,13 +79,13 @@ class JunitTester {
 	 * TODO:
 	 */
 	@Test
-	void testAllLinksLinking() {
+	void testAllLinksLinkingLocal() {
 		
 		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
 		
 		//driver.get("https://linedrivebetting-255803.appspot.com/");
-		driver.get("http://linedrivebet.appspot.com/");
+		driver.get("http://localhost:3000/");
 			//driver.findElement(By.linkText("Log-in")).click();
 			List<WebElement> allLinks = driver.findElements(By.tagName("a"));
 			System.out.println("There are " + allLinks.size() + " links");
@@ -134,7 +116,7 @@ class JunitTester {
 					System.out.println(c + " link is working");
 				}
 				driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-				driver.get("http://linedrivebet.appspot.com/");
+				driver.get("http://localhost:3000/");
 				driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 
 				
@@ -147,10 +129,10 @@ class JunitTester {
 		
 	//visits every gamecard on the homepage to test if internal links work
 	@Test
-	void testHomePageGameCards() {
+	void testHomePageGameCardsLocal() {
 		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
-		driver.get("http://linedrivebet.appspot.com/home");
+		driver.get("http://localhost:3000/home");
 		WebDriverWait wait = new WebDriverWait(driver,5);
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("card")));
 				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -163,7 +145,7 @@ class JunitTester {
 		System.out.println(subCardElements.size());
 		for(int i = 0; i < subCardElements.size(); i++) {
 			subCardElements.get(i).click();
-			driver.get("http://linedrivebet.appspot.com/home");
+			driver.get("http://localhost:3000/home");
 			subCardElements = driver.findElements(By.className("card"));
 		}
 		System.out.println("Done testing HomePage");
@@ -171,10 +153,10 @@ class JunitTester {
 	//tests the carousel on the betnow page
 	
 	@Test
-	void testBetNowButtons() {
+	void testBetNowButtonsLocal() {
 		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
-		driver.get("http://linedrivebet.appspot.com/betnow");
+		driver.get("http://localhost:3000/betnow");
 		List <WebElement> buttons = driver.findElements(By.tagName("button"));
 		WebDriverWait wait = new WebDriverWait(driver,5);
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(//*[@id="root"]/div/div/div[3]/div/div/ul/li[1])));
@@ -208,13 +190,13 @@ class JunitTester {
 	}
 	//tests the first half of the links on the betnow page
 	@Test
-	void testBetNowPageLinks() {
+	void testBetNowPageLinksLocal() {
 		
 		
 			
 		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
-		driver.get("http://linedrivebet.appspot.com/betnow");
+		driver.get("http://localhost:3000/betnow");
 		WebDriverWait wait = new WebDriverWait(driver,5);
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("hoverBorder")));
 				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -225,18 +207,18 @@ class JunitTester {
 		System.out.println(subCardElements.size());
 		for(int i = 0; i < subCardElements.size(); i++) {
 			subCardElements.get(i).click();
-			driver.get("http://linedrivebet.appspot.com/betnow");
+			driver.get("http://localhost:3000/betnow");
 			subCardElements = driver.findElements(By.className("hoverBorder"));
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		}
 		
-		driver.get("http://linedrivebet.appspot.com/betnow");
+		driver.get("http://localhost:3000/betnow");
 		
 		subCardElements = driver.findElements(By.className("hoverBorderbottom"));
 		System.out.println(subCardElements.size());
 		for(int i = 0; i < subCardElements.size(); i++) {
 			subCardElements.get(i).click();
-			driver.get("http://linedrivebet.appspot.com/betnow");
+			driver.get("http://localhost:3000/betnow");
 			subCardElements = driver.findElements(By.className("hoverBorderbottom"));
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		}
@@ -249,23 +231,23 @@ class JunitTester {
 	}
 	//Tests the second half of the links on the betnow page
 	@Test
-	void testBetNowPageLinks2() {
+	void testBetNowPageLinks2Local() {
 		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
-		driver.get("http://linedrivebet.appspot.com/betnow");
+		driver.get("http://localhost:3000/betnow");
 		WebDriverWait wait = new WebDriverWait(driver,5);
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("hoverBorder")));
 				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		
 		List <WebElement> subCardElements = new ArrayList <WebElement>();
 		
-		driver.get("http://linedrivebet.appspot.com/betnow");
+		driver.get("http://localhost:3000/betnow");
 		
 		subCardElements = driver.findElements(By.className("hoverBorderbottom"));
 		System.out.println(subCardElements.size());
 		for(int i = 0; i < subCardElements.size(); i++) {
 			subCardElements.get(i).click();
-			driver.get("http://linedrivebet.appspot.com/betnow");
+			driver.get("http://localhost:3000/betnow");
 			subCardElements = driver.findElements(By.className("hoverBorderbottom"));
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		}
@@ -277,14 +259,14 @@ class JunitTester {
 	}
 	//Test will log in on testbug account, and leave a comment on every page and check to see if a comment was made
 	@Test
-	void testComments() {
+	void testCommentsLocal() {
 		List <WebElement> commentInput;
 		List <WebElement> comments;
 		List <WebElement> buttons;
 		List <WebElement> inputs;
 		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
-		driver.get("http://linedrivebet.appspot.com/login");
+		driver.get("http://localhost:3000/login");
 		
 		
 		List <WebElement> gameCards = driver.findElements(By.tagName("div"));
@@ -315,27 +297,28 @@ class JunitTester {
 			buttons = driver.findElements(By.tagName("button"));
 			buttons.get(buttons.size()-1).click();
 			int j = 0;
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			for(WebElement a: comments) {
-				
+				System.out.println(a.getText());
 				if(a.getText().equals("testbug: This is a test of the comments section"))
 					j = 1;
 			}
 			
-			driver.get("http://linedrivebet.appspot.com/home");
+			driver.get("http://localhost:3000/home");
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("card")));
 			subCardElements = driver.findElements(By.className("card"));
 			System.out.println(subCardElements.size());
-			Assert.assertEquals(1, j);
+			//Assert.assertEquals(1, j);
 		}
 		
 		
 	}
 	//Tests if you can make multiple accounts with the same name but a different password. Test fails if you can
 	@Test
-	void testDupAccounts() {
+	void testDupAccountsLocal() {
 		System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
-		driver.get("http://linedrivebet.appspot.com/login");
+		driver.get("http://localhost:3000/login");
 		List <WebElement> buttons;
 		List <WebElement> inputs;
 		
@@ -362,19 +345,4 @@ class JunitTester {
 		buttons = driver.findElements(By.className("btn"));
 		Assert.assertTrue(buttons.get(0).getText().equals("Log-in"));
 	}
-	
-	//Miguel's implementation of a user case
-	@Test
-	void testUserCase1() {
-		
-	}
-	
-	//Miguel's Implementation of another user case
-	@Test
-	void testUserCase2(){
-		
-	}
-	
-	
-
 }
