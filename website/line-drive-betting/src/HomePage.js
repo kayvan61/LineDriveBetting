@@ -3,10 +3,9 @@ import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 
 import GlobalNavbar from "./components/GlobalNavBar";
-import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import GameCard from "./components/GameCard";
-import Row from "react-bootstrap/Row";
+import CardDeck from "react-bootstrap/CardDeck";
 
 import WebsiteLogo from "./static/images/nfl_team_logos/WebsiteLogo.jpg";
 
@@ -57,13 +56,7 @@ class HomePage extends React.Component {
           username={this.props.username}
           checkToken={this.props.checkToken}
         />
-        <Container
-          striped="true"
-          bordered="true"
-          hover="true"
-          variant="dark"
-          style={{ paddingTop: "25px" }}
-        >
+        <Container style={{ paddingTop: "25px" }}>
           <div style={{ textAlign: "center" }}>
             <img
               src={WebsiteLogo}
@@ -74,25 +67,24 @@ class HomePage extends React.Component {
 
           {this.state.games.map((row, index) => {
             return (
-              <Row key={index}>
+              <CardDeck key={index}>
                 {row.map(game => {
                   return (
-                    <Col key={game._id}>
-                      <GameCard
-                        src={this.props.logos[game.teams[0]]}
-                        src1={this.props.logos[game.teams[1]]}
-                        relPath="/game"
-                        teamOne={game.teams[0]}
-                        teamTwo={game.teams[1]}
-                        gameTime={game.gameTime}
-                        setTeamOne={this.props.setTeamOne}
-                        setTeamTwo={this.props.setTeamTwo}
-                        setGameTime={this.props.setGameTime}
-                      />
-                    </Col>
+                    <GameCard
+                      key={game.teams[0] + game.teams[1] + game.gameTime}
+                      src={this.props.logos[game.teams[0]]}
+                      src1={this.props.logos[game.teams[1]]}
+                      relPath="/game"
+                      teamOne={game.teams[0]}
+                      teamTwo={game.teams[1]}
+                      gameTime={game.gameTime}
+                      setTeamOne={this.props.setTeamOne}
+                      setTeamTwo={this.props.setTeamTwo}
+                      setGameTime={this.props.setGameTime}
+                    />
                   );
                 })}
-              </Row>
+              </CardDeck>
             );
           })}
         </Container>

@@ -129,13 +129,6 @@ class LineGraph extends React.Component {
 
     // ticks
     xAxis.tickFormat(function(d, i) {
-      // var dateOfDataPoint = new Date();
-      // dateOfDataPoint.setDate(dateOfDataPoint.getDate() - dateOfDataPoint.getDay() + Math.floor(i/3));
-
-      // var monthInd   = dateOfDataPoint.getMonth();
-      // var dayOfMonth = dateOfDataPoint.getDate();
-      console.log(createdAt);
-
       var dateOfCreation = new Date(createdAt);
       dateOfCreation.setDate(dateOfCreation.getDate() + Math.floor(i / 3));
 

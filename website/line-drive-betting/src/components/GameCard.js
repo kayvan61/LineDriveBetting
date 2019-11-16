@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 
 class GameCard extends React.Component {
   handleSubmit = () => {
@@ -40,40 +41,51 @@ class GameCard extends React.Component {
 
   render() {
     return (
-      <Card
-        style={{
-          marginLeft: 10,
-          marginRight: 10,
-          marginTop: 10,
-          marginBottom: 10,
-          backgroundColor: "#696969"
-        }}
-        onClick={this.handleSubmit}
-      >
-        <Container style={{ paddingTop: "5px" }}>
-          <Row>
-            <Col>
-              <Card.Img src={this.props.src} />
-            </Col>
-            <Col>
-              <Card.Img src={this.props.src1} />
-            </Col>
-          </Row>
-        </Container>
+      <>
+        <style type="text/css">
+          {`
+          .btn-card {
+            background-color: #696969;
+            height: 100%
+          }
 
-        <Card.Body
-          style={{
-            textAlign: "center",
-            color: "white",
-            opacity: "0.8"
-          }}
+          .btn-card:hover {
+            background-color: #4e5561;
+          }
+          `}
+        </style>
+
+        <Card
+          style={{ marginTop: 10, marginBottom: 10 }}
+          onClick={this.handleSubmit}
         >
-          <Card.Title>
-            {this.props.teamOne + " vs. " + this.props.teamTwo}
-          </Card.Title>
-          <Card.Text>{this.timeConverter(this.props.gameTime)}</Card.Text>
-        </Card.Body>
-      </Card>
+          <Button variant="card">
+            <Container style={{ paddingTop: "5px" }}>
+              <Row>
+                <Col>
+                  <Card.Img src={this.props.src} />
+                </Col>
+                <Col>
+                  <Card.Img src={this.props.src1} />
+                </Col>
+              </Row>
+            </Container>
+
+            <Card.Body
+              style={{
+                textAlign: "center",
+                color: "white",
+                opacity: "0.8"
+              }}
+            >
+              <Card.Title>
+                {this.props.teamOne + " vs. " + this.props.teamTwo}
+              </Card.Title>
+              <Card.Text>{this.timeConverter(this.props.gameTime)}</Card.Text>
+            </Card.Body>
+          </Button>
+        </Card>
+      </>
     );
   }
 }
