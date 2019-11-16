@@ -106,7 +106,7 @@ class GamePage extends React.Component {
     const { cookies } = this.props;
     this.setState({ userName: cookies.get("usernameCook") });
 
-    var linesurl = new URL("http://localhost:8080/lines");
+    var linesurl = new URL("http://line-drive-betting.appspot.com/lines");
     var linesparams = {
       teama: this.props.teamOne,
       teamb: this.props.teamTwo,
@@ -128,7 +128,7 @@ class GamePage extends React.Component {
         console.log(error);
       });
 
-    var spreadsurl = new URL("http://localhost:8080/spreads");
+    var spreadsurl = new URL("http://line-drive-betting.appspot.com/spreads");
     var spreadsparams = {
       teama: this.props.teamOne,
       teamb: this.props.teamTwo,
@@ -150,7 +150,7 @@ class GamePage extends React.Component {
         console.log(error);
       });
 
-    var totalsurl = new URL("http://localhost:8080/totals");
+    var totalsurl = new URL("http://line-drive-betting.appspot.com/totals");
     var totalsparams = {
       teama: this.props.teamOne,
       teamb: this.props.teamTwo,
@@ -176,7 +176,7 @@ class GamePage extends React.Component {
   }
 
   updateComments() {
-    var url = new URL("http://localhost:8080/Comments");
+    var url = new URL("http://line-drive-betting.appspot.com/Comments");
     var params = {
       teama: this.props.teamOne,
       teamb: this.props.teamTwo,
@@ -214,7 +214,7 @@ class GamePage extends React.Component {
     var request = require("request");
 
     var options = {
-      uri: "http://localhost:8080/Comments/add",
+      uri: "http://line-drive-betting.appspot.com/Comments/add",
       method: "POST",
       json: {
         Teams: [this.props.teamOne, this.props.teamTwo],

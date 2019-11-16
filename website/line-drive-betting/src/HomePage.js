@@ -23,7 +23,7 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:8080/nflgames")
+    fetch("http://line-drive-betting.appspot.com/nflgames")
       .then(res => res.json())
       .then(result => {
         result = result.sort((a, b) => (a.gameTime >= b.gameTime ? 1 : -1));
