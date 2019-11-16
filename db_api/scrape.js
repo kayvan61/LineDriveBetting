@@ -60,7 +60,8 @@ function processLineJSON(js) {
           teams: game["teams"],
           site: site["site_nice"],
           odds0: site["odds"]["h2h"][0],
-          odds1: site["odds"]["h2h"][1]
+          odds1: site["odds"]["h2h"][1],
+          gameTime: game.commence_time
         }
       };
       request(options, function(error, res, b) {
@@ -97,7 +98,8 @@ function processSpreadsJSON(js) {
           odds0: site.odds.spreads.odds[0],
           odds1: site.odds.spreads.odds[1],
           points0: site.odds.spreads.points[0],
-          points1: site.odds.spreads.points[1]
+          points1: site.odds.spreads.points[1],
+          gameTime: game.commence_time
         }
       };
       request(options, function(error, res, b) {
@@ -133,7 +135,8 @@ function processTotalsJSON(js) {
           site: site.site_nice,
           oddsOver: site.odds.totals.odds[0],
           oddsUnder: site.odds.totals.odds[1],
-          points: site.odds.totals.points[0]
+          points: site.odds.totals.points[0],
+          gameTime: game.commence_time
         }
       };
       request(options, function(error, res, b) {

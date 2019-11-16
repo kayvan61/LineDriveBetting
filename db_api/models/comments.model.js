@@ -5,7 +5,8 @@ const String = Schema.Types.String;
 const commentsSchema = new Schema(
   {
     Teams: { type: String, required: true },
-    Comments: [{ type: String }]
+    Comments: [{ type: String }],
+    gameTime: { type: Number, required: true }
   },
   {
     collection: "Comments"

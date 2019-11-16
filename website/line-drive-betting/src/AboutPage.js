@@ -278,7 +278,8 @@ class AboutPage extends React.Component {
         >
           1. Github Repo Statistics taken from Github API (api.github.com){" "}
           <br />
-          2. Sports Betting Statistics taken from oddsapi (app.oddsapi.io)
+          2. Sports Betting Statistics taken from the-odds-api
+          (the-odds-api.com)
         </p>
 
         <br />
