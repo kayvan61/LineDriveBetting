@@ -22,6 +22,11 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Box from "@material-ui/core/Box";
 
 const styles = {
   input: {
@@ -35,6 +40,36 @@ const styles = {
     padding: "10px 12px"
   }
 };
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      <Box p={3}>{children}</Box>
+    </Typography>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`
+  };
+}
 
 class GamePage extends React.Component {
   static propTypes = {
@@ -54,11 +89,17 @@ class GamePage extends React.Component {
       userName: null,
       fetchedLineArr: false,
       fetchedSpreadArr: false,
-      fetchedTotalsArr: false
+      fetchedTotalsArr: false,
+      tabPanelLine: 0,
+      tabPanelSpreads: 0,
+      tabPanelTotals: 0
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.updateComments = this.updateComments.bind(this);
+    this.handleTabLine = this.handleTabLine.bind(this);
+    this.handleTabSpreads = this.handleTabSpreads.bind(this);
+    this.handleTabTotals = this.handleTabTotals.bind(this);
   }
 
   componentDidMount() {
@@ -198,6 +239,18 @@ class GamePage extends React.Component {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   }
+
+  handleTabLine = (event, newValue) => {
+    this.setState({ tabPanelLine: newValue });
+  };
+
+  handleTabSpreads = (event, newValue) => {
+    this.setState({ tabPanelSpreads: newValue });
+  };
+
+  handleTabTotals = (event, newValue) => {
+    this.setState({ tabPanelTotals: newValue });
+  };
 
   render() {
     const { classes } = this.props;
@@ -376,18 +429,44 @@ class GamePage extends React.Component {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               {this.state.fetchedLineArr ? (
-                <LineGraph
-                  name="Lines"
-                  teamOne={this.props.teamOne}
-                  t1={this.state.odds.lines[0].odds0.map(x =>
-                    this.decimaltoAmerican(x)
-                  )}
-                  teamTwo={this.props.teamTwo}
-                  t2={this.state.odds.lines[0].odds1.map(x =>
-                    this.decimaltoAmerican(x)
-                  )}
-                  createdAt={this.state.odds.lines[0].createdAt}
-                />
+                <div>
+                  <AppBar position="static">
+                    <Tabs
+                      id="tabPanelLine"
+                      value={this.state.tabPanelLine}
+                      onChange={this.handleTabLine}
+                      aria-label="tabPanelLine"
+                    >
+                      {this.state.odds.lines.map((item, idx) => {
+                        return (
+                          <Tab
+                            key={idx}
+                            label={item.site}
+                            {...a11yProps(idx)}
+                          />
+                        );
+                      })}
+                    </Tabs>
+                  </AppBar>
+                  {this.state.odds.lines.map((item, idx) => {
+                    return (
+                      <TabPanel
+                        key={idx}
+                        value={this.state.tabPanelLine}
+                        index={idx}
+                      >
+                        <LineGraph
+                          name={"Lines" + idx}
+                          teamOne={this.props.teamOne}
+                          t1={item.odds0.map(x => this.decimaltoAmerican(x))}
+                          teamTwo={this.props.teamTwo}
+                          t2={item.odds1.map(x => this.decimaltoAmerican(x))}
+                          createdAt={item.createdAt}
+                        />
+                      </TabPanel>
+                    );
+                  })}
+                </div>
               ) : (
                 <span>No data available</span>
               )}
@@ -403,18 +482,44 @@ class GamePage extends React.Component {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               {this.state.fetchedSpreadArr ? (
-                <LineGraph
-                  name="Spread"
-                  teamOne={this.props.teamOne}
-                  t1={this.state.odds.spreads[0].odds0.map(x =>
-                    this.decimaltoAmerican(x)
-                  )}
-                  teamTwo={this.props.teamTwo}
-                  t2={this.state.odds.spreads[0].odds1.map(x =>
-                    this.decimaltoAmerican(x)
-                  )}
-                  createdAt={this.state.odds.spreads[0].createdAt}
-                />
+                <div>
+                  <AppBar position="static">
+                    <Tabs
+                      id="tabPanelSpreads"
+                      value={this.state.tabPanelSpreads}
+                      onChange={this.handleTabSpreads}
+                      aria-label="tabPanelSpreads"
+                    >
+                      {this.state.odds.spreads.map((item, idx) => {
+                        return (
+                          <Tab
+                            key={idx}
+                            label={item.site}
+                            {...a11yProps(idx)}
+                          />
+                        );
+                      })}
+                    </Tabs>
+                  </AppBar>
+                  {this.state.odds.spreads.map((item, idx) => {
+                    return (
+                      <TabPanel
+                        key={idx}
+                        value={this.state.tabPanelSpreads}
+                        index={idx}
+                      >
+                        <LineGraph
+                          name={"Spreads" + idx}
+                          teamOne={this.props.teamOne}
+                          t1={item.odds0.map(x => this.decimaltoAmerican(x))}
+                          teamTwo={this.props.teamTwo}
+                          t2={item.odds1.map(x => this.decimaltoAmerican(x))}
+                          createdAt={item.createdAt}
+                        />
+                      </TabPanel>
+                    );
+                  })}
+                </div>
               ) : (
                 <span>No data available</span>
               )}
@@ -430,18 +535,44 @@ class GamePage extends React.Component {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               {this.state.fetchedTotalsArr ? (
-                <LineGraph
-                  name="OverUnder"
-                  teamOne="Over"
-                  t1={this.state.odds.totals[0].oddsOver.map(x =>
-                    this.decimaltoAmerican(x)
-                  )}
-                  teamTwo="Under"
-                  t2={this.state.odds.totals[0].oddsUnder.map(x =>
-                    this.decimaltoAmerican(x)
-                  )}
-                  createdAt={this.state.odds.totals[0].createdAt}
-                />
+                <div>
+                <AppBar position="static">
+                  <Tabs
+                    id="tabPanelTotals"
+                    value={this.state.tabPanelTotals}
+                    onChange={this.handleTabTotals}
+                    aria-label="tabPanelTotals"
+                  >
+                    {this.state.odds.totals.map((item, idx) => {
+                      return (
+                        <Tab
+                          key={idx}
+                          label={item.site}
+                          {...a11yProps(idx)}
+                        />
+                      );
+                    })}
+                  </Tabs>
+                </AppBar>
+                {this.state.odds.totals.map((item, idx) => {
+                  return (
+                    <TabPanel
+                      key={idx}
+                      value={this.state.tabPanelTotals}
+                      index={idx}
+                    >
+                      <LineGraph
+                        name={"Totals" + idx}
+                        teamOne={"Over"}
+                        t1={item.oddsOver.map(x => this.decimaltoAmerican(x))}
+                        teamTwo={"Under"}
+                        t2={item.oddsUnder.map(x => this.decimaltoAmerican(x))}
+                        createdAt={item.createdAt}
+                      />
+                    </TabPanel>
+                  );
+                })}
+              </div>
               ) : (
                 <span>No data available</span>
               )}
