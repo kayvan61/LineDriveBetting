@@ -31,8 +31,8 @@ class AboutPage extends React.Component {
       totalCommits: 0,
       totalIssues: 0,
       responsibilities: "Front-End, Back-End",
-      junitTest: 7,
-      mochaTest: 4
+      junitTest: 0,
+      mochaTest: 0
     };
     this.getGithubStats = this.getGithubStats.bind(this);
   }
@@ -110,18 +110,26 @@ class AboutPage extends React.Component {
       .catch(error => {
         console.log(error);
       });
+
     fetch("https://LineDriveBettingApi.appspot.com/linedrivebetting")
       .then(res => res.json())
       .then(result => {
         if (result !== {}) {
-          this.setState({
-            junitTest: result.name
-          });
-        } else {
-          this.setState({
-            junitTest: 3
-          });
+          for (let contributor of result) {
+            if (contributor.title === "testing") {
+              this.setState({
+                junitTest: contributor.junitTests,
+                mochaTest: contributor.mochaTests
+              });
+            }
+          }
         }
+      })
+      .then(() => {
+        this.setState({
+          junitTest: 2,
+          mochaTest: 2
+        });
       })
       .catch(error => {
         console.log(error);
