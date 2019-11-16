@@ -419,7 +419,14 @@ class GamePage extends React.Component {
             marginBottom: 50
           }}
         >
-          <ExpansionPanel style={{ marginLeft: 140, marginRight: 140 }}>
+          <ExpansionPanel
+            style={{
+              backgroundColor: "#9e9d98",
+              marginLeft: 140,
+              marginRight: 140,
+              minWidth: 1400
+            }}
+          >
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
@@ -472,7 +479,14 @@ class GamePage extends React.Component {
               )}
             </ExpansionPanelDetails>
           </ExpansionPanel>
-          <ExpansionPanel style={{ marginLeft: 140, marginRight: 140 }}>
+          <ExpansionPanel
+            style={{
+              backgroundColor: "#9e9d98",
+              marginLeft: 140,
+              marginRight: 140,
+              minWidth: 1400
+            }}
+          >
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel2a-content"
@@ -525,7 +539,14 @@ class GamePage extends React.Component {
               )}
             </ExpansionPanelDetails>
           </ExpansionPanel>
-          <ExpansionPanel style={{ marginLeft: 140, marginRight: 140 }}>
+          <ExpansionPanel
+            style={{
+              backgroundColor: "#9e9d98",
+              marginLeft: 140,
+              marginRight: 140,
+              minWidth: 1400
+            }}
+          >
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel3a-content"
@@ -536,43 +557,45 @@ class GamePage extends React.Component {
             <ExpansionPanelDetails>
               {this.state.fetchedTotalsArr ? (
                 <div>
-                <AppBar position="static">
-                  <Tabs
-                    id="tabPanelTotals"
-                    value={this.state.tabPanelTotals}
-                    onChange={this.handleTabTotals}
-                    aria-label="tabPanelTotals"
-                  >
-                    {this.state.odds.totals.map((item, idx) => {
-                      return (
-                        <Tab
-                          key={idx}
-                          label={item.site}
-                          {...a11yProps(idx)}
-                        />
-                      );
-                    })}
-                  </Tabs>
-                </AppBar>
-                {this.state.odds.totals.map((item, idx) => {
-                  return (
-                    <TabPanel
-                      key={idx}
+                  <AppBar position="static">
+                    <Tabs
+                      id="tabPanelTotals"
                       value={this.state.tabPanelTotals}
-                      index={idx}
+                      onChange={this.handleTabTotals}
+                      aria-label="tabPanelTotals"
                     >
-                      <LineGraph
-                        name={"Totals" + idx}
-                        teamOne={"Over"}
-                        t1={item.oddsOver.map(x => this.decimaltoAmerican(x))}
-                        teamTwo={"Under"}
-                        t2={item.oddsUnder.map(x => this.decimaltoAmerican(x))}
-                        createdAt={item.createdAt}
-                      />
-                    </TabPanel>
-                  );
-                })}
-              </div>
+                      {this.state.odds.totals.map((item, idx) => {
+                        return (
+                          <Tab
+                            key={idx}
+                            label={item.site}
+                            {...a11yProps(idx)}
+                          />
+                        );
+                      })}
+                    </Tabs>
+                  </AppBar>
+                  {this.state.odds.totals.map((item, idx) => {
+                    return (
+                      <TabPanel
+                        key={idx}
+                        value={this.state.tabPanelTotals}
+                        index={idx}
+                      >
+                        <LineGraph
+                          name={"Totals" + idx}
+                          teamOne={"Over"}
+                          t1={item.oddsOver.map(x => this.decimaltoAmerican(x))}
+                          teamTwo={"Under"}
+                          t2={item.oddsUnder.map(x =>
+                            this.decimaltoAmerican(x)
+                          )}
+                          createdAt={item.createdAt}
+                        />
+                      </TabPanel>
+                    );
+                  })}
+                </div>
               ) : (
                 <span>No data available</span>
               )}
