@@ -169,7 +169,7 @@ class LineGraph extends React.Component {
       .append("svg:g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
-      .call(xAxis)
+      .call(xAxis.ticks(this.props.t1.length))
       .selectAll("text")
       .style("text-anchor", "end")
       .attr("dx", "-.8em")
