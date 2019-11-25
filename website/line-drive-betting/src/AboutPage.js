@@ -30,13 +30,16 @@ class AboutPage extends React.Component {
       statKayvan: 0,
       totalCommits: 0,
       totalIssues: 0,
-      responsibilities: "Front-End, Back-End"
+      responsibilities: "Front-End, Back-End",
+      junitTest: 0,
+      mochaTest: 0
     };
     this.getGithubStats = this.getGithubStats.bind(this);
   }
 
   componentDidMount() {
     this.getGithubStats();
+
     this.timer = setInterval(() => this.getGithubStats(), 10000);
   }
 
@@ -98,9 +101,35 @@ class AboutPage extends React.Component {
       .then(result => {
         if (result !== {}) {
           this.setState({
-            totalIssues: result.length
+            totalIssues: result.length,
+            junitTest: 7,
+            mochaTest: 4
           });
         }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    fetch("https://LineDriveBettingApi.appspot.com/linedrivebetting")
+      .then(res => res.json())
+      .then(result => {
+        if (result !== {}) {
+          for (let contributor of result) {
+            if (contributor.title === "testing") {
+              this.setState({
+                junitTest: contributor.junitTests,
+                mochaTest: contributor.mochaTests
+              });
+            }
+          }
+        }
+      })
+      .then(() => {
+        this.setState({
+          junitTest: 2,
+          mochaTest: 2
+        });
       })
       .catch(error => {
         console.log(error);
@@ -234,7 +263,8 @@ class AboutPage extends React.Component {
             fontFamily: "velvetica"
           }}
         >
-          Commits: {this.state.totalCommits}, Unit Tests: 7, Issues:{" "}
+          Commits: {this.state.totalCommits}, Unit Tests: {this.state.junitTest}
+          , Mocha Tests: {this.state.mochaTest}, Issues:{" "}
           {this.state.totalIssues}
         </p>
 
