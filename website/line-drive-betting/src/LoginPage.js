@@ -30,7 +30,7 @@ class LoginPage extends React.Component {
     var user = ReactDOM.findDOMNode(this.refs.username).value;
     var pw = ReactDOM.findDOMNode(this.refs.password).value;
 
-    var url = "https://line-drive-betting.appspot.com/Users?userName=" + user;
+    var url = "https://line-drive-server.appspot.com/Users?userName=" + user;
     url = url + "&password=" + pw;
 
     await fetch(url)

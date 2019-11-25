@@ -272,6 +272,7 @@ exports.nflgamesGetData = function(request, response) {
 exports.dropNFLGamesData = function(request, response) {
   nflGames
     .deleteMany({})
+    .then(() => console.log("deleting nfl games"))
     .catch(err => response.status(500).json("Error: " + err));
 };
 

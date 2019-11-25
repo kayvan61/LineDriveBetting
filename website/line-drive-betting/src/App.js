@@ -73,8 +73,7 @@ class App extends React.Component {
 
     if (sessionToken !== undefined) {
       fetch(
-        "https://line-drive-betting.appspot.com/Users/find?token=" +
-          sessionToken
+        "https://line-drive-server.appspot.com/Users/find?token=" + sessionToken
       )
         .then(res => res.json())
         .then(res => {
