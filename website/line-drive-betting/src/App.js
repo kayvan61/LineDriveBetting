@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
 
 import AboutPage from "./AboutPage";
 import BetNowPage from "./BetNowPage";
@@ -40,9 +42,6 @@ import rams from "./static/images/nfl_team_logos/st-louis-rams-vector-logo.png";
 import buccaneers from "./static/images/nfl_team_logos/tampa-bay-buccaneers-logo-vector.png";
 import titans from "./static/images/nfl_team_logos/tennessee-titans-vector-logo.png";
 import redskins from "./static/images/nfl_team_logos/washington-redskins-logo-vector.png";
-
-import { instanceOf } from "prop-types";
-import { withCookies, Cookies } from "react-cookie";
 
 class App extends React.Component {
   static propTypes = {
