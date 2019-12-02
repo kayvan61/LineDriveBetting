@@ -24,7 +24,7 @@ class HomePage extends React.Component {
 
   componentDidMount() {
     fetch("http://line-drive-server.appspot.com/nflgames")
-      .then(res => res.json())
+      .then(resultJson => resultJson.json())
       .then(result => {
         result = result.sort((a, b) => (a.gameTime >= b.gameTime ? 1 : -1));
         var chunks = [];

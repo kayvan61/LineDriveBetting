@@ -34,15 +34,15 @@ class LoginPage extends React.Component {
     url = url + "&password=" + pw;
 
     await fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        if (res["status"] === 400 || res["status"] === 204) {
+      .then(result => result.json())
+      .then(result => {
+        if (result["status"] === 400 || result["status"] === 204) {
           this.setState({ loginFail: true });
         } else {
           //add a cookie called 'sessionToken'
           //res["token"]
           const { cookies } = this.props;
-          cookies.set("sessionToken", res["token"]);
+          cookies.set("sessionToken", result["token"]);
         }
       })
       .then(this.props.checkToken)

@@ -115,9 +115,11 @@ class GamePage extends React.Component {
     linesurl.search = new URLSearchParams(linesparams).toString();
 
     fetch(linesurl)
-      .then(res => res.json())
+      .then(resultJson => resultJson.json())
       .then(result => {
-        this.setState({ odds: { ...this.state.odds, lines: result.res } });
+        this.setState({
+          odds: { ...this.state.odds, lines: result.resultJson }
+        });
       })
       .then(() => {
         if (this.state.odds.lines.length !== 0) {
@@ -137,9 +139,11 @@ class GamePage extends React.Component {
     spreadsurl.search = new URLSearchParams(spreadsparams).toString();
 
     fetch(spreadsurl)
-      .then(res => res.json())
+      .then(resultJson => resultJson.json())
       .then(result => {
-        this.setState({ odds: { ...this.state.odds, spreads: result.res } });
+        this.setState({
+          odds: { ...this.state.odds, spreads: result.resultJson }
+        });
       })
       .then(() => {
         if (this.state.odds.spreads.length !== 0) {
@@ -159,9 +163,11 @@ class GamePage extends React.Component {
     totalsurl.search = new URLSearchParams(totalsparams).toString();
 
     fetch(totalsurl)
-      .then(res => res.json())
+      .then(resultJson => resultJson.json())
       .then(result => {
-        this.setState({ odds: { ...this.state.odds, totals: result.res } });
+        this.setState({
+          odds: { ...this.state.odds, totals: result.resultJson }
+        });
       })
       .then(() => {
         if (this.state.odds.totals.length !== 0) {
@@ -185,9 +191,9 @@ class GamePage extends React.Component {
     url.search = new URLSearchParams(params).toString();
 
     fetch(url)
-      .then(res => res.json())
+      .then(resultJson => resultJson.json())
       .then(result => {
-        this.setState({ comments: result.res[0].Comments.reverse() });
+        this.setState({ comments: result.resultJson[0].Comments.reverse() });
       })
       .catch(error => {
         console.log(error);
@@ -223,8 +229,8 @@ class GamePage extends React.Component {
       }
     };
     if (this.props.username !== undefined) {
-      request(options, function(error, res, b) {
-        if (!error && res.statusCode === 200) {
+      request(options, function(error, resultJson, b) {
+        if (!error && resultJson.statusCode === 200) {
           updateFunc();
         }
       });

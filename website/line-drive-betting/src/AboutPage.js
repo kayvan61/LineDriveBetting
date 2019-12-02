@@ -47,7 +47,7 @@ class AboutPage extends React.Component {
     fetch(
       "https://api.github.com/repos/garzarobm/Vermillion_LineDriveBetting/stats/contributors"
     )
-      .then(res => res.json())
+      .then(resultJson => resultJson.json())
       .then(result => {
         if (result !== {}) {
           for (let contributor of result) {
@@ -97,7 +97,7 @@ class AboutPage extends React.Component {
     fetch(
       "https://api.github.com/repos/garzarobm/Vermillion_LineDriveBetting/issues"
     )
-      .then(res => res.json())
+      .then(resultJson => resultJson.json())
       .then(result => {
         if (result !== {}) {
           this.setState({
@@ -112,7 +112,7 @@ class AboutPage extends React.Component {
       });
 
     fetch("https://LineDriveBettingApi.appspot.com/linedrivebetting")
-      .then(res => res.json())
+      .then(resultJson => resultJson.json())
       .then(result => {
         if (result !== {}) {
           for (let contributor of result) {

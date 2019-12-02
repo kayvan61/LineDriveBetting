@@ -75,9 +75,9 @@ class App extends React.Component {
       fetch(
         "https://line-drive-server.appspot.com/Users/find?token=" + sessionToken
       )
-        .then(res => res.json())
-        .then(res => {
-          this.setState({ username: res["userName"] });
+        .then(resultJson => resultJson.json())
+        .then(result => {
+          this.setState({ username: result["userName"] });
         });
     } else {
       this.setState({ username: undefined });
