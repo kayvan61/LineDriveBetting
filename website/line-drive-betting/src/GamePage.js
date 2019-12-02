@@ -196,18 +196,10 @@ class GamePage extends React.Component {
 
   decimaltoAmerican(decimal) {
     if (decimal >= 2) {
-      return this.decimaltoAmericanAbove2(decimal);
+      return Math.round((decimal - 1) * 100);
     } else {
-      return this.decimaltoAmericanBelow2(decimal);
+      return Math.round(-100 / (decimal - 1));
     }
-  }
-
-  decimaltoAmericanAbove2(decimal) {
-    return Math.round((decimal - 1) * 100);
-  }
-
-  decimaltoAmericanBelow2(decimal) {
-    return Math.round(-100 / (decimal - 1));
   }
 
   handleClick(updateFunc) {

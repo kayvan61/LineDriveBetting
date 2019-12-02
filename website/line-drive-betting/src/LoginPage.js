@@ -59,7 +59,7 @@ class LoginPage extends React.Component {
           <Col></Col>
           <Col>
             <Form style={{ marginTop: 100 }}>
-              <Form.Group controlId="formBasicEmail">
+              <Form.Group controlId="formBasicUser">
                 <Form.Label style={{ color: "white", opacity: "0.8" }}>
                   Username
                 </Form.Label>
