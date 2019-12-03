@@ -17,7 +17,7 @@ app.use(express.json());
 
 console.log(app.settings.env);
 
-if(app.settings.env === "test"){
+if (app.settings.env === "test") {
   console.log("testing");
 }
 
@@ -47,9 +47,9 @@ app.get("/nflgames", games.nflgamesGetData);
 const job = new CronJob("0 0 */8 * * *", function() {
   console.log("ran line data scraper");
   games.dropNFLGamesData();
-  NewScraper.getSpreadsFromAPI();
-  NewScraper.getTotalsFromAPI();
-  NewScraper.getLineFromAPI();
+  NewScraper.getFromAPI("totalsStrategy");
+  NewScraper.getFromAPI("spreadsStrategy");
+  NewScraper.getFromAPI("linesStrategy");
 });
 job.start();
 

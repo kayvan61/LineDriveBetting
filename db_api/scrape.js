@@ -1,6 +1,39 @@
 const request = require("request");
 const Express = require("express");
 
+class StrategyManager {
+  constructor() {
+    this._strategies = [];
+  }
+  addStrategy(strategy) {
+    this._strategies = [...this._strategies, strategy];
+  }
+  getStrategy(name) {
+    return this._strategies.find(strategy => strategy.name === name);
+  }
+}
+
+class Strategy {
+  constructor(name, handler) {
+    this._name = name;
+    this._handler = handler;
+  }
+  doAction() {
+    this._handler();
+  }
+}
+
+const strategyManager = new StrategyManager();
+const linesStrategy = new Strategy("linesStrategy", () => lineCallback());
+const spreadsStrategy = new Strategy("spreadsStrategy", () =>
+  spreadsCallback()
+);
+const totalsStrategy = new Strategy("totalsStrategy", () => totalsCallback());
+
+strategyManager.addStrategy(linesStrategy);
+strategyManager.addStrategy(spreadsStrategy);
+strategyManager.addStrategy(totalsStrategy);
+
 var headers = {
   apikey: "e2c319ef4e5d1be84c148a343989b489"
 };
@@ -148,14 +181,7 @@ function processTotalsJSON(js) {
   }
 }
 
-exports.getLineFromAPI = function() {
-  request(optionsLine, lineCallback);
-};
-
-exports.getSpreadsFromAPI = function() {
-  request(optionsSpreads, spreadsCallback);
-};
-
-exports.getTotalsFromAPI = function() {
-  request(optionsTotals, totalsCallback);
+exports.getFromAPI = function(strat) {
+  const strategy = strategyManager.getStrategy(strat);
+  request(optionsTotals, strategy.doAction);
 };
