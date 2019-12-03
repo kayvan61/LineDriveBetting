@@ -9,8 +9,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+console.log(app.settings.env);
+
+if(app.settings.env === "test"){
+  console.log("testing");
+}
+
+DB_IO.dbInit(app.settings.env === "test");
+
 const port = process.env.PORT || 8080;
-app.listen(port, DB_IO.dbInit);
+app.listen(port);
 
 app.post("/Users", DB_IO.userSignup);
 app.post("/Comments/add", DB_IO.commentsPut);
