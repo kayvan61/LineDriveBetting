@@ -1,43 +1,6 @@
 const request = require("request");
 const Express = require("express");
 
-class StrategyManager {
-  constructor() {
-    this._strategies = [];
-  }
-  addStrategy(strategy) {
-    this._strategies = [...this._strategies, strategy];
-  }
-  getStrategy(name) {
-    return this._strategies.find(strategy => strategy.name === name);
-  }
-}
-
-class Strategy {
-  constructor(name, handler) {
-    this._name = name;
-    this._handler = handler;
-  }
-  doAction() {
-    this._handler();
-  }
-}
-
-const strategyManager = new StrategyManager();
-const linesStrategy = new Strategy("linesStrategy", () => lineCallback());
-const spreadsStrategy = new Strategy("spreadsStrategy", () =>
-  spreadsCallback()
-);
-const totalsStrategy = new Strategy("totalsStrategy", () => totalsCallback());
-
-strategyManager.addStrategy(linesStrategy);
-strategyManager.addStrategy(spreadsStrategy);
-strategyManager.addStrategy(totalsStrategy);
-
-var headers = {
-  apikey: "e2c319ef4e5d1be84c148a343989b489"
-};
-
 var optionsLine = {
   url:
     "https://api.the-odds-api.com/v3/odds/?sport=americanfootball_nfl&region=us&mkt=h2h&apiKey=e2c319ef4e5d1be84c148a343989b489",
@@ -54,6 +17,48 @@ var optionsTotals = {
   url:
     "https://api.the-odds-api.com/v3/odds/?sport=americanfootball_nfl&region=us&mkt=totals&apiKey=e2c319ef4e5d1be84c148a343989b489",
   headers: headers
+};
+
+class StrategyManager {
+  constructor() {
+    this._strategies = [];
+  }
+  addStrategy(strategy) {
+    this._strategies = [...this._strategies, strategy];
+  }
+  getStrategy(name) {
+    return this._strategies.find(strategy => strategy.name === name);
+  }
+}
+
+class Strategy {
+  constructor(options, name, handler) {
+    this._options = options;
+    this._name = name;
+    this._handler = handler;
+  }
+  doAction() {
+    this._handler();
+  }
+}
+
+const strategyManager = new StrategyManager();
+const linesStrategy = new Strategy(optionsLine, "linesStrategy", () =>
+  lineCallback()
+);
+const spreadsStrategy = new Strategy(optionsSpreads, "spreadsStrategy", () =>
+  spreadsCallback()
+);
+const totalsStrategy = new Strategy(optionsTotals, "totalsStrategy", () =>
+  totalsCallback()
+);
+
+strategyManager.addStrategy(linesStrategy);
+strategyManager.addStrategy(spreadsStrategy);
+strategyManager.addStrategy(totalsStrategy);
+
+var headers = {
+  apikey: "e2c319ef4e5d1be84c148a343989b489"
 };
 
 function lineCallback(error, response, body) {
@@ -183,5 +188,5 @@ function processTotalsJSON(js) {
 
 exports.getFromAPI = function(strat) {
   const strategy = strategyManager.getStrategy(strat);
-  request(optionsTotals, strategy.doAction);
+  request(strategy.options, strategy.doAction);
 };
