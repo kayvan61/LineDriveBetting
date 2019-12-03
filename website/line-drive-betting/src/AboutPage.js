@@ -98,30 +98,6 @@ class AboutPage extends React.Component {
       .catch(error => {
         console.log(error);
       });
-
-    fetch("https://LineDriveBettingApi.appspot.com/linedrivebetting")
-      .then(res => res.json())
-      .then(result => {
-        if (result !== {}) {
-          for (let contributor of result) {
-            if (contributor.title === "testing") {
-              this.setState({
-                junitTest: contributor.junitTests,
-                mochaTest: contributor.mochaTests
-              });
-            }
-          }
-        }
-      })
-      .then(() => {
-        this.setState({
-          junitTest: 2,
-          mochaTest: 2
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
   }
 
   render() {
