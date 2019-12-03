@@ -1,6 +1,10 @@
 const request = require("request");
 const Express = require("express");
 
+var headers = {
+  apikey: "e2c319ef4e5d1be84c148a343989b489"
+};
+
 var optionsLine = {
   url:
     "https://api.the-odds-api.com/v3/odds/?sport=americanfootball_nfl&region=us&mkt=h2h&apiKey=e2c319ef4e5d1be84c148a343989b489",
@@ -56,10 +60,6 @@ const totalsStrategy = new Strategy(optionsTotals, "totalsStrategy", () =>
 strategyManager.addStrategy(linesStrategy);
 strategyManager.addStrategy(spreadsStrategy);
 strategyManager.addStrategy(totalsStrategy);
-
-var headers = {
-  apikey: "e2c319ef4e5d1be84c148a343989b489"
-};
 
 function lineCallback(error, response, body) {
   if (!error && response.statusCode == 200) {
