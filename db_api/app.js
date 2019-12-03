@@ -21,7 +21,8 @@ if(app.settings.env === "test"){
   console.log("testing");
 }
 
-DB_IO.dbInit(app.settings.env === "test");
+DB_IO.dbHandle.isTesting = app.settings.env === "test";
+db_handle = DB_IO.dbHandle.database;
 
 const port = process.env.PORT || 8080;
 app.listen(port);
