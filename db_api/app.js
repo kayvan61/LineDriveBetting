@@ -1,5 +1,11 @@
 const express = require("express");
 const DB_IO = require("./db_io");
+const lines = require("./nflLineIO");
+const totals = require("./nflTotalsIO");
+const spreads = require("./nflSpreadsIO");
+const games = require("./nflGamesIO");
+const users = require("./usersIO");
+const comments = require("./commentsIO");
 const NewScraper = require("./scrape");
 const CronJob = require("cron").CronJob;
 const cors = require("cors");
@@ -20,26 +26,26 @@ DB_IO.dbInit(app.settings.env === "test");
 const port = process.env.PORT || 8080;
 app.listen(port);
 
-app.post("/Users", DB_IO.userSignup);
-app.post("/Comments/add", DB_IO.commentsPut);
+app.post("/Users", users.userSignup);
+app.post("/Comments/add", comments.commentsPut);
 
-app.post("/lines", DB_IO.linesAddEntry);
-app.post("/spreads", DB_IO.spreadsAddEntry);
-app.post("/totals", DB_IO.totalsAddEntry);
-app.post("/nflgames", DB_IO.nflgamesAddEntry);
+app.post("/lines", lines.linesAddEntry);
+app.post("/spreads", spreads.spreadsAddEntry);
+app.post("/totals", totals.totalsAddEntry);
+app.post("/nflgames", games.nflgamesAddEntry);
 
-app.get("/Users/find", DB_IO.getUserNameByToken);
-app.get("/Users", DB_IO.userLogin);
-app.get("/Comments", DB_IO.commentsGet);
+app.get("/Users/find", users.getUserNameByToken);
+app.get("/Users", users.userLogin);
+app.get("/Comments", comments.commentsGet);
 
-app.get("/lines", DB_IO.linesGetData);
-app.get("/spreads", DB_IO.spreadsGetData);
-app.get("/totals", DB_IO.totalsGetData);
-app.get("/nflgames", DB_IO.nflgamesGetData);
+app.get("/lines", lines.linesGetData);
+app.get("/spreads", spreads.spreadsGetData);
+app.get("/totals", totals.totalsGetData);
+app.get("/nflgames", games.nflgamesGetData);
 
 const job = new CronJob("0 0 */8 * * *", function() {
   console.log("ran line data scraper");
-  DB_IO.dropNFLGamesData();
+  games.dropNFLGamesData();
   NewScraper.getSpreadsFromAPI();
   NewScraper.getTotalsFromAPI();
   NewScraper.getLineFromAPI();

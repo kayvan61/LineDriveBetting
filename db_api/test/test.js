@@ -203,7 +203,7 @@ describe("Database POST endpoints with bad data", function() {
       chai
         .request(app)
         .post("/lines")
-        .send({"gameTime": a})
+        .send({"gameTime": "a"})
         .end((err, res) => {
           res.should.have.status(500);
           done();
